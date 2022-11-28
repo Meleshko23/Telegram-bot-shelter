@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
@@ -15,6 +17,10 @@ public class PhotoPet {
     private String mediaType;
     @Lob
     private byte[] data;
+
+    @ManyToOne
+    @JoinColumn(name = "Pet_id")
+    private Pet pet;
 
     public Long getId() {
         return id;

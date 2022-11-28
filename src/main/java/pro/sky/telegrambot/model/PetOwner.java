@@ -1,9 +1,9 @@
 package pro.sky.telegrambot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +17,13 @@ public class PetOwner {
     private String phone;
     private Long chatId;
 
+    // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
+    @OneToOne
+    private Pet pet;
+
+   // @JsonIgnore
+    @OneToMany(mappedBy = "petOwner")
+    private List<KeepingPet> keepingPetList;
 
     public PetOwner(String name, String mail, String phone, Long chatId, Long id) {
         this.name = name;
