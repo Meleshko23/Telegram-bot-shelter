@@ -3,6 +3,8 @@ package pro.sky.telegrambot.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +16,7 @@ public class KeepingPet {
     private Long id;
     private Long chatId;
     private String infoPet;
+    private LocalDate date;
     @OneToOne
     private PhotoPet photoPet;
 
@@ -22,11 +25,12 @@ public class KeepingPet {
     @JoinColumn(name = "PetOwner_id")
     private PetOwner petOwner;
 
-    public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet) {
+    public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
         this.id = id;
         this.chatId = chatId;
         this.infoPet = infoPet;
         this.photoPet = photoPet;
+        this.date = date;
 
     }
 
@@ -64,6 +68,14 @@ public class KeepingPet {
 
     public void setPhotoPet(PhotoPet photoPet) {
         this.photoPet = photoPet;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override
