@@ -1,14 +1,22 @@
 package pro.sky.telegrambot.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class PetOwner {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String mail;
     private String phone;
     private Long chatId;
-    private Long id;
+
 
     public PetOwner(String name, String mail, String phone, Long chatId, Long id) {
         this.name = name;
@@ -16,6 +24,10 @@ public class PetOwner {
         this.phone = phone;
         this.chatId = chatId;
         this.id = id;
+    }
+
+    public PetOwner() {
+
     }
 
     public String getName() {
