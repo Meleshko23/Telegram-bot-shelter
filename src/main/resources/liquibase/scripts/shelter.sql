@@ -1,42 +1,42 @@
 -- liquebase formatted sql
 -- changeset abdullinru:1
-create table Volunteer(
-        id      integer primary key,
-        chartId integer not null,
+create table volunteers(
+        id      bigint primary key,
+        chat_id bigint not null,
         name    varchar not null
 );
 -- changeset abdullinru:2
-create table Pet(
-        id      integer primary key,
+create table pets(
+        id      bigint primary key,
         name    varchar not null,
         age     integer check (age > 0)
 );
 -- changeset abdullinru:3
-create table PetOwner(
-        id      integer primary key,
-        chartId integer not null,
+create table pet_owner(
+        id      bigint primary key,
+        chat_id bigint not null,
         name    varchar not null,
         mail    varchar not null,
         phone   varchar not null,
-        pet_id  integer REFERENCES Pet (id)
+        pet_id  bigint REFERENCES pets (id)
 );
 -- changeset abdullinru:4
-create table PhotoPet(
-        id          integer primary key,
-        filePath    varchar not null,
-        fileSize    integer not null,
-        mediaType   varchar not null,
+create table photo_pet(
+        id          bigint primary key,
+        file_path    varchar not null,
+        file_size    BIGINT not null,
+        media_type   varchar not null,
         data        oid     not null,
-        Pet_id      integer REFERENCES Pet (id)
+        pet_id      bigint REFERENCES pets (id)
 );
 -- changeset abdullinru:5
-create table KeepingPet(
-        id              integer primary key,
-        chatId          integer     not null,
-        infoPet         text        not null,
-        date_time       TIMESTAMP   not null,
-        photoPet_id     integer REFERENCES PhotoPet (id),
-        PetOwner_id     integer REFERENCES PetOwner (id)
+create table keeping_pet(
+        id              bigint primary key,
+        chat_id         bigint     not null,
+        info_pet         text        not null,
+        date            DATE   not null,
+        photo_pet_id     bigint REFERENCES photo_pet (id),
+        pet_owner_id     bigint REFERENCES pet_owner (id)
 );
 
 

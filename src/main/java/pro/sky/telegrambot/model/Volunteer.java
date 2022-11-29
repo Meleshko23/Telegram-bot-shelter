@@ -12,12 +12,12 @@ public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long chartId;
+    private long chatId;
     private String name;
 
-    public Volunteer(long id, long chartId, String name) {
+    public Volunteer(long id, long chatId, String name) {
         this.id = id;
-        this.chartId = chartId;
+        this.chatId = chatId;
         this.name = name;
     }
 
@@ -34,11 +34,11 @@ public class Volunteer {
     }
 
     public long getChartId() {
-        return chartId;
+        return chatId;
     }
 
-    public void setChartId(long chartId) {
-        this.chartId = chartId;
+    public void setChartId(long chatId) {
+        this.chatId = chatId;
     }
 
     public String getName() {
@@ -57,14 +57,14 @@ public class Volunteer {
         Volunteer volunteer = (Volunteer) o;
 
         if (id != volunteer.id) return false;
-        if (chartId != volunteer.chartId) return false;
+        if (chatId != volunteer.chatId) return false;
         return Objects.equals(name, volunteer.name);
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (chartId ^ (chartId >>> 32));
+        result = 31 * result + (int) (chatId ^ (chatId >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
