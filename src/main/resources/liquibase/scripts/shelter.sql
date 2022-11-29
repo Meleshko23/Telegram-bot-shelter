@@ -38,5 +38,10 @@ create table keeping_pet(
         photo_pet_id     bigint REFERENCES photo_pet (id),
         pet_owner_id     bigint REFERENCES pet_owner (id)
 );
+-- changeset abdullinru:6
+create table info(
+        name    varchar primary key,
+        details text not null
+);
 
 
