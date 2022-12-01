@@ -8,29 +8,26 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.model.Pet;
-import pro.sky.telegrambot.model.Volunteer;
-import pro.sky.telegrambot.service.InfoService;
+import pro.sky.telegrambot.service.PetsService;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("info")
-public class InfoController {
+@RequestMapping("pets")
+public class PetsController {
+    private PetsService petsService;
 
-    private InfoService infoService;
-
-    public InfoController(InfoService infoService) {
-        this.infoService = infoService;
+    public PetsController(PetsService petsService) {
+        this.petsService = petsService;
     }
 
     @Operation(
-            summary = "Обновление информации в базе данных",
+            summary = "Добавление питомца в приют",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "информация обновлена",
+                            description = "питомец добавлен",
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -40,11 +37,11 @@ public class InfoController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Если информации нет в базе данных"
+                            description = "Если питомец уже находится в приюте"
                     )
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "обновление информации",
+                    description = "новый питомец",
                     content = {
                             @Content(
                                     schema = @Schema(implementation = Pet.class)
@@ -52,18 +49,17 @@ public class InfoController {
                     }
             )
     )
-    @PutMapping
-    public ResponseEntity<Info> editInfo(@RequestBody Info info) {
-        Info editInfo = infoService.editInfo(info);
-        return ResponseEntity.ok(editInfo);
+    @PostMapping()
+    public ResponseEntity<Pet> addPet(@Parameter( name = "питомец") @RequestBody Pet pet){
+        Pet addPet = petsService.addPet(pet);
+        return ResponseEntity.ok(addPet);
     }
-
     @Operation(
-            summary = "Вывести список информации",
+            summary = "Вывести список питомцев",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список информации выведен",
+                            description = "список питомцев выведен",
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -73,11 +69,11 @@ public class InfoController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Если информации нет"
+                            description = "Если питомцев нет"
                     )
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "вся информация",
+                    description = "все питомцы",
                     content = {
                             @Content(
                                     schema = @Schema(implementation = Pet.class)
@@ -85,8 +81,9 @@ public class InfoController {
                     }
             )
     )
-    @GetMapping("all_info")
-    public ResponseEntity<Collection<Info>> getAllInfo() {
-        return ResponseEntity.ok(infoService.getAllInfo());
+    @GetMapping("all_pet")
+    public ResponseEntity<Collection<Pet>> getAllPet(){
+        return ResponseEntity.ok(petsService.getAllPet());
     }
+
 }

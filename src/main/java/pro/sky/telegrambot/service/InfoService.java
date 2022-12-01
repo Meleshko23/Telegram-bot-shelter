@@ -21,33 +21,9 @@ import java.util.Collection;
 public class InfoService {
 
     private InfoRepository infoRepository;
-    private PetRepository petRepository;
-    private VolunteerRepository volunteerRepository;
 
-    public InfoService(InfoRepository infoRepository, PetRepository petRepository, VolunteerRepository volunteerRepository) {
+    public InfoService(InfoRepository infoRepository) {
         this.infoRepository = infoRepository;
-        this.petRepository = petRepository;
-        this.volunteerRepository = volunteerRepository;
-    }
-
-    /**
-     * Метод добавляет питомца в базу данных.
-     *
-     * @param pet
-     * @return Pet
-     */
-    public Pet addPet(Pet pet){
-        return pet;
-    }
-
-    /**
-     * Метод добавляет волонтера в базу данных.
-     *
-     * @param volunteer
-     * @return Volunteer
-     */
-    public Volunteer addVolunteer(Volunteer volunteer){
-        return volunteer;
     }
 
     /**
@@ -61,24 +37,6 @@ public class InfoService {
             //возвращает ошибку
         }
         return info;
-    }
-
-    /**
-     * Метод выводит весь список питомцев
-     *
-     * @return Collection
-     */
-    public Collection<Pet> getAllPet(){
-        return petRepository.findAll();
-    }
-
-    /**
-     * Метод выводит весь список волонтеров.
-     *
-     * @return Collection
-     */
-    public Collection<Volunteer> getAllVolunteer(){
-        return volunteerRepository.findAll();
     }
 
     /**
