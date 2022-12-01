@@ -71,15 +71,7 @@ public class PetsController {
                             responseCode = "400",
                             description = "Если питомцев нет"
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "все питомцы",
-                    content = {
-                            @Content(
-                                    schema = @Schema(implementation = Pet.class)
-                            )
-                    }
-            )
+            }
     )
     @GetMapping("all_pet")
     public ResponseEntity<Collection<Pet>> getAllPet(){

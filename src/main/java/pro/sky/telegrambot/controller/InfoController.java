@@ -34,7 +34,7 @@ public class InfoController {
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Pet.class)
+                                            schema = @Schema(implementation = Info.class)
                                     )
                             }
                     ),
@@ -47,7 +47,7 @@ public class InfoController {
                     description = "обновление информации",
                     content = {
                             @Content(
-                                    schema = @Schema(implementation = Pet.class)
+                                    schema = @Schema(implementation = Info.class)
                             )
                     }
             )
@@ -67,7 +67,7 @@ public class InfoController {
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Pet.class)
+                                            schema = @Schema(implementation = Info.class)
                                     )
                             }
                     ),
@@ -75,15 +75,7 @@ public class InfoController {
                             responseCode = "400",
                             description = "Если информации нет"
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "вся информация",
-                    content = {
-                            @Content(
-                                    schema = @Schema(implementation = Pet.class)
-                            )
-                    }
-            )
+            }
     )
     @GetMapping("all_info")
     public ResponseEntity<Collection<Info>> getAllInfo() {

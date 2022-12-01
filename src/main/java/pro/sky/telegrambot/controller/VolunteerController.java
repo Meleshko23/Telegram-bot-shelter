@@ -32,7 +32,7 @@ public class VolunteerController {
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Pet.class)
+                                            schema = @Schema(implementation = Volunteer.class)
                                     )
                             }
                     ),
@@ -45,7 +45,7 @@ public class VolunteerController {
                     description = "новый волонтер",
                     content = {
                             @Content(
-                                    schema = @Schema(implementation = Pet.class)
+                                    schema = @Schema(implementation = Volunteer.class)
                             )
                     }
             )
@@ -65,7 +65,7 @@ public class VolunteerController {
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Pet.class)
+                                            schema = @Schema(implementation = Volunteer.class)
                                     )
                             }
                     ),
@@ -73,15 +73,7 @@ public class VolunteerController {
                             responseCode = "400",
                             description = "Если волонтеров нет"
                     )
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "все волонтеры",
-                    content = {
-                            @Content(
-                                    schema = @Schema(implementation = Pet.class)
-                            )
-                    }
-            )
+            }
     )
     @GetMapping("all_volunteer")
     public ResponseEntity<Collection<Volunteer>> getAllVolunteer(){
