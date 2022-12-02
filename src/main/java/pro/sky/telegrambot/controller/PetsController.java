@@ -54,6 +54,39 @@ public class PetsController {
         Pet addPet = petsService.addPet(pet);
         return ResponseEntity.ok(addPet);
     }
+
+    @Operation(
+            summary = "Поиск питомца по базе данных",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "питомец найден",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = Pet.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Если питомца нет"
+                    )
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "имеющийся питомец",
+                    content = {
+                            @Content(
+                                    schema = @Schema(implementation = Pet.class)
+                            )
+                    }
+            )
+    )
+    @GetMapping
+    public ResponseEntity<Pet> findPet(@PathVariable Long id){
+        Pet pet = petsService.findPet(id);
+        return ResponseEntity.ok(pet);
+    }
     @Operation(
             summary = "Вывести список питомцев",
             responses = {

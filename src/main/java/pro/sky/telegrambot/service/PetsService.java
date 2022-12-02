@@ -26,6 +26,16 @@ public class PetsService {
     }
 
     /**
+     * Метод находит питомца по id
+     *
+     * @param id
+     * @return Pet
+     */
+    public Pet findPet(Long id){
+        return petRepository.findById(id).orElse(null);
+    }
+
+    /**
      * Метод выводит весь список питомцев
      *
      * @return Collection

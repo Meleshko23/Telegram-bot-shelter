@@ -19,7 +19,7 @@ public class PhotoPet {
     private byte[] data;
 
     @ManyToOne
-    @JoinColumn(name = "Pet_id")
+    @JoinColumn(name = "pet_id")
     private Pet pet;
 
     public Long getId() {
@@ -60,6 +60,14 @@ public class PhotoPet {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     @Override
