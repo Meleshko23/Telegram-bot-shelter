@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,13 +53,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void responseOnCommandStart(long chatId) {
 
-        SendMessage sendMess = new SendMessage(chatId, "Привет!!! Хочешь взять собаку из приюта");
+        SendMessage sendMess = new SendMessage(chatId, "Привет друг!" +
+                "\nЯ бот-помощник и помогу познакомится " +
+                "\nс приютом и питомцами.");
         sendMess.replyMarkup(preparekeyboardStart());
         SendResponse response = telegramBot.execute(sendMess);
     }
     private void responseOnCommandInfoShelter(long chatId) {
 
-        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
+        SendMessage sendMess = new SendMessage(chatId, "Выбери то,что тебя интересует");
         sendMess.replyMarkup(preparekeyboardInfoShelter());
         SendResponse response = telegramBot.execute(sendMess);
     }
@@ -71,9 +72,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private InlineKeyboardMarkup preparekeyboardStart() {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton button1 = new InlineKeyboardButton("Информация о приюте");
-        InlineKeyboardButton button2 = new InlineKeyboardButton("Информация о питомцах");
-        InlineKeyboardButton button3 = new InlineKeyboardButton("Взаимодействие с питомцем ");
+        InlineKeyboardButton button1 = new InlineKeyboardButton("Инфо о приюте");
+        InlineKeyboardButton button2 = new InlineKeyboardButton("Как взять питомца");
+        InlineKeyboardButton button3 = new InlineKeyboardButton("Отчет о питомце");
         InlineKeyboardButton button4 = new InlineKeyboardButton("Позвать волонтера");
 
         button1.callbackData("ONE");
@@ -92,10 +93,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private InlineKeyboardMarkup preparekeyboardInfoShelter() {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton button1 = new InlineKeyboardButton("Контакты приюта");
-        InlineKeyboardButton button2 = new InlineKeyboardButton("График работы");
-        InlineKeyboardButton button3 = new InlineKeyboardButton("Что-то еще");
-        InlineKeyboardButton button4 = new InlineKeyboardButton("И еще что-то");
+        InlineKeyboardButton button1 = new InlineKeyboardButton("О приюте");
+        InlineKeyboardButton button2 = new InlineKeyboardButton("График работы, адрес");
+        InlineKeyboardButton button3 = new InlineKeyboardButton("Правила приюта");
+        InlineKeyboardButton button4 = new InlineKeyboardButton("Оставить контактные данные");
 
         button1.callbackData("CONTACTS");
         button2.callbackData("GRAPHIC");
