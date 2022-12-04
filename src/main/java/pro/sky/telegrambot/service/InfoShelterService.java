@@ -1,7 +1,12 @@
 package pro.sky.telegrambot.service;
 
+import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.repositories.InfoRepository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
+@Service
 public class InfoShelterService {
 
     private InfoRepository infoRepository;
@@ -14,7 +19,8 @@ public class InfoShelterService {
      * Метод направляет пользователю инфомацию о приюте из файла
      */
     public String sendInfoShelter(String message) {
-        return infoRepository.findInfoByName(message);
+        Info infoShelter = infoRepository.findInfoByName(message);
+        return infoShelter.getDetails();
     }
 
 
@@ -24,7 +30,8 @@ public class InfoShelterService {
      * Метод направляет пользователю расписание работы приюта, адрес, схему проезда из файла
      */
     public String sendWorkTimeAddressMap(String message) {
-        return infoRepository.findInfoByName(message);
+        Info workTime = infoRepository.findInfoByName(message);
+        return workTime.getDetails();
     }
 
     //  Бот может выдать общие рекомендации о технике безопасности на территории приюта.
@@ -33,7 +40,8 @@ public class InfoShelterService {
      * Метод направляет пользователю рекомендации о правилах приюта из файла
      */
     public String sendShelterRules(String message) {
-        return infoRepository.findInfoByName(message);
+        Info shelterRules = infoRepository.findInfoByName(message);
+        return shelterRules.getDetails();
     }
 
     //  Бот может принять и записать контактные данные для связи.
