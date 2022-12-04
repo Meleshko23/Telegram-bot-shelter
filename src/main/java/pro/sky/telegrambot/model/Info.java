@@ -53,9 +53,6 @@ public class Info {
 
     @Override
     public String toString() {
-        return "Info{" +
-                "name='" + name + '\'' +
-                ", details='" + details + '\'' +
-                '}';
+        return details;
     }
 }

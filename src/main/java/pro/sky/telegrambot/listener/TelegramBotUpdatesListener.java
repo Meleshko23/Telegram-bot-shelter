@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.constant.Keyboard;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -35,14 +36,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             logger.info("Processing update: {}", update);
             // Process your updates here
             if (update.message() != null) {
-                if (update.message().text().equals("/start")) {
+                if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
                     responseOnCommandStart(chatId);
                 }
             }
 
             else if (update.callbackQuery() != null) {
-                if (update.callbackQuery().data().equals("ONE")) {
+                if (update.callbackQuery().data().equals(Keyboard.ONE.getCommand())) {
                     Long chatId = update.callbackQuery().message().chat().id();
                     responseOnCommandInfoShelter(chatId);
                 }
@@ -76,10 +77,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         InlineKeyboardButton button3 = new InlineKeyboardButton("Взаимодействие с питомцем ");
         InlineKeyboardButton button4 = new InlineKeyboardButton("Позвать волонтера");
 
-        button1.callbackData("ONE");
-        button2.callbackData("TWO");
-        button3.callbackData("THREE");
-        button4.callbackData("FORTH");
+        button1.callbackData(Keyboard.ONE.getCommand());
+        button2.callbackData(Keyboard.TWO.getCommand());
+        button3.callbackData(Keyboard.THREE.getCommand());
+        button4.callbackData(Keyboard.FORTH.getCommand());
 
         markupInline.addRow(button1, button2);
         markupInline.addRow(button3, button4);
@@ -94,16 +95,19 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
         InlineKeyboardButton button1 = new InlineKeyboardButton("Контакты приюта");
         InlineKeyboardButton button2 = new InlineKeyboardButton("График работы");
-        InlineKeyboardButton button3 = new InlineKeyboardButton("Что-то еще");
-        InlineKeyboardButton button4 = new InlineKeyboardButton("И еще что-то");
+        InlineKeyboardButton button3 = new InlineKeyboardButton("Правила приюта");
+        InlineKeyboardButton button4 = new InlineKeyboardButton("Оставить заявку");
+        InlineKeyboardButton button5 = new InlineKeyboardButton("Связаться с волонтёром");
 
-        button1.callbackData("CONTACTS");
-        button2.callbackData("GRAPHIC");
-        button3.callbackData("qqqq");
-        button4.callbackData("wwww");
+        button1.callbackData(Keyboard.CONTACTS.getCommand());
+        button2.callbackData(Keyboard.GRAPHIC.getCommand());
+        button3.callbackData(Keyboard.RULES.getCommand());
+        button4.callbackData(Keyboard.LEAVE_CONTACTS.getCommand());
+        button5.callbackData(Keyboard.CONNECTION.getCommand());
 
         markupInline.addRow(button1, button2);
         markupInline.addRow(button3, button4);
+        markupInline.addRow(button5);
         return markupInline;
     }
 

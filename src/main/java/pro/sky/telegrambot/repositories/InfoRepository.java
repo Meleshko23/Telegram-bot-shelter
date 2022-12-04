@@ -5,5 +5,5 @@ import pro.sky.telegrambot.model.Info;
 
 public interface InfoRepository extends JpaRepository<Info,Long> {
 
-    Info findInfoByName(String name);
+    String findInfoByName(String name);
 }
