@@ -1,84 +1,89 @@
 package pro.sky.telegrambot.service;
-
-import org.springframework.stereotype.Service;
-
 /**
- * Сервис отвечает за консультации с новым пользователем через методы приветствия,
- * предоставления полной информации о том, как предстоит подготовиться человеку ко встрече с новым членом семьи,
+ * Класс отвечает за консультации с новым пользователем через методы приветствия,
+ * предоставления полной информации о том, как предстоитподготовиться человеку ко встрече с новым членом семьи,
  * записать контактные данные пользователя, позвать волонтера.
  */
-@Service
 public class InfoPetsService {
 
-    //  Бот приветствует пользователя.
-
     /**
-     * Метод направляет приветственное сообщение пользователю
-     * и дает доступ к Меню.
+     * Метод выдает правила знакомства, до того как можно забрать собаку из приюта
      *
-     * @param updates
-     * @return
+     * @return String
      */
-//    public int process(List<Update> updates) {
-//        updates.forEach(update -> {
-//            logger.info("Processing update: {}", update);
-//            Message mess = update.message();
-//            Long chatId = update.message().chat().id();
-//
-//            if (mess.text().equals("/start")) {
-//                SendMessage sendMess = new SendMessage(chatId,
-//                        "Привет друг! " +
-//                                "\n Я бот-помощник и помогу познакомится с приютом и питомцами." +
-//                                " \n Выбери нужное меню");
-//                SendResponse response = telegramBot.execute(sendMess);
-//            }
-//        });
-//        return UpdatesListener.CONFIRMED_UPDATES_ALL;
-//    }
-
-    //  Бот может рассказать о приюте.
-
-    /**
-     * Метод направляет пользователю инфомацию о приюте из файла
-     */
-    public void sendInfoShelter() {
-
+    public String datingRules(){
+        return "";
     }
 
-
-    //  Бот может выдать расписание работы приюта и адрес, схему проезда.
-
     /**
-     * Метод направляет пользователю расписание работы приюта, адрес, схему проезда из файла
+     * Метод выдает список документов, необходимых для того, чтобы забрать питомца из приюта
+     *
+     * @return String
      */
-    public void sendWorktimeAddressMap() {
-
+    public String documentsList(){
+        return "";
     }
 
-    //  Бот может выдать общие рекомендации о технике безопасности на территории приюта.
-
     /**
-     * Метод направляет пользователю рекомендации о правилах приюта из файла
+     * Метод выдает список рекомендаций по транспортировке животного
+     *
+     * @return String
      */
-    public void sendShelterRules() {
-
+    public String transportRecommendation(){
+        return "";
     }
 
-    //  Бот может принять и записать контактные данные для связи.
-
     /**
-     * Метод принимает и записывает контактные данные пользователя в базу данных
+     * Метод выводит список рекомендаций по обустройству дома для щенка
+     *
+     * @return String
      */
-    public void saveContactInfo() {
-
+    public String homeImprovementPuppy(){
+        return "";
     }
 
-    //  Если бот не может ответить на вопросы клиента, то можно позвать волонтера.
+    /**
+     * Метод выводит список рекомендаций по обустройству дома для взрослых собак.
+     *
+     * @return String
+     */
+    public String homeImprovementDog(){
+        return "";
+    }
 
     /**
-     * Метод вызывает волонтера в чат
+     * Метод выводит список рекомендаций по обустройству дома для собаки с ограниченными возможностями.
+     *
+     * @return String
      */
-    public void callVolunteer() {
+    public String homeImprovementDisabledDog(){
+        return "";
+    }
 
+    /**
+     * Метод выдает список рекомендаций кинолога по первичному общению с питомцем.
+     *
+     * @return String
+     */
+    public String cynolistTips(){
+        return "";
+    }
+
+    /**
+     * Метод выдает информацию по проверенным кинологам, для дальнейшего обращения к ним.
+     *
+     * @return String
+     */
+    public String cynolistList(){
+        return "";
+    }
+
+    /**
+     * Метод выводит список почему могут отказать и не дать забрать собаку из приюта
+     *
+     * @return String
+     */
+    public String bounceList(){
+        return "";
     }
 }

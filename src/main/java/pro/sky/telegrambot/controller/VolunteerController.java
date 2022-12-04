@@ -1,84 +1,83 @@
 package pro.sky.telegrambot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.model.Volunteer;
-import pro.sky.telegrambot.service.InfoService;
+import pro.sky.telegrambot.service.VolunteerService;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("info")
-public class InfoController {
+@RequestMapping("volunteer")
+public class VolunteerController {
 
-    private InfoService infoService;
+    private VolunteerService volunteerService;
 
-    public InfoController(InfoService infoService) {
-        this.infoService = infoService;
+    public VolunteerController(VolunteerService volunteerService) {
+        this.volunteerService = volunteerService;
     }
 
     @Operation(
-            summary = "Обновление информации в базе данных",
+            summary = "Добавление волонтера в базу данных",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "информация обновлена",
+                            description = "волонтер добавлен",
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Info.class)
+                                            schema = @Schema(implementation = Volunteer.class)
                                     )
                             }
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Если информации нет в базе данных"
+                            description = "Если волонтер уже находится в базе данных"
                     )
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "обновление информации",
+                    description = "новый волонтер",
                     content = {
                             @Content(
-                                    schema = @Schema(implementation = Info.class)
+                                    schema = @Schema(implementation = Volunteer.class)
                             )
                     }
             )
     )
-    @PutMapping
-    public ResponseEntity<Info> editInfo(@RequestBody Info info) {
-        Info editInfo = infoService.editInfo(info);
-        return ResponseEntity.ok(editInfo);
+    @PostMapping()
+    public ResponseEntity<Volunteer> addVolunteer(@RequestBody Volunteer volunteer){
+        Volunteer addVolunteer = volunteerService.addVolunteer(volunteer);
+        return ResponseEntity.ok(addVolunteer);
     }
 
     @Operation(
-            summary = "Вывести список информации",
+            summary = "Вывести список волонтеров",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список информации выведен",
+                            description = "список волонтеров выведен",
                             content = {
                                     @Content(
                                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                            schema = @Schema(implementation = Info.class)
+                                            schema = @Schema(implementation = Volunteer.class)
                                     )
                             }
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Если информации нет"
+                            description = "Если волонтеров нет"
                     )
             }
     )
-    @GetMapping("all_info")
-    public ResponseEntity<Collection<Info>> getAllInfo() {
-        return ResponseEntity.ok(infoService.getAllInfo());
+    @GetMapping("all_volunteer")
+    public ResponseEntity<Collection<Volunteer>> getAllVolunteer(){
+        return ResponseEntity.ok(volunteerService.getAllVolunteer());
     }
+
 }
