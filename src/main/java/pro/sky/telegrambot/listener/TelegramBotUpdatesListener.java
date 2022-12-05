@@ -24,7 +24,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final InfoShelterService infoShelterService;
     @Autowired
     private TelegramBot telegramBot;
-
     public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoShelterService infoShelterService) {
         this.keyboardService = keyboardService;
         this.infoShelterService = infoShelterService;
@@ -70,6 +69,5 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-
 
 }
