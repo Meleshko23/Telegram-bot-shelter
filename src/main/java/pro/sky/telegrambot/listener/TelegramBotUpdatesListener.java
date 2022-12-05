@@ -20,14 +20,13 @@ import java.util.List;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-    private final InfoShelterService infoShelterService;
     private final KeyboardService keyboardService;
+    private final InfoShelterService infoShelterService;
     @Autowired
     private TelegramBot telegramBot;
-
-    public TelegramBotUpdatesListener(InfoShelterService infoShelterService, KeyboardService keyboardService) {
-        this.infoShelterService = infoShelterService;
+    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoShelterService infoShelterService) {
         this.keyboardService = keyboardService;
+        this.infoShelterService = infoShelterService;
     }
 
     @PostConstruct
@@ -67,8 +66,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     telegramBot.execute(message);
                 }
             }
-
-
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
