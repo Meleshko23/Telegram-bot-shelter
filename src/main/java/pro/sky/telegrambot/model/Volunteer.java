@@ -33,11 +33,11 @@ public class Volunteer {
         this.id = id;
     }
 
-    public long getChartId() {
+    public long getChatId() {
         return chatId;
     }
 
-    public void setChartId(long chatId) {
+    public void setChatId(long chatId) {
         this.chatId = chatId;
     }
 
