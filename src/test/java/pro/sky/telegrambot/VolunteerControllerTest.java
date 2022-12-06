@@ -84,8 +84,6 @@ public class VolunteerControllerTest {
         volunteerObject.put("name", name);
         volunteerObject.put("chatId", chatId);
 
-        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(volunteer);
-        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(volunteer1);
         when(volunteerRepository.findAll()).thenReturn(List.of(volunteer1, volunteer));
 
         mockMvc.perform(MockMvcRequestBuilders
