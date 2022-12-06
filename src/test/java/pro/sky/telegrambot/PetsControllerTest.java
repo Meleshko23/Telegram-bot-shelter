@@ -83,8 +83,6 @@ public class PetsControllerTest {
         petObject.put("name", name);
         petObject.put("age", age);
 
-        when(petRepository.save(any(Pet.class))).thenReturn(pet);
-        when(petRepository.save(any(Pet.class))).thenReturn(pet1);
         when(petRepository.findAll()).thenReturn(List.of(pet, pet1));
 
         mockMvc.perform(MockMvcRequestBuilders

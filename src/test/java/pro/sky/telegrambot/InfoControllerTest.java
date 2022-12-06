@@ -74,8 +74,6 @@ public class InfoControllerTest {
         infoObject.put("name", name);
         infoObject.put("details", details);
 
-        when(infoRepository.save(any(Info.class))).thenReturn(info);
-        when(infoRepository.save(any(Info.class))).thenReturn(info1);
         when(infoRepository.findAll()).thenReturn(List.of(info, info1));
 
         mockMvc.perform(MockMvcRequestBuilders
