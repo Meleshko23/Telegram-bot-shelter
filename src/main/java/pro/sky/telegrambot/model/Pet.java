@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.model;
 
+import pro.sky.telegrambot.constant.TypeAnimal;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
@@ -13,14 +15,16 @@ public class Pet {
     private Long id;
     private String name;
     private int age;
+    private TypeAnimal type;
 
     @OneToMany(mappedBy = "pet")
     private List<PhotoPet> photoPets;
 
 
-    public Pet(String name, int age) {
+    public Pet(String name, int age, TypeAnimal type) {
         this.name = name;
         this.age = age;
+        this.type = type;
     }
 
     public Pet() {
@@ -51,8 +55,20 @@ public class Pet {
         this.age = age;
     }
 
+
+    public TypeAnimal getType() {
+        return type;
+    }
+
+    public void setType(TypeAnimal type) {
+        this.type = type;
+    }
+
     public Collection<PhotoPet> getPhotoPets() {
         return photoPets;
+    }
+    public void setPhotoPets(List<PhotoPet> photoPets) {
+        this.photoPets = photoPets;
     }
 
     @Override

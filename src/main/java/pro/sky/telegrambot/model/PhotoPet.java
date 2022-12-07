@@ -15,8 +15,6 @@ public class PhotoPet {
     private String filePath;
     private long fileSize;
     private String mediaType;
-    @Lob
-    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "pet_id")
@@ -54,14 +52,6 @@ public class PhotoPet {
         this.mediaType = mediaType;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
     public Pet getPet() {
         return pet;
     }
@@ -75,13 +65,16 @@ public class PhotoPet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PhotoPet photoPet = (PhotoPet) o;
-        return fileSize == photoPet.fileSize && id.equals(photoPet.id) && filePath.equals(photoPet.filePath) && mediaType.equals(photoPet.mediaType) && Arrays.equals(data, photoPet.data);
+        return fileSize == photoPet.fileSize && id.equals(photoPet.id) && filePath.equals(photoPet.filePath) && mediaType.equals(photoPet.mediaType);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, filePath, fileSize, mediaType);
-        result = 31 * result + Arrays.hashCode(data);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (filePath != null ? filePath.hashCode() : 0);
+        result = 31 * result + (int) (fileSize ^ (fileSize >>> 32));
+        result = 31 * result + (mediaType != null ? mediaType.hashCode() : 0);
+        result = 31 * result + (pet != null ? pet.hashCode() : 0);
         return result;
     }
 }

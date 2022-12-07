@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.telegrambot.constant.TypeAnimal;
 import pro.sky.telegrambot.controller.PetsController;
 import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.repositories.PetRepository;
@@ -73,11 +74,12 @@ public class PetsControllerTest {
         final int age = 2;
         final long id = 1;
 
+
         final String name1 = "name1";
         final int age1 = 3;
         final long id1 = 2;
-        Pet pet = new Pet(name, age);
-        Pet pet1 = new Pet(name1, age1);
+        Pet pet = new Pet(name, age, TypeAnimal.DOG);
+        Pet pet1 = new Pet(name1, age1, TypeAnimal.DOG);
 
         JSONObject petObject = new JSONObject();
         petObject.put("name", name);

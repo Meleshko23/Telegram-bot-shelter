@@ -1,31 +1,32 @@
 package pro.sky.telegrambot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-public class PetOwner {
+@Entity (name = "dog_owners")
+public class DogOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long chatId;
     private String name;
     private String mail;
     private String phone;
-    private Long chatId;
+    private LocalDate startTrialPeriod;
+    private LocalDate enatrialPeriod;
 
     // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
     @OneToOne
     private Pet pet;
 
    // @JsonIgnore
-    @OneToMany(mappedBy = "petOwner")
+    @OneToMany(mappedBy = "dogOwner")
     private List<KeepingPet> keepingPetList;
 
-    public PetOwner(String name, String mail, String phone, Long chatId, Long id) {
+    public DogOwner(String name, String mail, String phone, Long chatId, Long id) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
@@ -33,7 +34,7 @@ public class PetOwner {
         this.id = id;
     }
 
-    public PetOwner() {
+    public DogOwner() {
 
     }
 
@@ -79,7 +80,7 @@ public class PetOwner {
 
     @Override
     public String toString() {
-        return "PetOwner{" +
+        return "DogOwner{" +
                 "name='" + name + '\'' +
                 ", mail='" + mail + '\'' +
                 ", phone='" + phone + '\'' +
@@ -92,7 +93,7 @@ public class PetOwner {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PetOwner petOwner = (PetOwner) o;
+        DogOwner petOwner = (DogOwner) o;
         return Objects.equals(name, petOwner.name) && Objects.equals(mail, petOwner.mail) && Objects.equals(phone, petOwner.phone) && Objects.equals(chatId, petOwner.chatId) && Objects.equals(id, petOwner.id);
     }
 

@@ -1,7 +1,7 @@
 package pro.sky.telegrambot.service;
 
 import pro.sky.telegrambot.model.KeepingPet;
-import pro.sky.telegrambot.model.PetOwner;
+import pro.sky.telegrambot.model.DogOwner;
 import pro.sky.telegrambot.model.PhotoPet;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class KeepingPetService {
      * @param allPetOwners - все усыновители
      * @return список усыновителей
      */
-    public List<PetOwner> chechProbationaryPeriod(List<PetOwner> allPetOwners) {
+    public List<DogOwner> chechProbationaryPeriod(List<DogOwner> allPetOwners) {
         return null;
     }
 

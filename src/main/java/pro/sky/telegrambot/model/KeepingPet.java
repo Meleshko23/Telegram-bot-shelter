@@ -1,11 +1,7 @@
 package pro.sky.telegrambot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,8 +18,12 @@ public class KeepingPet {
 
     //@JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "PetOwner_id")
-    private PetOwner petOwner;
+    @JoinColumn(name = "dog_owner_id")
+    private DogOwner dogOwner;
+
+    @ManyToOne
+    @JoinColumn(name = "cat_owner_id")
+    private DogOwner catOwner;
 
     public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
         this.id = id;
