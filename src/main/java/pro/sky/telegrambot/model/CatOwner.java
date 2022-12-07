@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.model;
 
+import pro.sky.telegrambot.constant.StatusTrialPeriod;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +18,8 @@ public class CatOwner {
     private String mail;
     private String phone;
     private LocalDate startTrialPeriod;
-    private LocalDate enatrialPeriod;
+    private LocalDate endTrialPeriod;
+    private StatusTrialPeriod statusTrial;
 
     // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
     @OneToOne
@@ -76,6 +79,30 @@ public class CatOwner {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getStartTrialPeriod() {
+        return startTrialPeriod;
+    }
+
+    public void setStartTrialPeriod(LocalDate startTrialPeriod) {
+        this.startTrialPeriod = startTrialPeriod;
+    }
+
+    public LocalDate getEndTrialPeriod() {
+        return endTrialPeriod;
+    }
+
+    public void setEndTrialPeriod(LocalDate endTrialPeriod) {
+        this.endTrialPeriod = endTrialPeriod;
+    }
+
+    public StatusTrialPeriod getStatusTrial() {
+        return statusTrial;
+    }
+
+    public void setStatusTrial(StatusTrialPeriod statusTrial) {
+        this.statusTrial = statusTrial;
     }
 
     @Override

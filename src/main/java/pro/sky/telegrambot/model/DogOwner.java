@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.model;
 
+import pro.sky.telegrambot.constant.StatusTrialPeriod;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +19,7 @@ public class DogOwner {
     private String phone;
     private LocalDate startTrialPeriod;
     private LocalDate enatrialPeriod;
+    private StatusTrialPeriod statusTrial;
 
     // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
     @OneToOne
