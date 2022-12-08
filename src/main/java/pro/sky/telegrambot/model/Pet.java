@@ -16,15 +16,20 @@ public class Pet {
     private String name;
     private int age;
     private TypeAnimal type;
+    private String breed;
+
+    private boolean healthRestrictions;
 
     @OneToMany(mappedBy = "pet")
     private List<PhotoPet> photoPets;
 
-
-    public Pet(String name, int age, TypeAnimal type) {
+    public Pet(Long id, String name, int age, TypeAnimal type, String breed, boolean healthRestrictions) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.type = type;
+        this.breed = breed;
+        this.healthRestrictions = healthRestrictions;
     }
 
     public Pet() {
@@ -64,12 +69,29 @@ public class Pet {
         this.type = type;
     }
 
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public boolean isHealth_restrictions() {
+        return healthRestrictions;
+    }
+
+    public void setHealth_restrictions(boolean healthRestrictions) {
+        this.healthRestrictions = healthRestrictions;
+    }
+
     public Collection<PhotoPet> getPhotoPets() {
         return photoPets;
     }
     public void setPhotoPets(List<PhotoPet> photoPets) {
         this.photoPets = photoPets;
     }
+
 
     @Override
     public boolean equals(Object o) {
