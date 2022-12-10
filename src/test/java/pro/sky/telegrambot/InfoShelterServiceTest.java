@@ -10,11 +10,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.repositories.InfoRepository;
-import pro.sky.telegrambot.service.InfoService;
 import pro.sky.telegrambot.service.InfoShelterService;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class InfoShelterServiceTest {
@@ -45,12 +42,24 @@ public class InfoShelterServiceTest {
     @Test
     public void sendWorkTimeAddressMapTest(){
         Mockito.when(infoRepository.findInfoByName(info2.getName())).thenReturn(info2);
-        Assertions.assertEquals(info2.getDetails(), infoShelterService.sendInfoShelter(info2.getName()));
+        Assertions.assertEquals(info2.getDetails(), infoShelterService.sendWorkTimeAddressMap(info2.getName()));
     }
 
     @Test
     public void sendShelterRulesTest(){
         Mockito.when(infoRepository.findInfoByName(info3.getName())).thenReturn(info3);
-        Assertions.assertEquals(info3.getDetails(), infoShelterService.sendInfoShelter(info3.getName()));
+        Assertions.assertEquals(info3.getDetails(), infoShelterService.sendShelterRules(info3.getName()));
+    }
+
+    @Test
+    public void sendSecurityContactsTest(){
+        Mockito.when(infoRepository.findInfoByName(info3.getName())).thenReturn(info3);
+        Assertions.assertEquals(info3.getDetails(), infoShelterService.sendSecurityContacts(info3.getName()));
+    }
+
+    @Test
+    public void sendSafetyPrecautionsTest(){
+        Mockito.when(infoRepository.findInfoByName(info2.getName())).thenReturn(info2);
+        Assertions.assertEquals(info2.getDetails(), infoShelterService.sendSafetyPrecautions(info2.getName()));
     }
 }
