@@ -82,8 +82,8 @@ public class PetsControllerTest {
         final long id1 = 2;
         final String breed1 = "ovcharka";
         final boolean healthRestrictions1 = false;
-        Pet pet = new Pet(id, name, age, TypeAnimal.DOG, breed, healthRestrictions);
-        Pet pet1 = new Pet(id1, name1, age1, TypeAnimal.DOG, breed1, healthRestrictions1);
+        Pet pet = new Pet(name, age, TypeAnimal.DOG, breed, healthRestrictions);
+        Pet pet1 = new Pet(name1, age1, TypeAnimal.DOG, breed1, healthRestrictions1);
 
         JSONObject petObject = new JSONObject();
         petObject.put("name", name);

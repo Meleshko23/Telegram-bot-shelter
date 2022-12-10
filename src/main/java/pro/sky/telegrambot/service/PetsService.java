@@ -22,7 +22,7 @@ public class PetsService {
      * @return Pet
      */
     public Pet addPet(Pet pet){
-        return pet;
+        return petRepository.save(pet);
     }
 
     /**

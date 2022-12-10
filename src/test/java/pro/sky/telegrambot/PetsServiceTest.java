@@ -35,9 +35,9 @@ public class PetsServiceTest {
     @BeforeEach
     public void setUp(){
         petsService = new PetsService(petRepository);
-        pet1 = new Pet(1l, "name", 3, TypeAnimal.DOG, "ovcharka", false);
-        pet2 = new Pet(2l, "name1", 3, TypeAnimal.DOG, "ovcharka", false);
-        pet3 = new Pet(3l, "name2", 3, TypeAnimal.DOG, "ovcharka", false);
+        pet1 = new Pet("name", 3, TypeAnimal.DOG, "ovcharka", false);
+        pet2 = new Pet("name1", 3, TypeAnimal.DOG, "ovcharka", false);
+        pet3 = new Pet("name2", 3, TypeAnimal.DOG, "ovcharka", false);
         petList.add(pet1);
         petList.add(pet2);
         petList.add(pet3);
