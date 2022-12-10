@@ -16,7 +16,9 @@ public class InfoShelterService {
     }
 
     /**
-     * Метод направляет пользователю инфомацию о приюте из файла
+     * Метод выдает общую информацию о приюте
+     * @param message
+     * @return String
      */
     public String sendInfoShelter(String message) {
         Info infoShelter = infoRepository.findInfoByName(message);
@@ -27,7 +29,9 @@ public class InfoShelterService {
     //  Бот может выдать расписание работы приюта и адрес, схему проезда.
 
     /**
-     * Метод направляет пользователю расписание работы приюта, адрес, схему проезда из файла
+     * Метод передает информацию о графике, времени работы и адрес
+     * @param message
+     * @return String
      */
     public String sendWorkTimeAddressMap(String message) {
         Info workTime = infoRepository.findInfoByName(message);
@@ -37,11 +41,38 @@ public class InfoShelterService {
     //  Бот может выдать общие рекомендации о технике безопасности на территории приюта.
 
     /**
-     * Метод направляет пользователю рекомендации о правилах приюта из файла
+     * Метод выдает общие правила приюта
+     * @param message
+     * @return String
      */
     public String sendShelterRules(String message) {
         Info shelterRules = infoRepository.findInfoByName(message);
         return shelterRules.getDetails();
+    }
+
+    // Бот может выдать контакты охранны для выдачи пропуска
+
+    /**
+     * Метод выдает контакты охраны для выдачи пропуска
+     * @param message
+     * @return String
+     */
+    public String sendSecurityContacts(String message){
+        Info securityContacts = infoRepository.findInfoByName(message);
+        return securityContacts.getDetails();
+    }
+
+    // Бот может выдать технику безопасности при посещении приюта
+
+    /**
+     * Метод выдает технику безопасности при посещении приюта
+     *
+     * @param message
+     * @return String
+     */
+    public String sendSafetyPrecautions(String message){
+        Info safetyPrecautions = infoRepository.findInfoByName(message);
+        return safetyPrecautions.getDetails();
     }
 
     //  Бот может принять и записать контактные данные для связи.
