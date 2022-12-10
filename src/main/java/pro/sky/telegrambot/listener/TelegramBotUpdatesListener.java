@@ -49,18 +49,82 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String callbackQuery = update.callbackQuery().data();
                 Long chatId = update.callbackQuery().message().chat().id();
                 String messageText = null;
-                if (callbackQuery.equals(Keyboard.ONE.getCommand())) {
-                    keyboardService.responseOnCommandInfoShelter(chatId);
+                ////////////////////////////////
+                // кнопки после команды старт
+
+                if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
+                    keyboardService.responseOnCommandCat(chatId);
                 }
-                if (callbackQuery.equals(MessageAboutShelter.info_shelter.getCommand())){
+                if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
+                    keyboardService.responseOnCommandDog(chatId);
+                }
+                ////////////////////////////////////
+                // кнопки после команды DOG
+                ///////////////////////////////////////////////
+                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+                    keyboardService.responseOnCommandOneDog(chatId);
+                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandTwoDog(chatId);
+//                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandThreeDog(chatId);
+//                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandFourDog(chatId);
+//                }
+
+                ////////////////////////////////////
+                // кнопки после команды CAT
+                if (callbackQuery.equals(Keyboard.ONE_CAT.getCommand())) {
+                    keyboardService.responseOnCommandOneCat(chatId);
+                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandTwoDog(chatId);
+//                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandThreeDog(chatId);
+//                }
+//                if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandFourDog(chatId);
+//                }
+
+                ////////////////////////////////////////////////////
+                // кнопки после команды DOG инфо о приюте
+                if (callbackQuery.equals(Keyboard.info_shelter_dog.getCommand())){
                     messageText = infoShelterService.sendInfoShelter(callbackQuery);
                 }
-                if (callbackQuery.equals(MessageAboutShelter.work_time_and_address.getCommand())){
-                    messageText = infoShelterService.sendWorkTimeAddressMap(callbackQuery);
+                if (callbackQuery.equals(Keyboard.work_time_and_address_dog.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
                 }
-                if (callbackQuery.equals(MessageAboutShelter.shelter_rules.getCommand())){
-                    messageText = infoShelterService.sendShelterRules(callbackQuery);
+                if (callbackQuery.equals(Keyboard.shelter_rules_dog.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
                 }
+                if (callbackQuery.equals(Keyboard.leave_request_dog.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                ////////////////////////////////////
+                // кнопки после команды CAT инфо о приюте
+                if (callbackQuery.equals(Keyboard.info_shelter_cat.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.work_time_and_address_cat.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.shelter_rules_cat.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.leave_request_cat.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.call_volunteer_cat.getCommand())){
+                    messageText = infoShelterService.sendInfoShelter(callbackQuery);
+                }
+                ////////////////////////////////
+
                 if (messageText != null){
                     SendMessage message = new SendMessage(chatId, messageText);
                     telegramBot.execute(message);

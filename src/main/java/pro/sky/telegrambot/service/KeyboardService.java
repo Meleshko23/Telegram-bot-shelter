@@ -17,59 +17,167 @@ public class KeyboardService {
 
     public void responseOnCommandStart(long chatId) {
 
-        SendMessage sendMess = new SendMessage(chatId, "Привет!!! Хочешь взять собаку из приюта");
+        SendMessage sendMess = new SendMessage(chatId, "Привет!!! Выбери приют");
         sendMess.replyMarkup(preparekeyboardStart());
         telegramBot.execute(sendMess);
     }
-    public void responseOnCommandInfoShelter(long chatId) {
 
+    public void responseOnCommandCat(long chatId) {
         SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-        sendMess.replyMarkup(preparekeyboardInfoShelter());
+        sendMess.replyMarkup(preparekeyboardCat());
         telegramBot.execute(sendMess);
     }
+
+    public void responseOnCommandDog(long chatId) {
+
+        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
+        sendMess.replyMarkup(preparekeyboardDog());
+        telegramBot.execute(sendMess);
+    }
+    public void responseOnCommandOneDog(long chatId) {
+
+        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
+        sendMess.replyMarkup(preparekeyboardInfoShelterDog());
+        telegramBot.execute(sendMess);
+    }
+    public void responseOnCommandOneCat(long chatId) {
+
+        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
+        sendMess.replyMarkup(preparekeyboardInfoShelterCat());
+        telegramBot.execute(sendMess);
+    }
+
+
+
+    public void responseOnCommandInfoShelterDog(long chatId) {
+
+        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
+        sendMess.replyMarkup(preparekeyboardInfoShelterDog());
+        telegramBot.execute(sendMess);
+    }
+
+
+
+//    public void responseOnCommandCallVolunteer(long chatId, int messageId) {
+//        ForceReply forceReply = new ForceReply();
+//        //forceReply.selective(true);
+//
+//        SendMessage sendMess = new SendMessage(chatId, "Введите ваше имя:");
+//        sendMess.rep
+//        telegramBot.execute(sendMess);
+//
+//    }
+
+
     /**
-     * метод создает инлайн клавиатуру после отправки команды Start
-     * @return клавиатура подсообщением
+     * Метод создает InlineKeyboardMarkup клавиатуру (в каждой строке одна кнопка)
+     * @param buttonsText текст на кнопках
+     * @param callbackDataes идентификаторы кнопок
+     * @return инлайн клавитура для сообщения
+     */
+    private InlineKeyboardMarkup preparekeyboard(String[] buttonsText, Keyboard[] callbackDataes) {
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton[] buttons = new InlineKeyboardButton[buttonsText.length];
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new InlineKeyboardButton(buttonsText[i]);
+            buttons[i].callbackData(callbackDataes[i].getCommand());
+            markupInline.addRow(buttons[i]);
+        }
+
+        return markupInline;
+    }
+
+    /**
+     * Клавиатура под сообщением после отправки команды старт
+     * @return
      */
     private InlineKeyboardMarkup preparekeyboardStart() {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        String[] textButtonsAfterCommand = {"Приют для кошек", "Приют для собак"};
+        Keyboard[] keyboards = {Keyboard.CAT, Keyboard.DOG};
 
-        InlineKeyboardButton button1 = new InlineKeyboardButton("Информация о приюте");
-        InlineKeyboardButton button2 = new InlineKeyboardButton("Информация о питомцах");
-        InlineKeyboardButton button3 = new InlineKeyboardButton("Взаимодействие с питомцем ");
-        InlineKeyboardButton button4 = new InlineKeyboardButton("Позвать волонтера");
+        return preparekeyboard(textButtonsAfterCommand, keyboards);
+    }
 
-        button1.callbackData(Keyboard.ONE.getCommand());
-        button2.callbackData(Keyboard.TWO.getCommand());
-        button3.callbackData(Keyboard.THREE.getCommand());
-        button4.callbackData(Keyboard.FORTH.getCommand());
+    /**
+     * Клавиатура под сообщением после отправки команды CAT информация о приюте
+     * @return
+     */
+    private InlineKeyboardMarkup preparekeyboardInfoShelterCat() {
+        String[] textButtonsAfterCommand = {
+                "Общая информация",
+                "График работы",
+                "Правила приюта",
+                "Оставить заявку",
+                "Связаться с волонтёром"};
+        Keyboard[] keyboards = {
+                Keyboard.info_shelter_cat,
+                Keyboard.work_time_and_address_cat,
+                Keyboard.shelter_rules_cat,
+                Keyboard.leave_request_cat,
+                Keyboard.call_volunteer_cat
+        };
+        return preparekeyboard(textButtonsAfterCommand, keyboards);
+    }
 
-        markupInline.addRow(button1, button2);
-        markupInline.addRow(button3, button4);
-        return markupInline;
+
+    /**
+     * Клавиатура под сообщением после отправки команды DOG информация о приюте
+     * @return
+     */
+    private InlineKeyboardMarkup preparekeyboardInfoShelterDog() {
+        String[] textButtonsAfterCommand = {
+                "Общая информация",
+                "График работы",
+                "Правила приюта",
+                "Оставить заявку",
+                "Связаться с волонтёром"};
+        Keyboard[] keyboards = {
+                Keyboard.info_shelter_dog,
+                Keyboard.work_time_and_address_dog,
+                Keyboard.shelter_rules_dog,
+                Keyboard.leave_request_dog,
+                Keyboard.call_volunteer_dog
+        };
+        return preparekeyboard(textButtonsAfterCommand, keyboards);
+    }
+
+    /**
+     * Клавиатура под сообщением после отправки команды CAT
+     * @return
+     */
+    private InlineKeyboardMarkup preparekeyboardCat() {
+        String[] textButtonsAfterCommand = {
+                "О приюте",
+                "О питомцах",
+                "Взаимодействие с питомцем",
+                "Связаться с волонтёром"};
+        Keyboard[] keyboards = {
+                Keyboard.ONE_CAT,
+                Keyboard.TWO_CAT,
+                Keyboard.THREE_CAT,
+                Keyboard.FOUR_CAT
+        };
+        return preparekeyboard(textButtonsAfterCommand, keyboards);
     }
     /**
-     * метод создает инлайн клавиатуру после отправки команды для получения информации о приюте
-     * @return клавиатура под сообщением
+     * Клавиатура под сообщением после отправки команды DOG
+     * @return
      */
-    private InlineKeyboardMarkup preparekeyboardInfoShelter() {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton button1 = new InlineKeyboardButton("Общая информация");
-        InlineKeyboardButton button2 = new InlineKeyboardButton("График работы");
-        InlineKeyboardButton button3 = new InlineKeyboardButton("Правила приюта");
-        InlineKeyboardButton button4 = new InlineKeyboardButton("Оставить заявку");
-        InlineKeyboardButton button5 = new InlineKeyboardButton("Связаться с волонтёром");
-
-        button1.callbackData(MessageAboutShelter.info_shelter.getCommand());
-        button2.callbackData(MessageAboutShelter.work_time_and_address.getCommand());
-        button3.callbackData(MessageAboutShelter.shelter_rules.getCommand());
-        button4.callbackData("qqqq");
-        button5.callbackData("wwww");
-
-        markupInline.addRow(button1, button2);
-        markupInline.addRow(button3, button4);
-        markupInline.addRow(button5);
-        return markupInline;
+    private InlineKeyboardMarkup preparekeyboardDog() {
+        String[] textButtonsAfterCommand = {
+                "О приюте",
+                "О питомцах",
+                "Взаимодействие с питомцем",
+                "Связаться с волонтёром"
+        };
+        Keyboard[] keyboards = {
+                Keyboard.ONE_DOG,
+                Keyboard.TWO_DOG,
+                Keyboard.THREE_DOG,
+                Keyboard.FOUR_DOG
+        };
+        return preparekeyboard(textButtonsAfterCommand, keyboards);
     }
+
 }
