@@ -23,8 +23,7 @@ public class Pet {
     @OneToMany(mappedBy = "pet")
     private List<PhotoPet> photoPets;
 
-    public Pet(Long id, String name, int age, TypeAnimal type, String breed, boolean healthRestrictions) {
-        this.id = id;
+    public Pet(String name, int age, TypeAnimal type, String breed, boolean healthRestrictions) {
         this.name = name;
         this.age = age;
         this.type = type;

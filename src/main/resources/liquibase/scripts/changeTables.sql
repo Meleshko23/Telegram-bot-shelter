@@ -2,13 +2,13 @@
 -- changeset abdullinru:7
 Alter table pet_owner add column start_trial_period DATE;
 Alter table pet_owner add column end_trial_period DATE;
-Alter table pet_owner add column status_trial VARCHAR;
+Alter table pet_owner add column status_trial INTEGER;
 
 -- changeset abdullinru:8
 Alter table pet_owner RENAME TO dog_owners;
 
 -- changeset abdullinru:9
-Alter table pets ADD COLUMN type VARCHAR;
+Alter table pets ADD COLUMN type INTEGER;
 
 -- changeset abdullinru:10
 create table cat_owners
@@ -20,7 +20,7 @@ create table cat_owners
     phone              varchar not null,
     start_trial_period DATE,
     end_trial_period   DATE,
-    status_trial       VARCHAR,
+    status_trial       INTEGER,
     pet_id             bigint REFERENCES pets (id)
 );
 -- changeset abdullinru:11

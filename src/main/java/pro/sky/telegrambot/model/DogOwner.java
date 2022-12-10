@@ -18,7 +18,7 @@ public class DogOwner {
     private String mail;
     private String phone;
     private LocalDate startTrialPeriod;
-    private LocalDate enatrialPeriod;
+    private LocalDate endTrialPeriod;
     private StatusTrialPeriod statusTrial;
 
     // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
