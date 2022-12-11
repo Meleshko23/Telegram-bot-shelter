@@ -7,7 +7,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.constant.Keyboard;
-import pro.sky.telegrambot.constant.MessageAboutShelter;
 
 @Service
 public class KeyboardService {
@@ -191,15 +190,17 @@ public class KeyboardService {
         String[] textButtonsAfterCommand = {
                 "Общая информация",
                 "График работы",
-                "Оформить пропуск для автомобиля",
                 "Правила приюта",
-                "Оставить заявку",
-                "Связаться с волонтёром"};
+                "Контакты охраны",
+                "Техника безопасности",
+                "Оставить контактные данные",
+                "Позвать волонтера"};
         Keyboard[] keyboards = {
                 Keyboard.info_shelter_cat,
                 Keyboard.work_time_and_address_cat,
-                Keyboard.security_contact_details_cat,
                 Keyboard.shelter_rules_cat,
+                Keyboard.security_contacts_cat,
+                Keyboard.safety_precautions_cat,
                 Keyboard.leave_request_cat,
                 Keyboard.call_volunteer_cat
         };
@@ -214,16 +215,17 @@ public class KeyboardService {
         String[] textButtonsAfterCommand = {
                 "Общая информация",
                 "График работы",
-                "Оформить пропуск для автомобиля",
                 "Правила приюта",
-                "Оставить заявку",
-                "Связаться с волонтёром"};
-
+                "Контакты охраны",
+                "Техника безопасности",
+                "Оставить контактные данные",
+                "Позвать волонтера"};
         Keyboard[] keyboards = {
                 Keyboard.info_shelter_dog,
                 Keyboard.work_time_and_address_dog,
-                Keyboard.security_contact_details_dog,
                 Keyboard.shelter_rules_dog,
+                Keyboard.security_contacts_dog,
+                Keyboard.safety_precautions_dog,
                 Keyboard.leave_request_dog,
                 Keyboard.call_volunteer_dog
         };
@@ -334,5 +336,4 @@ public class KeyboardService {
         };
         return preparekeyboard(textButtonsAfterCommand, keyboards);
     }
-
 }
