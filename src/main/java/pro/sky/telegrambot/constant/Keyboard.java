@@ -3,8 +3,8 @@ package pro.sky.telegrambot.constant;
 public enum Keyboard {
 
     START("/start"),
-    CAT("CAT"),
-    DOG("DOG"),
+    CAT("_cat"),
+    DOG("_dog"),
     ONE_DOG("ONE_DOG"),
     TWO_DOG("TWO_DOG"),
     THREE_DOG("THREE_DOG"),
