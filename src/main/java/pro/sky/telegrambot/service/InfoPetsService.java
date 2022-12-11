@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.service;
 
+import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.repositories.InfoRepository;
 
@@ -8,6 +9,7 @@ import pro.sky.telegrambot.repositories.InfoRepository;
  * предоставления полной информации о том, как предстоитподготовиться человеку ко встрече с новым членом семьи,
  * записать контактные данные пользователя, позвать волонтера.
  */
+@Service
 public class InfoPetsService {
 
     private InfoRepository infoRepository;
