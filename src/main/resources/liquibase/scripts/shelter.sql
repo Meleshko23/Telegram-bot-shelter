@@ -43,5 +43,3 @@ create table info(
         name    varchar primary key,
         details text not null
 );
-
-

@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pro.sky.telegrambot.constant.TypeAnimal;
 import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.repositories.PetRepository;
 import pro.sky.telegrambot.service.PetsService;
@@ -34,9 +35,9 @@ public class PetsServiceTest {
     @BeforeEach
     public void setUp(){
         petsService = new PetsService(petRepository);
-        pet1 = new Pet("name", 1);
-        pet2 = new Pet("name1", 2);
-        pet3 = new Pet("name2", 3);
+        pet1 = new Pet("name", 3, TypeAnimal.DOG, "ovcharka", false);
+        pet2 = new Pet("name1", 3, TypeAnimal.DOG, "ovcharka", false);
+        pet3 = new Pet("name2", 3, TypeAnimal.DOG, "ovcharka", false);
         petList.add(pet1);
         petList.add(pet2);
         petList.add(pet3);

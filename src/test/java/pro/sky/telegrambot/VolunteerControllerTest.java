@@ -67,7 +67,7 @@ public class VolunteerControllerTest {
     }
 
     @Test
-    public void getAllPetsTest() throws Exception {
+    public void getAllVolunteer() throws Exception {
         final String name = "newName";
         final long chatId = 24435242;
         final long id = 1;
@@ -84,15 +84,19 @@ public class VolunteerControllerTest {
         volunteerObject.put("name", name);
         volunteerObject.put("chatId", chatId);
 
-        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(volunteer);
-        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(volunteer1);
-        when(volunteerRepository.findAll()).thenReturn(List.of(volunteer1, volunteer));
+        when(volunteerRepository.findAll()).thenReturn(List.of(volunteer, volunteer1));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/volunteer/all_volunteer")
                         .content(volunteerObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(id))
+                .andExpect(jsonPath("$[0].name").value(name))
+                .andExpect(jsonPath("$[0].chatId").value(chatId))
+                .andExpect(jsonPath("$[1].id").value(id1))
+                .andExpect(jsonPath("$[1].name").value(name1))
+                .andExpect(jsonPath("$[1].chatId").value(chatId1));
     }
 }

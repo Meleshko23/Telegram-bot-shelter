@@ -54,7 +54,6 @@ public class PhotoPetService {
         photoPet.setFilePath(filePath.toString());
         photoPet.setFileSize(file.getSize());
         photoPet.setMediaType(file.getContentType());
-        photoPet.setData(generateImageData(filePath));
 
         photoPetRepository.save(photoPet);
     }
