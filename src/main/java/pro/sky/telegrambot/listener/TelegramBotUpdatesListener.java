@@ -3,6 +3,7 @@ package pro.sky.telegrambot.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String messageText = update.message().text();
                 if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
-                    keyboardService.responseOnCommandStart(chatId);
+                    String msgText = "Привет!!! Выбери приют";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardStart();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
             }
             else if (update.callbackQuery() != null) {
@@ -52,42 +55,57 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // кнопки после команды старт
 
                 if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
-                    keyboardService.responseOnCommandCat(chatId);
+                    String msgText = "Привет!!! Выбери интересующий пункт меню";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardCat();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
-                    keyboardService.responseOnCommandDog(chatId);
+                    String msgText = "Привет!!! Выбери интересующий пункт меню";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardDog();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 ////////////////////////////////////
                 // кнопки после команды DOG
                 ///////////////////////////////////////////////
                 if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
-                    keyboardService.responseOnCommandOneDog(chatId);
+                    String msgText = "Что тебе интересует о приюте собак";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardInfoShelterDog();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_DOG.getCommand())) {
-                    keyboardService.responseOnCommandOneDog(chatId);
+                    String msgText = "Информация о том, как взять питомца из приюта";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardInfoPetsDog();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
-//                if (callbackQuery.equals(Keyboard.THREE_DOG.getCommand())) {
-//                    keyboardService.responseOnCommandOneDog(chatId);
-//                }
-//                if (callbackQuery.equals(Keyboard.FOUR_DOG.getCommand())) {
-//                    keyboardService.responseOnCommandOneDog(chatId);
-//                }
-
+                if (callbackQuery.equals(Keyboard.THREE_DOG.getCommand())) {
+                    String msgText = "Информация по отправке отчета";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardReportDog();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
+                }
+                if (callbackQuery.equals(Keyboard.FOUR_DOG.getCommand())) {
+                    keyboardService.responseOnCommandCallVolunteerDog(chatId);
+                }
 
                 ////////////////////////////////////
                 // кнопки после команды CAT
                 if (callbackQuery.equals(Keyboard.ONE_CAT.getCommand())) {
-                    keyboardService.responseOnCommandOneCat(chatId);
+                    String msgText = "Что тебе интересует о приюте кошек";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardInfoShelterCat();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_CAT.getCommand())) {
-                    keyboardService.responseOnCommandOneCat(chatId);
+                    String msgText = "Информация о том, как взять питомца из приюта";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardInfoPetsCat();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
-//                if (callbackQuery.equals(Keyboard.THREE_CAT.getCommand())) {
-//                    keyboardService.responseOnCommandOneCat(chatId);
-//                }
-//                if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
-//                    keyboardService.responseOnCommandOneCat(chatId);
-//                }
+                if (callbackQuery.equals(Keyboard.THREE_CAT.getCommand())) {
+                    String msgText = "Информация по отправке отчета";
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.preparekeyboardReportCat();
+                    keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
+                }
+                if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
+                    keyboardService.responseOnCommandCallVolunteerCat(chatId);
+                }
 
                 ////////////////////////////////////////////////////
                 // кнопки после команды DOG инфо о приюте
@@ -124,6 +142,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     messageText = infoShelterService.sendSafetyPrecautions(callbackQuery);
                 }
                 ////////////////////////////////
+
+
 
                 if (messageText != null){
                     SendMessage message = new SendMessage(chatId, messageText);

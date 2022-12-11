@@ -1,4 +1,8 @@
 package pro.sky.telegrambot.service;
+
+import pro.sky.telegrambot.model.Info;
+import pro.sky.telegrambot.repositories.InfoRepository;
+
 /**
  * Класс отвечает за консультации с новым пользователем через методы приветствия,
  * предоставления полной информации о том, как предстоитподготовиться человеку ко встрече с новым членом семьи,
@@ -6,13 +10,20 @@ package pro.sky.telegrambot.service;
  */
 public class InfoPetsService {
 
+    private InfoRepository infoRepository;
+
+    public InfoPetsService(InfoRepository infoRepository) {
+        this.infoRepository = infoRepository;
+    }
+
     /**
      * Метод выдает правила знакомства, до того как можно забрать собаку из приюта
      *
      * @return String
      */
-    public String datingRules(){
-        return "";
+    public String datingRules(String message){
+        Info datingRules = infoRepository.findInfoByName(message);
+        return datingRules.getDetails();
     }
 
     /**
@@ -20,8 +31,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String documentsList(){
-        return "";
+    public String documentsList(String message){
+        Info documentList = infoRepository.findInfoByName(message);
+        return documentList.getDetails();
     }
 
     /**
@@ -29,8 +41,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String transportRecommendation(){
-        return "";
+    public String transportRecommendation(String message){
+        Info transportRecommendation = infoRepository.findInfoByName(message);
+        return transportRecommendation.getDetails();
     }
 
     /**
@@ -38,8 +51,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String homeImprovementPuppy(){
-        return "";
+    public String homeImprovementPuppyOrKitten(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
     }
 
     /**
@@ -47,8 +61,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String homeImprovementDog(){
-        return "";
+    public String homeImprovementDogOrCat(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
     }
 
     /**
@@ -56,8 +71,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String homeImprovementDisabledDog(){
-        return "";
+    public String homeImprovementDisabledDog(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
     }
 
     /**
@@ -65,8 +81,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String cynolistTips(){
-        return "";
+    public String cynolistTips(String message){
+        Info cynolistTips = infoRepository.findInfoByName(message);
+        return cynolistTips.getDetails();
     }
 
     /**
@@ -74,8 +91,9 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String cynolistList(){
-        return "";
+    public String cynolistList(String message){
+        Info cynolistList = infoRepository.findInfoByName(message);
+        return cynolistList.getDetails();
     }
 
     /**
@@ -83,7 +101,8 @@ public class InfoPetsService {
      *
      * @return String
      */
-    public String bounceList(){
-        return "";
+    public String bounceList(String message){
+        Info bounceList = infoRepository.findInfoByName(message);
+        return bounceList.getDetails();
     }
 }
