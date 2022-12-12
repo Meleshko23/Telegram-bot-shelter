@@ -15,64 +15,6 @@ public class KeyboardService {
     @Autowired
     private TelegramBot telegramBot;
 
-//    public void responseOnCommandStart(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Привет!!! Выбери приют");
-//        sendMess.replyMarkup(prepareKeyboardStart());
-//        telegramBot.execute(sendMess);
-//    }
-//
-//    public void responseOnCommandCat(long chatId) {
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardCat());
-//        telegramBot.execute(sendMess);
-//    }
-//
-//    public void responseOnCommandDog(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardDog());
-//        telegramBot.execute(sendMess);
-//    }
-//    public void responseOnCommandOneDog(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardInfoShelterDog());
-//        telegramBot.execute(sendMess);
-//    }
-//    public void responseOnCommandOneCat(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardInfoShelterCat());
-//        telegramBot.execute(sendMess);
-//    }
-//
-//    public void responseOnCommandTwoDog(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardInfoPetsDog());
-//        telegramBot.execute(sendMess);
-//    }
-//    public void responseOnCommandTwoCat(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardInfoPetsCat());
-//        telegramBot.execute(sendMess);
-//    }
-//
-//    public void responseOnCommandThreeDog(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardReportDog());
-//        telegramBot.execute(sendMess);
-//    }
-//    public void responseOnCommandThreeCat(long chatId) {
-//
-//        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(prepareKeyboardReportCat());
-//        telegramBot.execute(sendMess);
-//    }
-
     /**
      * Метод отправляет пользователю сообщение с клавиатурой под сообщением
      * @param chatId идентификатор чата для отправки сообщения
