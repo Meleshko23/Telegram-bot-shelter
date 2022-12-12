@@ -17,58 +17,58 @@ public class KeyboardService {
 //    public void responseOnCommandStart(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Привет!!! Выбери приют");
-//        sendMess.replyMarkup(preparekeyboardStart());
+//        sendMess.replyMarkup(prepareKeyboardStart());
 //        telegramBot.execute(sendMess);
 //    }
 //
 //    public void responseOnCommandCat(long chatId) {
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardCat());
+//        sendMess.replyMarkup(prepareKeyboardCat());
 //        telegramBot.execute(sendMess);
 //    }
 //
 //    public void responseOnCommandDog(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardDog());
+//        sendMess.replyMarkup(prepareKeyboardDog());
 //        telegramBot.execute(sendMess);
 //    }
 //    public void responseOnCommandOneDog(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardInfoShelterDog());
+//        sendMess.replyMarkup(prepareKeyboardInfoShelterDog());
 //        telegramBot.execute(sendMess);
 //    }
 //    public void responseOnCommandOneCat(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardInfoShelterCat());
+//        sendMess.replyMarkup(prepareKeyboardInfoShelterCat());
 //        telegramBot.execute(sendMess);
 //    }
 //
 //    public void responseOnCommandTwoDog(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardInfoPetsDog());
+//        sendMess.replyMarkup(prepareKeyboardInfoPetsDog());
 //        telegramBot.execute(sendMess);
 //    }
 //    public void responseOnCommandTwoCat(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardInfoPetsCat());
+//        sendMess.replyMarkup(prepareKeyboardInfoPetsCat());
 //        telegramBot.execute(sendMess);
 //    }
 //
 //    public void responseOnCommandThreeDog(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardReportDog());
+//        sendMess.replyMarkup(prepareKeyboardReportDog());
 //        telegramBot.execute(sendMess);
 //    }
 //    public void responseOnCommandThreeCat(long chatId) {
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Нажми на кнопку ниже. Выбери то,что тебя интересует");
-//        sendMess.replyMarkup(preparekeyboardReportCat());
+//        sendMess.replyMarkup(prepareKeyboardReportCat());
 //        telegramBot.execute(sendMess);
 //    }
 
@@ -115,7 +115,7 @@ public class KeyboardService {
      * @param callbackDataes идентификаторы кнопок
      * @return инлайн клавитура для сообщения
      */
-    private InlineKeyboardMarkup preparekeyboard(String[] buttonsText, Keyboard[] callbackDataes) {
+    private InlineKeyboardMarkup prepareKeyboard(String[] buttonsText, Keyboard[] callbackDataes) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
         InlineKeyboardButton[] buttons = new InlineKeyboardButton[buttonsText.length];
@@ -132,7 +132,7 @@ public class KeyboardService {
      * Клавиатура под сообщением после отправки команды старт
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardStart() {
+    public InlineKeyboardMarkup prepareKeyboardStart() {
         String[] textButtonsAfterCommand = {
                 "Приют для кошек",
                 "Приют для собак"
@@ -141,16 +141,16 @@ public class KeyboardService {
                 Keyboard.CAT,
                 Keyboard.DOG
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура под сообщением после отправки команды CAT
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardCat() {
+    public InlineKeyboardMarkup prepareKeyboardCat() {
         String[] textButtonsAfterCommand = {
-                "О приюте",
+                "О приюте кошек",
                 "Как взять питомца из приюта",
                 "Прислать отчет о питомце",
                 "Позвать волонтёра"};
@@ -160,15 +160,15 @@ public class KeyboardService {
                 Keyboard.THREE_CAT,
                 Keyboard.FOUR_CAT
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
     /**
      * Клавиатура под сообщением после отправки команды DOG
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardDog() {
+    public InlineKeyboardMarkup prepareKeyboardDog() {
         String[] textButtonsAfterCommand = {
-                "О приюте",
+                "О приюте собак",
                 "Как взять питомца из приюта",
                 "Прислать отчет о питомце",
                 "Позвать волонтёра"
@@ -179,14 +179,14 @@ public class KeyboardService {
                 Keyboard.THREE_DOG,
                 Keyboard.FOUR_DOG
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура под сообщением после отправки команды CAT -> информация о приюте
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardInfoShelterCat() {
+    public InlineKeyboardMarkup prepareKeyboardInfoShelterCat() {
         String[] textButtonsAfterCommand = {
                 "Общая информация",
                 "График работы",
@@ -204,14 +204,14 @@ public class KeyboardService {
                 Keyboard.leave_request_cat,
                 Keyboard.call_volunteer_cat
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура под сообщением после отправки команды DOG -> информация о приюте
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardInfoShelterDog() {
+    public InlineKeyboardMarkup prepareKeyboardInfoShelterDog() {
         String[] textButtonsAfterCommand = {
                 "Общая информация",
                 "График работы",
@@ -229,7 +229,7 @@ public class KeyboardService {
                 Keyboard.leave_request_dog,
                 Keyboard.call_volunteer_dog
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
 
@@ -237,18 +237,18 @@ public class KeyboardService {
      * Клавиатура после отправки команды DOG -> как взять питомца из приюта
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardInfoPetsDog() {
+    public InlineKeyboardMarkup prepareKeyboardInfoPetsDog() {
         String[] textButtonsAfterCommand = {
-                "Правила знакомства с собакой",
-                "Список необходимых документов",
-                "Список рекомендаций по транспортировке животного",
-                "Список рекомендаций по обустройству дома для щенка",
-                "Список рекомендаций по обустройству дома для взрослого животного",
-                "Список рекомендаций по обустройству дома для животного с ограниченными возможностями (зрение, передвижение)",
+                "Правила знакомства с питомцем",
+                "Необходимые документы",
+                "Транспортировка питомца",
+                "Обустройство дома для щенка",
+                "Обустройство дома для взрослого питомца",
+                "Обустройство дома для питомца с особенностями",
                 "Советы кинолога по первичному общению с собакой",
-                "Рекомендации по проверенным кинологам для дальнейшего обращения",
-                "Список причин, почему могут отказать и не дать забрать собаку из приюта",
-                "Отправить контакнтые данные для связи",
+                "Проверенные кинологи для дальнейшего обращения",
+                "Почему могут отказать и не дать забрать питомца",
+                "Отправить контактные данные для связи",
                 "Позвать волонтера"
 
         };
@@ -265,23 +265,23 @@ public class KeyboardService {
                 Keyboard.leave_request_dog,
                 Keyboard.call_volunteer_dog
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура после отправки команды Cat -> как взять питомца из приюта
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardInfoPetsCat() {
+    public InlineKeyboardMarkup prepareKeyboardInfoPetsCat() {
         String[] textButtonsAfterCommand = {
-                "Правила знакомства с животным (котом, котенком)",
-                "Список необходимых документов",
-                "Список рекомендаций по транспортировке животного",
-                "Список рекомендаций по обустройству дома для котенка",
-                "Список рекомендаций по обустройству дома для взрослого животного",
-                "Список рекомендаций по обустройству дома для животного с ограниченными возможностями (зрение, передвижение)",
-                "Список причин, почему могут отказать и не дать забрать кошку из приюта",
-                "Отправить контакнтые данные для связи",
+                "Правила знакомства с питомцем",
+                "Необходимые документы",
+                "Транспортировка питомца",
+                "Обустройство дома для котенка",
+                "Обустройство дома для взрослого питомца",
+                "Обустройство дома для питомца с особенностями",
+                "Почему могут отказать и не дать забрать питомца",
+                "Отправить контактные данные для связи",
                 "Позвать волонтера"
 
         };
@@ -296,14 +296,14 @@ public class KeyboardService {
                 Keyboard.leave_request_cat,
                 Keyboard.call_volunteer_cat
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура после отправки команды Cat -> сделать отчет о питомце
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardReportCat() {
+    public InlineKeyboardMarkup prepareKeyboardReportCat() {
         String[] textButtonsAfterCommand = {
                 "Форма ежедневного отчета",
                 "Отправить отчет о питомце",
@@ -315,14 +315,14 @@ public class KeyboardService {
                 Keyboard.SEND_REPORT_CAT,
                 Keyboard.call_volunteer_cat
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 
     /**
      * Клавиатура после отправки команды DOG -> сделать отчет о питомце
      * @return
      */
-    public InlineKeyboardMarkup preparekeyboardReportDog() {
+    public InlineKeyboardMarkup prepareKeyboardReportDog() {
         String[] textButtonsAfterCommand = {
                 "Форма ежедневного отчета",
                 "Отправить отчет о питомце",
@@ -334,6 +334,6 @@ public class KeyboardService {
                 Keyboard.SEND_REPORT_DOG,
                 Keyboard.call_volunteer_dog
         };
-        return preparekeyboard(textButtonsAfterCommand, keyboards);
+        return prepareKeyboard(textButtonsAfterCommand, keyboards);
     }
 }
