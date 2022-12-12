@@ -17,7 +17,8 @@ import java.util.Collection;
 @RestController
 @RequestMapping("pets")
 public class PetsController {
-    private PetsService petsService;
+
+    private final PetsService petsService;
 
     public PetsController(PetsService petsService) {
         this.petsService = petsService;
@@ -51,7 +52,7 @@ public class PetsController {
             )
     )
     @PostMapping()
-    public ResponseEntity<Pet> addPet(@Parameter( name = "питомец") @RequestBody Pet pet){
+    public ResponseEntity<Pet> addPet(@Parameter(name = "питомец") @RequestBody Pet pet) {
         Pet addPet = petsService.addPet(pet);
         return ResponseEntity.status(HttpStatus.CREATED).body(addPet);
     }
@@ -84,10 +85,11 @@ public class PetsController {
             )
     )
     @GetMapping("{id}")
-    public ResponseEntity<Pet> findPet(@PathVariable Long id){
+    public ResponseEntity<Pet> findPet(@PathVariable Long id) {
         Pet pet = petsService.findPet(id);
         return ResponseEntity.ok(pet);
     }
+
     @Operation(
             summary = "Вывести список питомцев",
             responses = {
@@ -108,7 +110,7 @@ public class PetsController {
             }
     )
     @GetMapping("all_pet")
-    public ResponseEntity<Collection<Pet>> getAllPet(){
+    public ResponseEntity<Collection<Pet>> getAllPet() {
         return ResponseEntity.ok(petsService.getAllPet());
     }
 

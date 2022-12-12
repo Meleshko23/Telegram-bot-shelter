@@ -55,7 +55,8 @@ public enum Keyboard {
 
     DAILY_REPORT_FORM_CAT("DAILY_REPORT_FORM_CAT"),
     SEND_REPORT_CAT("SEND_REPORT_CAT");
-    private String command;
+
+    private final String command;
 
     Keyboard(String command){
         this.command = command;

@@ -13,8 +13,8 @@ import java.io.IOException;
 @RequestMapping("photo_pet")
 public class PhotoPetController {
 
-    private PhotoPetService photoPetService;
-    private PhotoPetRepository photoPetRepository;
+    private final PhotoPetService photoPetService;
+    private final PhotoPetRepository photoPetRepository;
 
     public PhotoPetController(PhotoPetService photoPetService, PhotoPetRepository photoPetRepository) {
         this.photoPetService = photoPetService;

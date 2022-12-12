@@ -94,16 +94,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             Keyboard.call_volunteer_dog
     };
     private final String[] textButtonsAfterCommandInfoPetsDog = {
-            "Правила знакомства с питомцем",
+            "Знакомство с питомцем",
             "Необходимые документы",
-            "Транспортировка питомца",
-            "Обустройство дома для щенка",
-            "Обустройство дома для взрослого питомца",
-            "Обустройство дома для питомца с особенностями",
-            "Советы кинолога по первичному общению с собакой",
-            "Проверенные кинологи для дальнейшего обращения",
-            "Почему могут отказать и не дать забрать питомца",
-            "Отправить контактные данные для связи",
+            "Перевозка питомца",
+            "Готовим дом для щенка",
+            "Готовим дом взрослому питомцу",
+            "Готовим дом питомцу с особенностями",
+            "Советы кинолога по общению с собакой",
+            "Проверенные кинологи для обращения",
+            "Причины отказа в выборе питомца",
+            "Оставить контактные данные",
             "Позвать волонтера"
 
     };
@@ -121,14 +121,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             Keyboard.call_volunteer_dog
     };
     private final String[] textButtonsAfterCommandInfoPetsCat = {
-            "Правила знакомства с питомцем",
+            "Знакомство с питомцем",
             "Необходимые документы",
-            "Транспортировка питомца",
-            "Обустройство дома для котенка",
-            "Обустройство дома для взрослого питомца",
-            "Обустройство дома для питомца с особенностями",
-            "Почему могут отказать и не дать забрать питомца",
-            "Отправить контактные данные для связи",
+            "Перевозка питомца",
+            "Готовим дом для котенка",
+            "Готовим дом взрослому питомцу",
+            "Готовим дом питомцу с особенностями",
+            "Причины отказа в выборе питомца",
+            "Оставить контактные данные",
             "Позвать волонтера"
 
     };
@@ -184,7 +184,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String messageText = update.message().text();
                 if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
-                    String msgText = "Привет друг! \nВыбери приют";
+                    String msgText = ("Привет друг! " + Icon.WAVE_Icon.get()) +
+                    ("\nВыбери приют" + Icon.HAND_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandStart,
                             keyboardsAfterCommandStart);
@@ -218,7 +219,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // кнопки после команды DOG
                 ///////////////////////////////////////////////
                 if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
-                    String msgText = "Что тебя интересует о приюте собак";
+                    String msgText = ("Информация о приюте собак " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandInfoShelterDog,
                             keyboardsAfterCommandInfoShelterDog
@@ -247,7 +248,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 ////////////////////////////////////
                 // кнопки после команды CAT
                 if (callbackQuery.equals(Keyboard.ONE_CAT.getCommand())) {
-                    String msgText = "Что тебя интересует о приюте кошек";
+                    String msgText = ("Информация о приюте кошек " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandInfoShelterCat,
                             keyboardsAfterCommandInfoShelterCat

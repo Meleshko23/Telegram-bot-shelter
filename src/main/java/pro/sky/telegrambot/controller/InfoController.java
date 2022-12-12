@@ -1,7 +1,6 @@
 package pro.sky.telegrambot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,8 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.telegrambot.model.Info;
-import pro.sky.telegrambot.model.Pet;
-import pro.sky.telegrambot.model.Volunteer;
 import pro.sky.telegrambot.service.InfoService;
 
 import java.util.Collection;
@@ -19,7 +16,7 @@ import java.util.Collection;
 @RequestMapping("info")
 public class InfoController {
 
-    private InfoService infoService;
+    private final InfoService infoService;
 
     public InfoController(InfoService infoService) {
         this.infoService = infoService;

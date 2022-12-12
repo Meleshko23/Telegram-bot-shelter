@@ -4,9 +4,11 @@ import com.vdurmont.emoji.EmojiParser;
 
 public enum Icon {
     DOG_Icon(":dog:"),
-    CAT_Icon(":smiley_cat:");
+    CAT_Icon(":smiley_cat:"),
+    WAVE_Icon(":wave:"),
+    HAND_Icon(":point_down:");
 
-    private String value;
+    private final String value;
 
     Icon(String value) {
         this.value = value;
