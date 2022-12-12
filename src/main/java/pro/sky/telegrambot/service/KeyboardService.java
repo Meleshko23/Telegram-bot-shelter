@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
 
 @Service
@@ -134,8 +135,8 @@ public class KeyboardService {
      */
     public InlineKeyboardMarkup prepareKeyboardStart() {
         String[] textButtonsAfterCommand = {
-                "Приют для кошек",
-                "Приют для собак"
+                ("Приют для кошек " + Icon.CAT_Icon.get()),
+                ("Приют для собак " + Icon.DOG_Icon.get())
         };
         Keyboard[] keyboards = {
                 Keyboard.CAT,

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
 import pro.sky.telegrambot.service.InfoPetsService;
 import pro.sky.telegrambot.service.InfoShelterService;
@@ -45,7 +46,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String messageText = update.message().text();
                 if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
-                    String msgText = "Привет друг! Выбери приют";
+                    String msgText = "Привет друг! \nВыбери приют";
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardStart();
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
@@ -58,12 +59,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // кнопки после команды старт
 
                 if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
-                    String msgText = "Меню приюта кошек";
+                    String msgText = ("Меню приюта кошек " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardCat();
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
-                    String msgText = "Меню приюта собак";
+                    String msgText = ("Меню приюта собак " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardDog();
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
