@@ -1,21 +1,44 @@
 package pro.sky.telegrambot.model;
 
+import pro.sky.telegrambot.constant.StatusTrialPeriod;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
-public class PetOwner {
+@Entity (name = "dog_owners")
+public class DogOwner {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long chatId;
     private String name;
     private String mail;
     private String phone;
-    private Long chatId;
-    private Long id;
+    private LocalDate startTrialPeriod;
+    private LocalDate endTrialPeriod;
+    private StatusTrialPeriod statusTrial;
 
-    public PetOwner(String name, String mail, String phone, Long chatId, Long id) {
+    // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
+    @OneToOne
+    private Pet pet;
+
+   // @JsonIgnore
+    @OneToMany(mappedBy = "dogOwner")
+    private List<KeepingPet> keepingPetList;
+
+    public DogOwner(String name, String mail, String phone, Long chatId, Long id) {
         this.name = name;
         this.mail = mail;
         this.phone = phone;
         this.chatId = chatId;
         this.id = id;
+    }
+
+    public DogOwner() {
+
     }
 
     public String getName() {
@@ -60,7 +83,7 @@ public class PetOwner {
 
     @Override
     public String toString() {
-        return "PetOwner{" +
+        return "DogOwner{" +
                 "name='" + name + '\'' +
                 ", mail='" + mail + '\'' +
                 ", phone='" + phone + '\'' +
@@ -73,7 +96,7 @@ public class PetOwner {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PetOwner petOwner = (PetOwner) o;
+        DogOwner petOwner = (DogOwner) o;
         return Objects.equals(name, petOwner.name) && Objects.equals(mail, petOwner.mail) && Objects.equals(phone, petOwner.phone) && Objects.equals(chatId, petOwner.chatId) && Objects.equals(id, petOwner.id);
     }
 

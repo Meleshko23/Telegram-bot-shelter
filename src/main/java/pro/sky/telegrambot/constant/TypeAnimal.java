@@ -1,4 +1,5 @@
 package pro.sky.telegrambot.constant;
 
-public class MessageUserAboutShelter {
+public enum TypeAnimal {
+    CAT, DOG
 }

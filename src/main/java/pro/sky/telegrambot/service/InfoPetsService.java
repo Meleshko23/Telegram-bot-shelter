@@ -1,90 +1,110 @@
 package pro.sky.telegrambot.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.model.Info;
+import pro.sky.telegrambot.repositories.InfoRepository;
 
-
+/**
+ * Класс отвечает за консультации с новым пользователем через методы приветствия,
+ * предоставления полной информации о том, как предстоитподготовиться человеку ко встрече с новым членом семьи,
+ * записать контактные данные пользователя, позвать волонтера.
+ */
+@Service
 public class InfoPetsService {
 
+    private InfoRepository infoRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(InfoPetsService.class);
-
-    //  Бот приветствует пользователя.
+    public InfoPetsService(InfoRepository infoRepository) {
+        this.infoRepository = infoRepository;
+    }
 
     /**
-     * Метод направляет приветственное сообщение пользователю
-     * и дает доступ к Меню.
+     * Метод выдает правила знакомства, до того как можно забрать собаку из приюта
      *
-     * @param updates
-     * @return
+     * @return String
      */
-//    public int process(List<Update> updates) {
-//        updates.forEach(update -> {
-//            logger.info("Processing update: {}", update);
-//            Message mess = update.message();
-//            Long chatId = update.message().chat().id();
-//
-//            if (mess.text().equals("/start")) {
-//                SendMessage sendMess = new SendMessage(chatId,
-//                        "Привет друг! " +
-//                                "\n Я бот-помощник и помогу познакомится с приютом и питомцами." +
-//                                " \n Выбери нужное меню");
-//                SendResponse response = telegramBot.execute(sendMess);
-//            }
-//        });
-//        return UpdatesListener.CONFIRMED_UPDATES_ALL;
-//    }
-
-    //  Бот может рассказать о приюте.
-
-    /**
-     * Метод направляет пользователю инфомацию о приюте из файла
-     */
-    public void sendInfoShelter() {
-
-        return;
+    public String datingRules(String message){
+        Info datingRules = infoRepository.findInfoByName(message);
+        return datingRules.getDetails();
     }
 
-
-    //  Бот может выдать расписание работы приюта и адрес, схему проезда.
-
     /**
-     * Метод направляет пользователю расписание работы приюта, адрес, схему проезда из файла
+     * Метод выдает список документов, необходимых для того, чтобы забрать питомца из приюта
+     *
+     * @return String
      */
-    public void sendWorktimeAddressMap() {
-
-        return;
+    public String documentsList(String message){
+        Info documentList = infoRepository.findInfoByName(message);
+        return documentList.getDetails();
     }
 
-    //  Бот может выдать общие рекомендации о технике безопасности на территории приюта.
-
     /**
-     * Метод направляет пользователю рекомендации о правилах приюта из файла
+     * Метод выдает список рекомендаций по транспортировке животного
+     *
+     * @return String
      */
-    public void sendShelterRules() {
-
-        return;
+    public String transportRecommendation(String message){
+        Info transportRecommendation = infoRepository.findInfoByName(message);
+        return transportRecommendation.getDetails();
     }
 
-    //  Бот может принять и записать контактные данные для связи.
-
     /**
-     * Метод принимает и записывает контактные данные пользователя в базу данных
+     * Метод выводит список рекомендаций по обустройству дома для щенка
+     *
+     * @return String
      */
-    public void saveContactInfo() {
-
-        return;
+    public String homeImprovementPuppyOrKitten(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
     }
 
-    //  Если бот не может ответить на вопросы клиента, то можно позвать волонтера.
-
     /**
-     * Метод вызывает волонтера в чат
+     * Метод выводит список рекомендаций по обустройству дома для взрослых собак.
+     *
+     * @return String
      */
-    public void callVolunteer() {
-
-        return;
+    public String homeImprovementDogOrCat(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
     }
 
+    /**
+     * Метод выводит список рекомендаций по обустройству дома для собаки с ограниченными возможностями.
+     *
+     * @return String
+     */
+    public String homeImprovementDisabledDog(String message){
+        Info homeImprovement = infoRepository.findInfoByName(message);
+        return homeImprovement.getDetails();
+    }
 
+    /**
+     * Метод выдает список рекомендаций кинолога по первичному общению с питомцем.
+     *
+     * @return String
+     */
+    public String cynolistTips(String message){
+        Info cynolistTips = infoRepository.findInfoByName(message);
+        return cynolistTips.getDetails();
+    }
+
+    /**
+     * Метод выдает информацию по проверенным кинологам, для дальнейшего обращения к ним.
+     *
+     * @return String
+     */
+    public String cynolistList(String message){
+        Info cynolistList = infoRepository.findInfoByName(message);
+        return cynolistList.getDetails();
+    }
+
+    /**
+     * Метод выводит список почему могут отказать и не дать забрать собаку из приюта
+     *
+     * @return String
+     */
+    public String bounceList(String message){
+        Info bounceList = infoRepository.findInfoByName(message);
+        return bounceList.getDetails();
+    }
 }
