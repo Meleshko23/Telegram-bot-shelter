@@ -27,6 +27,144 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final InfoPetsService infoPetsService;
     @Autowired
     private TelegramBot telegramBot;
+
+    private final String[] textButtonsAfterCommandStart = {
+            ("Приют для кошек " + Icon.CAT_Icon.get()),
+            ("Приют для собак " + Icon.DOG_Icon.get())
+    };
+    private final Keyboard[] keyboardsAfterCommandStart = {
+            Keyboard.CAT,
+            Keyboard.DOG
+    };
+    private final String[] textButtonsAfterCommandCat = {
+            "О приюте кошек",
+            "Как взять питомца из приюта",
+            "Прислать отчет о питомце",
+            "Позвать волонтёра"};
+    private final Keyboard[] keyboardsAfterCommandCat = {
+            Keyboard.ONE_CAT,
+            Keyboard.TWO_CAT,
+            Keyboard.THREE_CAT,
+            Keyboard.FOUR_CAT
+    };
+    private final String[] textButtonsAfterCommandDog = {
+            "О приюте собак",
+            "Как взять питомца из приюта",
+            "Прислать отчет о питомце",
+            "Позвать волонтёра"
+    };
+    private final Keyboard[] keyboardsAfterCommandDog = {
+            Keyboard.ONE_DOG,
+            Keyboard.TWO_DOG,
+            Keyboard.THREE_DOG,
+            Keyboard.FOUR_DOG
+    };
+    private final String[] textButtonsAfterCommandInfoShelterCat = {
+            "Общая информация",
+            "График работы",
+            "Правила приюта",
+            "Контакты охраны",
+            "Техника безопасности",
+            "Оставить контактные данные",
+            "Позвать волонтера"};
+    private final Keyboard[] keyboardsAfterCommandInfoShelterCat = {
+            Keyboard.info_shelter_cat,
+            Keyboard.work_time_and_address_cat,
+            Keyboard.shelter_rules_cat,
+            Keyboard.security_contacts_cat,
+            Keyboard.safety_precautions_cat,
+            Keyboard.leave_request_cat,
+            Keyboard.call_volunteer_cat
+    };
+    private final String[] textButtonsAfterCommandInfoShelterDog = {
+            "Общая информация",
+            "График работы",
+            "Правила приюта",
+            "Контакты охраны",
+            "Техника безопасности",
+            "Оставить контактные данные",
+            "Позвать волонтера"};
+    private final Keyboard[] keyboardsAfterCommandInfoShelterDog = {
+            Keyboard.info_shelter_dog,
+            Keyboard.work_time_and_address_dog,
+            Keyboard.shelter_rules_dog,
+            Keyboard.security_contacts_dog,
+            Keyboard.safety_precautions_dog,
+            Keyboard.leave_request_dog,
+            Keyboard.call_volunteer_dog
+    };
+    private final String[] textButtonsAfterCommandInfoPetsDog = {
+            "Правила знакомства с питомцем",
+            "Необходимые документы",
+            "Транспортировка питомца",
+            "Обустройство дома для щенка",
+            "Обустройство дома для взрослого питомца",
+            "Обустройство дома для питомца с особенностями",
+            "Советы кинолога по первичному общению с собакой",
+            "Проверенные кинологи для дальнейшего обращения",
+            "Почему могут отказать и не дать забрать питомца",
+            "Отправить контактные данные для связи",
+            "Позвать волонтера"
+
+    };
+    private final Keyboard[] keyboardsAfterCommandInfoPetsDog = {
+            Keyboard.DATING_RULES_DOG,
+            Keyboard.DOCUMENTS_LIST_DOG,
+            Keyboard.TRANSPORT_RECOMMENDATIONS_DOG,
+            Keyboard.HOME_IMPROVEMENT_PUPPY_DOG,
+            Keyboard.HOME_IMPROVEMENT_DOG,
+            Keyboard.HOME_IMPROVEMENT_DISABLED_DOG,
+            Keyboard.CYNOLOGIST_TIPS_DOG,
+            Keyboard.CYNOLOGISTS_LIST_DOG,
+            Keyboard.BOUNCE_LIST_DOG,
+            Keyboard.leave_request_dog,
+            Keyboard.call_volunteer_dog
+    };
+    private final String[] textButtonsAfterCommandInfoPetsCat = {
+            "Правила знакомства с питомцем",
+            "Необходимые документы",
+            "Транспортировка питомца",
+            "Обустройство дома для котенка",
+            "Обустройство дома для взрослого питомца",
+            "Обустройство дома для питомца с особенностями",
+            "Почему могут отказать и не дать забрать питомца",
+            "Отправить контактные данные для связи",
+            "Позвать волонтера"
+
+    };
+    private final Keyboard[] keyboardsAfterCommandInfoPetsCat = {
+            Keyboard.DATING_RULES_CAT,
+            Keyboard.DOCUMENTS_LIST_CAT,
+            Keyboard.TRANSPORT_RECOMMENDATIONS_CAT,
+            Keyboard.HOME_IMPROVEMENT_PUPPY_CAT,
+            Keyboard.HOME_IMPROVEMENT_CAT,
+            Keyboard.HOME_IMPROVEMENT_DISABLED_CAT,
+            Keyboard.BOUNCE_LIST_CAT,
+            Keyboard.leave_request_cat,
+            Keyboard.call_volunteer_cat
+    };
+    private final String[] textButtonsAfterCommandReportCat = {
+            "Форма ежедневного отчета",
+            "Отправить отчет о питомце",
+            "Позвать волонтера"
+
+    };
+    private final Keyboard[] keyboardsAfterCommandReportCat = {
+            Keyboard.DAILY_REPORT_FORM_CAT,
+            Keyboard.SEND_REPORT_CAT,
+            Keyboard.call_volunteer_cat
+    };
+    private final String[] textButtonsAfterCommandReportDog = {
+            "Форма ежедневного отчета",
+            "Отправить отчет о питомце",
+            "Позвать волонтера"
+
+    };
+    private final Keyboard[] keyboardsAfterCommandReportDog = {
+            Keyboard.DAILY_REPORT_FORM_DOG,
+            Keyboard.SEND_REPORT_DOG,
+            Keyboard.call_volunteer_dog
+    };
     public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoShelterService infoShelterService, InfoPetsService infoPetsService) {
         this.keyboardService = keyboardService;
         this.infoShelterService = infoShelterService;
@@ -47,7 +185,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
                     String msgText = "Привет друг! \nВыбери приют";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardStart();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandStart,
+                            keyboardsAfterCommandStart);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
             }
@@ -60,12 +200,18 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
                     String msgText = ("Меню приюта кошек " + Icon.CAT_Icon.get());
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardCat();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandCat,
+                            keyboardsAfterCommandCat
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
                     String msgText = ("Меню приюта собак " + Icon.DOG_Icon.get());
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardDog();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandDog,
+                            keyboardsAfterCommandDog
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 ////////////////////////////////////
@@ -73,17 +219,25 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 ///////////////////////////////////////////////
                 if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
                     String msgText = "Что тебя интересует о приюте собак";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardInfoShelterDog();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandInfoShelterDog,
+                            keyboardsAfterCommandInfoShelterDog
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_DOG.getCommand())) {
                     String msgText = "Как взять собаку из приюта";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardInfoPetsDog();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandInfoPetsDog,
+                            keyboardsAfterCommandInfoPetsDog
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.THREE_DOG.getCommand())) {
                     String msgText = "Информация по отправке отчета";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardReportDog();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandReportDog,
+                            keyboardsAfterCommandReportDog);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.FOUR_DOG.getCommand())) {
@@ -94,17 +248,26 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // кнопки после команды CAT
                 if (callbackQuery.equals(Keyboard.ONE_CAT.getCommand())) {
                     String msgText = "Что тебя интересует о приюте кошек";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardInfoShelterCat();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandInfoShelterCat,
+                            keyboardsAfterCommandInfoShelterCat
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_CAT.getCommand())) {
                     String msgText = "Как взять кошку из приюта";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardInfoPetsCat();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandInfoPetsCat,
+                            keyboardsAfterCommandInfoPetsCat
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.THREE_CAT.getCommand())) {
                     String msgText = "Информация по отправке отчета";
-                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboardReportCat();
+                    InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
+                            textButtonsAfterCommandReportCat,
+                            keyboardsAfterCommandReportCat
+                    );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
