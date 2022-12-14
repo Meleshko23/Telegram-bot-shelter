@@ -14,7 +14,8 @@ public class KeyboardMenu {
             "О приюте кошек",
             "Как взять питомца из приюта",
             "Прислать отчет о питомце",
-            "Позвать волонтёра"};
+            "Позвать волонтёра"
+    };
     public static final Keyboard[] keyboardsAfterCommandCat = {
             Keyboard.ONE_CAT,
             Keyboard.TWO_CAT,
@@ -40,7 +41,8 @@ public class KeyboardMenu {
             "Контакты охраны",
             "Техника безопасности",
             "Оставить контактные данные",
-            "Позвать волонтера"};
+            "Позвать волонтера"
+    };
     public static final Keyboard[] keyboardsAfterCommandInfoShelterCat = {
             Keyboard.info_shelter_cat,
             Keyboard.work_time_and_address_cat,
@@ -57,7 +59,8 @@ public class KeyboardMenu {
             "Контакты охраны",
             "Техника безопасности",
             "Оставить контактные данные",
-            "Позвать волонтера"};
+            "Позвать волонтера"
+    };
     public static final Keyboard[] keyboardsAfterCommandInfoShelterDog = {
             Keyboard.info_shelter_dog,
             Keyboard.work_time_and_address_dog,
@@ -79,7 +82,6 @@ public class KeyboardMenu {
             "Причины отказа в выборе питомца",
             "Оставить контактные данные",
             "Позвать волонтера"
-
     };
     public static final Keyboard[] keyboardsAfterCommandInfoPetsDog = {
             Keyboard.DATING_RULES_DOG,
@@ -104,7 +106,6 @@ public class KeyboardMenu {
             "Причины отказа в выборе питомца",
             "Оставить контактные данные",
             "Позвать волонтера"
-
     };
     public static final Keyboard[] keyboardsAfterCommandInfoPetsCat = {
             Keyboard.DATING_RULES_CAT,
@@ -121,7 +122,6 @@ public class KeyboardMenu {
             "Форма ежедневного отчета",
             "Отправить отчет о питомце",
             "Позвать волонтера"
-
     };
     public static final Keyboard[] keyboardsAfterCommandReportCat = {
             Keyboard.DAILY_REPORT_FORM_CAT,
@@ -132,7 +132,6 @@ public class KeyboardMenu {
             "Форма ежедневного отчета",
             "Отправить отчет о питомце",
             "Позвать волонтера"
-
     };
     public static final Keyboard[] keyboardsAfterCommandReportDog = {
             Keyboard.DAILY_REPORT_FORM_DOG,

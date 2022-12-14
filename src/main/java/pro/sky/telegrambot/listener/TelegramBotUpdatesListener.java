@@ -92,7 +92,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_DOG.getCommand())) {
-                    String msgText = "Как взять собаку из приюта";
+                    String msgText = ("Как взять собаку из приюта " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandInfoPetsDog,
                             keyboardsAfterCommandInfoPetsDog
@@ -100,7 +100,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.THREE_DOG.getCommand())) {
-                    String msgText = "Информация по отправке отчета";
+                    String msgText = ("Отправка отчета" + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandReportDog,
                             keyboardsAfterCommandReportDog);
@@ -121,7 +121,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.TWO_CAT.getCommand())) {
-                    String msgText = "Как взять кошку из приюта";
+                    String msgText = ("Как взять кошку из приюта " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandInfoPetsCat,
                             keyboardsAfterCommandInfoPetsCat
@@ -129,7 +129,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.THREE_CAT.getCommand())) {
-                    String msgText = "Информация по отправке отчета";
+                    String msgText = ("Отправка отчета" + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandReportCat,
                             keyboardsAfterCommandReportCat
