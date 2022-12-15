@@ -12,7 +12,7 @@ import pro.sky.telegrambot.repositories.InfoRepository;
 @Service
 public class InfoPetsService {
 
-    private InfoRepository infoRepository;
+    private final InfoRepository infoRepository;
 
     public InfoPetsService(InfoRepository infoRepository) {
         this.infoRepository = infoRepository;
@@ -106,5 +106,15 @@ public class InfoPetsService {
     public String bounceList(String message){
         Info bounceList = infoRepository.findInfoByName(message);
         return bounceList.getDetails();
+    }
+
+    public String callVolunteerCat(String message) {
+        Info callVolunteerCat = infoRepository.findInfoByName(message);
+        return callVolunteerCat.getDetails();
+    }
+
+    public String callVolunteerDog(String message) {
+        Info callVolunteerDog = infoRepository.findInfoByName(message);
+        return callVolunteerDog.getDetails();
     }
 }

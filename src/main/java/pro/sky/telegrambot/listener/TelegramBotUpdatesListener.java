@@ -157,6 +157,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.safety_precautions_dog.getCommand())) {
                     messageText = infoShelterService.sendSafetyPrecautions(callbackQuery);
                 }
+                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())){
+                    messageText = infoPetsService.callVolunteerDog(callbackQuery);
+                }
                 ////////////////////////////////////
                 // кнопки после команды CAT инфо о приюте
                 if (callbackQuery.equals(Keyboard.info_shelter_cat.getCommand())){
@@ -173,6 +176,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 }
                 if (callbackQuery.equals(Keyboard.safety_precautions_cat.getCommand())){
                     messageText = infoShelterService.sendSafetyPrecautions(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.call_volunteer_cat.getCommand())){
+                    messageText = infoPetsService.callVolunteerCat(callbackQuery);
                 }
                 ////////////////////////////////
                 if (callbackQuery.equals(Keyboard.DATING_RULES_DOG.getCommand())){
@@ -202,6 +208,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.BOUNCE_LIST_DOG.getCommand())){
                     messageText = infoPetsService.bounceList(callbackQuery);
                 }
+                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())){
+                    messageText = infoPetsService.callVolunteerDog(callbackQuery);
+                }
 
                 ///////////////
                 if (callbackQuery.equals(Keyboard.DATING_RULES_CAT.getCommand())){
@@ -224,6 +233,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 }
                 if (callbackQuery.equals(Keyboard.BOUNCE_LIST_CAT.getCommand())){
                     messageText = infoPetsService.bounceList(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.call_volunteer_cat.getCommand())){
+                    messageText = infoPetsService.callVolunteerCat(callbackQuery);
                 }
                 if (messageText != null){
                     SendMessage message = new SendMessage(chatId, messageText);

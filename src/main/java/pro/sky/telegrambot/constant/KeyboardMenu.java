@@ -20,7 +20,7 @@ public class KeyboardMenu {
             Keyboard.ONE_CAT,
             Keyboard.TWO_CAT,
             Keyboard.THREE_CAT,
-            Keyboard.FOUR_CAT
+            Keyboard.call_volunteer_cat
     };
     public static final String[] textButtonsAfterCommandDog = {
             "О приюте собак",
@@ -32,7 +32,7 @@ public class KeyboardMenu {
             Keyboard.ONE_DOG,
             Keyboard.TWO_DOG,
             Keyboard.THREE_DOG,
-            Keyboard.FOUR_DOG
+            Keyboard.call_volunteer_dog
     };
     public static final String[] textButtonsAfterCommandInfoShelterCat = {
             "Общая информация",
