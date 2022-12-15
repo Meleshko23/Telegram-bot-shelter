@@ -14,9 +14,11 @@ import pro.sky.telegrambot.constant.Keyboard;
 import pro.sky.telegrambot.service.InfoPetsService;
 import pro.sky.telegrambot.service.InfoShelterService;
 import pro.sky.telegrambot.service.KeyboardService;
+import pro.sky.telegrambot.service.UserService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Objects;
 
 import static pro.sky.telegrambot.constant.KeyboardMenu.*;
 
@@ -27,13 +29,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final KeyboardService keyboardService;
     private final InfoShelterService infoShelterService;
     private final InfoPetsService infoPetsService;
+
+    private final UserService userService;
     @Autowired
     private TelegramBot telegramBot;
 
-    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoShelterService infoShelterService, InfoPetsService infoPetsService) {
+    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoShelterService infoShelterService, InfoPetsService infoPetsService, UserService userService) {
         this.keyboardService = keyboardService;
         this.infoShelterService = infoShelterService;
         this.infoPetsService = infoPetsService;
+        this.userService = userService;
     }
 
     @PostConstruct
@@ -46,7 +51,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
             if (update.message() != null) {
-                String messageText = update.message().text();
+                if (update.message().replyToMessage() != null && !update.message().replyToMessage().text().isEmpty()) {
+                    String messageText = update.message().text();
+                    Long chatId = update.message().chat().id();
+                    if (Objects.equals(update.message().replyToMessage().text(), "Введите ваше имя")) {
+                        userService.saveContactInfo(chatId, "Введите ваш номер телефона", messageText);
+                    }
+                    if (Objects.equals(update.message().replyToMessage().text(), "Введите ваш номер телефона")) {
+                        userService.saveContactInfo(chatId, "Введите ваш email", messageText);
+                    }
+                    if (Objects.equals(update.message().replyToMessage().text(), "Введите ваш email")) {
+                        userService.saveContactInfo(chatId, "В ближайшее время с вами свяжутся", messageText);
+                    }
+
+                }
                 if (update.message().text().equals(Keyboard.START.getCommand())) {
                     Long chatId = update.message().chat().id();
                     String msgText = ("Привет друг! " + Icon.WAVE_Icon.get()) +
@@ -157,6 +175,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.safety_precautions_dog.getCommand())) {
                     messageText = infoShelterService.sendSafetyPrecautions(callbackQuery);
                 }
+                if (callbackQuery.equals(Keyboard.leave_request_dog.getCommand())) {
+                    userService.saveContactInfo(chatId, "Введите ваше имя", null);
+                }
                 ////////////////////////////////////
                 // кнопки после команды CAT инфо о приюте
                 if (callbackQuery.equals(Keyboard.info_shelter_cat.getCommand())){
@@ -173,6 +194,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 }
                 if (callbackQuery.equals(Keyboard.safety_precautions_cat.getCommand())){
                     messageText = infoShelterService.sendSafetyPrecautions(callbackQuery);
+                }
+                if (callbackQuery.equals(Keyboard.leave_request_cat.getCommand())) {
+                    userService.saveContactInfo(chatId, "Введите ваше имя", null);
                 }
                 ////////////////////////////////
                 if (callbackQuery.equals(Keyboard.DATING_RULES_DOG.getCommand())){
