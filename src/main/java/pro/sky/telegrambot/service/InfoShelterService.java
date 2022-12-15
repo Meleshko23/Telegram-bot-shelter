@@ -1,5 +1,10 @@
 package pro.sky.telegrambot.service;
 
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.request.ForceReply;
+import com.pengrad.telegrambot.request.SendMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.repositories.InfoRepository;
@@ -57,7 +62,7 @@ public class InfoShelterService {
      * @param message
      * @return String
      */
-    public String sendSecurityContacts(String message){
+    public String sendSecurityContacts(String message) {
         Info securityContacts = infoRepository.findInfoByName(message);
         return securityContacts.getDetails();
     }
@@ -70,20 +75,13 @@ public class InfoShelterService {
      * @param message
      * @return String
      */
-    public String sendSafetyPrecautions(String message){
+    public String sendSafetyPrecautions(String message) {
         Info safetyPrecautions = infoRepository.findInfoByName(message);
         return safetyPrecautions.getDetails();
     }
 
     //  Бот может принять и записать контактные данные для связи.
 
-    /**
-     * Метод принимает и записывает контактные данные пользователя в базу данных
-     */
-    public void saveContactInfo() {
-
-        return;
-    }
 
     //  Если бот не может ответить на вопросы клиента, то можно позвать волонтера.
 
