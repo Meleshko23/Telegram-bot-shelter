@@ -5,9 +5,12 @@ import com.pengrad.telegrambot.model.request.ForceReply;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.constant.MessageForSaveContacts;
 import pro.sky.telegrambot.exception.UserNotFoundException;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
+
+import static pro.sky.telegrambot.constant.MessageForSaveContacts.*;
 
 @Service
 public class UserService {
@@ -31,18 +34,18 @@ public class UserService {
      * Метод принимает и записывает контактные данные пользователя в базу данных
      */
     public void saveContactInfo(long chatId, String messageText, String userRequest) {
-        if (messageText.equals("Введите ваше имя")) {
+        if (messageText.equals(NAME)) {
             name = null;
             phone = null;
             mail = null;
             sendMessageReply(chatId, messageText);
-        }else if (messageText.equals("Введите ваш номер телефона")) {
+        }else if (messageText.equals(PHONE)) {
             name = userRequest;
             sendMessageReply(chatId, messageText);
-        } else if (messageText.equals("Введите ваш email")) {
+        } else if (messageText.equals(MAIL)) {
             phone = userRequest;
             sendMessageReply(chatId, messageText);
-        } else if (messageText.equals("В ближайшее время с вами свяжутся")) {
+        } else if (messageText.equals(SAVE)) {
             mail = userRequest;
 
             User user = new User();
