@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.request.ForceReply;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.exception.UserNotFoundException;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
 
@@ -45,12 +46,12 @@ public class UserService {
             mail = userRequest;
 
             User user = new User();
-            user.setId(1L);
+
             user.setChatId(chatId);
             user.setName(name);
             user.setPhone(phone);
             user.setMail(mail);
-//            saveUser(user);
+            saveUser(user);
             sendMessage(chatId, messageText);
         }
 
@@ -67,4 +68,7 @@ public class UserService {
     }
 
 
+    public User findUser(long id) {
+        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+    }
 }

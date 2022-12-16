@@ -9,8 +9,7 @@ import java.util.Objects;
 @Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long chatId;
     String shelter;
     String name;
@@ -27,13 +26,7 @@ public class User {
         this.shelter = shelter;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getChatId() {
         return chatId;
@@ -82,16 +75,11 @@ public class User {
 
         User user = (User) o;
 
-        if (!Objects.equals(id, user.id)) return false;
-        if (!Objects.equals(chatId, user.chatId)) return false;
-        return Objects.equals(shelter, user.shelter);
+        return Objects.equals(chatId, user.chatId);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (chatId != null ? chatId.hashCode() : 0);
-        result = 31 * result + (shelter != null ? shelter.hashCode() : 0);
-        return result;
+        return chatId != null ? chatId.hashCode() : 0;
     }
 }

@@ -8,4 +8,4 @@ databaseChangeLog:
   - include:
       file: liquibase/scripts/createUsers.sql
   - include:
-      file: liquibase/scripts/changeUsers.sql
+      file: liquibase/scripts/reCreateUsers.sql
