@@ -19,9 +19,9 @@ public class UserService {
     @Autowired
     private TelegramBot telegramBot;
 
-    private static String name = null;
-    private static String phone = null;
-    private static String mail = null;
+    private  String name = null;
+    private  String phone = null;
+    private  String mail = null;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -73,5 +73,17 @@ public class UserService {
 
     public User findUser(long id) {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+    }
+
+    public  String getName() {
+        return name;
+    }
+
+    public  String getPhone() {
+        return phone;
+    }
+
+    public  String getMail() {
+        return mail;
     }
 }

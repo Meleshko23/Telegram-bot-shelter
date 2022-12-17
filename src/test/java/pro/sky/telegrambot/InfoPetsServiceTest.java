@@ -36,54 +36,7 @@ public class InfoPetsServiceTest {
     @Test
     public void datingRulesTest(){
         Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.datingRules(info1.getName()));
+        Assertions.assertEquals(info1.getDetails(), infoPetsService.getInfobyRequest(info1.getName()));
     }
 
-    @Test
-    public void documentsListTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.documentsList(info1.getName()));
-    }
-
-    @Test
-    public void transportRecommendationTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.transportRecommendation(info1.getName()));
-    }
-
-    @Test
-    public void homeImprovementPuppyOrKittenTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.homeImprovementPuppyOrKitten(info1.getName()));
-    }
-
-    @Test
-    public void homeImprovementDogOrCatTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.homeImprovementDogOrCat(info1.getName()));
-    }
-
-    @Test
-    public void homeImprovementDisabledDogTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.homeImprovementDisabledDog(info1.getName()));
-    }
-
-    @Test
-    public void cynolistTipsTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.cynolistTips(info1.getName()));
-    }
-
-    @Test
-    public void cynolistListTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.cynolistList(info1.getName()));
-    }
-
-    @Test
-    public void bounceListTest(){
-        Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.bounceList(info1.getName()));
-    }
 }
