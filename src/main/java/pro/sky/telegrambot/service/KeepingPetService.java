@@ -54,15 +54,20 @@ public class KeepingPetService {
      *
      * @param chatId идентификатор чата, не может быть null
      * @param photoSizes  объект, хранящий информацию с фотографией питомца. не null
-     * @param messageText  сообщение, отправленное пользователем. Не null
+     * @param caption  сообщение, отправленное вместе с фото
      *
      * @return KeepingPet (объект инкапсулирующий отчет пользователя)
      */
-    public void sendReport(long chatId, String messageText, String userRequest, PhotoSize[] photoSizes) throws IOException {
-
+    public void sendReport(long chatId, String caption, PhotoSize[] photoSizes) throws IOException {
 
     }
 
+    /**
+     * первая стадия метода отправки отчета. Этот метод отпрвляет пользователю сообщение с просьбой
+     * отправить отчет: текст и фото
+     * @param chatId идентификатор чата
+     * @param messageText сообщение для пользователя
+     */
     public void sendReport(long chatId, String messageText) {
         sendMessageReply(chatId, messageText);
     }
