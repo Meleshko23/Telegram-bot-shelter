@@ -1,15 +1,42 @@
 package pro.sky.telegrambot.service;
 
-import pro.sky.telegrambot.model.KeepingPet;
-import pro.sky.telegrambot.model.DogOwner;
-import pro.sky.telegrambot.model.PhotoPet;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.File;
+import com.pengrad.telegrambot.model.PhotoSize;
+import com.pengrad.telegrambot.model.request.ForceReply;
+import com.pengrad.telegrambot.request.GetFile;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.GetFileResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.model.*;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.nio.file.StandardOpenOption.CREATE_NEW;
+import static pro.sky.telegrambot.constant.MessageForDailyReport.*;
 
 /**
  * Сервис, описывающий методы по ведению питомца хозяевами
  */
+@Service
 public class KeepingPetService {
+
+    private String textReport;
+    private Integer fileId;
+    private String photoesDir = "/photoPets";
+
+    private final PetOwnerService petOwnerService;
+    @Autowired
+    private TelegramBot telegramBot;
+
+    public KeepingPetService(PetOwnerService petOwnerService) {
+        this.petOwnerService = petOwnerService;
+    }
 
     /**
      * метод отправляет усыновителям форму ежедневного <b>отчета</b>
@@ -25,23 +52,33 @@ public class KeepingPetService {
      * Метод отправляет ежедневный отчет усыновителя, включающиий  фото животоного, рацион, самочувствие, поведение. Отчет сохраняется в БД в таблице KeepingPet
      *
      *
-     * @param chartId идентификатор чата, не может быть null
-     * @param photo  объект, хранящий информацию с фотографией питомца. не null
-     * @param message  сообщение, отправленное пользователем. Не null
+     * @param chatId идентификатор чата, не может быть null
+     * @param photoSizes  объект, хранящий информацию с фотографией питомца. не null
+     * @param messageText  сообщение, отправленное пользователем. Не null
      *
      * @return KeepingPet (объект инкапсулирующий отчет пользователя)
      */
-    public KeepingPet sendReport(Long chartId, PhotoPet photo, String message) {
-        // Если пользователь не отправил фото животного
-        if (photo == null) {
-            // попросить отправить фото животного
-        }
-        // Если пользователь не отправил текстовую информацию
-        else if (message == null) {
-            // попросить отправить текстовую информацию
-        }
+    public void sendReport(long chatId, String messageText, String userRequest, PhotoSize[] photoSizes) throws IOException {
 
-        return null;
+
+    }
+
+    public void sendReport(long chatId, String messageText) {
+        sendMessageReply(chatId, messageText);
+    }
+    private String getExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+
+    private void sendMessageReply(long chatId, String messageText) {
+        SendMessage sendMess = new SendMessage(chatId, messageText);
+        sendMess.replyMarkup(new ForceReply());
+        telegramBot.execute(sendMess);
+    }
+    private void sendMessage(long chatId, String messageText) {
+        SendMessage sendMess = new SendMessage(chatId, messageText);
+        telegramBot.execute(sendMess);
     }
 
     /**
