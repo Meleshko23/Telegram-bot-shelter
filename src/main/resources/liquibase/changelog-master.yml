@@ -9,3 +9,5 @@ databaseChangeLog:
       file: liquibase/scripts/createUsers.sql
   - include:
       file: liquibase/scripts/reCreateUsers.sql
+  - include:
+      file: liquibase/scripts/changeTablesReCreateId.sql
