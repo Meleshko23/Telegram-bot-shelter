@@ -1,30 +1,26 @@
 package pro.sky.telegrambot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.request.ForceReply;
-import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.*;
+import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
-import static pro.sky.telegrambot.constant.MessageForDailyReport.*;
 
 /**
  * Сервис, описывающий методы по ведению питомца хозяевами
  */
 @Service
 public class KeepingPetService {
+
+    private KeepingPetRepository keepingPetRepository;
 
     private String textReport;
     private Integer fileId;
@@ -34,7 +30,8 @@ public class KeepingPetService {
     @Autowired
     private TelegramBot telegramBot;
 
-    public KeepingPetService(PetOwnerService petOwnerService) {
+    public KeepingPetService(KeepingPetRepository keepingPetRepository, PetOwnerService petOwnerService) {
+        this.keepingPetRepository = keepingPetRepository;
         this.petOwnerService = petOwnerService;
     }
 
@@ -163,6 +160,15 @@ public class KeepingPetService {
      */
     public void checkTime() {
 
+    }
+
+    /**
+     * Метод выводит список всех отчетов по определенным датам.
+     *
+     * @return Collection
+     */
+    public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
+        return keepingPetRepository.findKeepingPetByDate(date);
     }
 
 }

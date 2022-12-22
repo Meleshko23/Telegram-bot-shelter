@@ -10,6 +10,8 @@ import pro.sky.telegrambot.exception.UserNotFoundException;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
 
+import java.util.Collection;
+
 import static pro.sky.telegrambot.constant.MessageForSaveContacts.*;
 
 @Service
@@ -85,5 +87,14 @@ public class UserService {
 
     public  String getMail() {
         return mail;
+    }
+
+    /**
+     * Метод возвращает все заявки, которые поступили через бота и записанные в таблицу user в бд.
+     *
+     * @return Collection
+     */
+    public Collection<User> getAllOrders(){
+        return userRepository.findAll();
     }
 }
