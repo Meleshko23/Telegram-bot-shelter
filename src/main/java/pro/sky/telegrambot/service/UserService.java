@@ -107,4 +107,14 @@ public class UserService {
     public String findShelterByChatId(Long chatId){
         return userRepository.findUserByChatId(chatId).getShelter();
     }
+
+    /**
+     * Метод получает заявки по значению поля shelter.
+     *
+     * @param shelter
+     * @return Collection
+     */
+    public Collection<User> findUserByShelter(String shelter){
+        return userRepository.findUserByShelter(shelter);
+    }
 }

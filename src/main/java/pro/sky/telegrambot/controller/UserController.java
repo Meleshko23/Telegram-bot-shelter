@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.service.UserService;
@@ -46,5 +47,29 @@ public class UserController {
     @GetMapping("all_orders")
     public ResponseEntity<Collection<User>> getALlOrders() {
         return ResponseEntity.ok(userService.getAllOrders());
+    }
+
+    @Operation(
+            summary = "Вывести список ззаявок по полученному значению",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "список заявок выведен",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = User.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Если заявок нет"
+                    )
+            }
+    )
+    @GetMapping("{shelter}")
+    public ResponseEntity<Collection<User>> findUserByShelter(@RequestParam String shelter){
+        return ResponseEntity.ok(userService.findUserByShelter(shelter));
     }
 }
