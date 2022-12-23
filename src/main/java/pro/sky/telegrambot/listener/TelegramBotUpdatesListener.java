@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
 import pro.sky.telegrambot.constant.MessageForDailyReport;
+import pro.sky.telegrambot.model.User;
+import pro.sky.telegrambot.repositories.UserRepository;
 import pro.sky.telegrambot.service.InfoPetsService;
 import pro.sky.telegrambot.service.KeepingPetService;
 import pro.sky.telegrambot.service.KeyboardService;
@@ -34,7 +36,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final KeyboardService keyboardService;
     private final InfoPetsService infoPetsService;
     private final KeepingPetService keepingPetService;
-
     private final UserService userService;
     @Autowired
     private TelegramBot telegramBot;
@@ -126,19 +127,27 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // кнопки после команды старт
 
                 if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
+                    User newUser = new User();
                     String msgText = ("Меню приюта кошек " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandCat,
                             keyboardsAfterCommandCat
                     );
+                    newUser.setChatId(chatId);
+                    newUser.setShelter(Keyboard.CAT.getCommand());
+                    userService.saveUser(newUser);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
+                    User newUser = new User();
                     String msgText = ("Меню приюта собак " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandDog,
                             keyboardsAfterCommandDog
                     );
+                    newUser.setChatId(chatId);
+                    newUser.setShelter(Keyboard.DOG.getCommand());
+                    userService.saveUser(newUser);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 ////////////////////////////////////
@@ -147,8 +156,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.ONE_DOG.getCommand())) {
                     String msgText = ("Информация о приюте собак " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
-                            textButtonsAfterCommandInfoShelterDog,
-                            keyboardsAfterCommandInfoShelterDog
+                            textButtonsAfterCommandInfoShelter,
+                            keyboardsAfterCommandInfoShelter
                     );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
@@ -176,8 +185,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.ONE_CAT.getCommand())) {
                     String msgText = ("Информация о приюте кошек " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
-                            textButtonsAfterCommandInfoShelterCat,
-                            keyboardsAfterCommandInfoShelterCat
+                            textButtonsAfterCommandInfoShelter,
+                            keyboardsAfterCommandInfoShelter
                     );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
@@ -203,101 +212,103 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
                 ////////////////////////////////////////////////////
                 // кнопки после команды DOG инфо о приюте
-                if (callbackQuery.equals(Keyboard.info_shelter_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.work_time_and_address_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.shelter_rules_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.security_contacts_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.safety_precautions_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.leave_request_dog.getCommand())) {
-                    userService.saveContactInfo(chatId, NAME, null);
-                }
+//                if (callbackQuery.equals(Keyboard.info_shelter_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.work_time_and_address_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.shelter_rules_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.security_contacts_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.safety_precautions_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.leave_request_dog.getCommand())) {
+//                    userService.saveContactInfo(chatId, NAME, null);
+//                }
                 ////////////////////////////////////
                 // кнопки после команды CAT инфо о приюте
-                if (callbackQuery.equals(Keyboard.info_shelter_cat.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.info_shelter_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.work_time_and_address_cat.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.work_time_and_address_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.shelter_rules_cat.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.shelter_rules_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.security_contacts_cat.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.security_contacts_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.safety_precautions_cat.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.safety_precautions_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.leave_request_cat.getCommand())) {
+                if (callbackQuery.equals(Keyboard.leave_request_.getCommand())) {
                     userService.saveContactInfo(chatId, NAME, null);
                 }
                 ////////////////////////////////
                 // кнопки после команды DOG Как взять собаку из приюта
-                if (callbackQuery.equals(Keyboard.DATING_RULES_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.DOCUMENTS_LIST_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.TRANSPORT_RECOMMENDATIONS_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_PUPPY_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DISABLED_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.CYNOLOGIST_TIPS_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.CYNOLOGISTS_LIST_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.BOUNCE_LIST_DOG.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
-                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-                }
+//                if (callbackQuery.equals(Keyboard.DATING_RULES_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.DOCUMENTS_LIST_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.TRANSPORT_RECOMMENDATIONS_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_PUPPY_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DISABLED_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+
+
+//                if (callbackQuery.equals(Keyboard.BOUNCE_LIST_DOG.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
+//                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())) {
+//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+//                }
 
                 ///////////////
                 // кнопки после команды CAT Как взять кошку из приюта
-                if (callbackQuery.equals(Keyboard.DATING_RULES_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.DATING_RULES_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.DOCUMENTS_LIST_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.DOCUMENTS_LIST_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.TRANSPORT_RECOMMENDATIONS_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.TRANSPORT_RECOMMENDATIONS_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_PUPPY_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_PUPPY_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DISABLED_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DISABLED_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.BOUNCE_LIST_CAT.getCommand())) {
-                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
+                if (callbackQuery.equals(Keyboard.CYNOLOGIST_TIPS_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
-                if (callbackQuery.equals(Keyboard.call_volunteer_cat.getCommand())) {
+                if (callbackQuery.equals(Keyboard.CYNOLOGISTS_LIST_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
+                }
+                if (callbackQuery.equals(Keyboard.BOUNCE_LIST_.getCommand())) {
+                    messageText = infoPetsService.getInfobyRequest(callbackQuery+userService.findShelterByChatId(chatId));
+                }
+                if (callbackQuery.equals(Keyboard.call_volunteer_.getCommand())) {
                     messageText = infoPetsService.getInfobyRequest(callbackQuery);
                 }
                 ////////////////////////////////
@@ -323,7 +334,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     telegramBot.execute(message);
                 }
                 // Такой команды не существует
-            } else {
+            } else{
                 Long chatId = update.message().chat().id();
                 String msgText = "Такой команды не существует. \n\n Чтобы вернуться в главное меню, введи /start";
                 keyboardService.responseOnCommand(chatId, msgText);

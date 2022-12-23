@@ -20,7 +20,7 @@ public class KeyboardMenu {
             Keyboard.ONE_CAT,
             Keyboard.TWO_CAT,
             Keyboard.THREE_CAT,
-            Keyboard.call_volunteer_cat
+            Keyboard.call_volunteer_
     };
     public static final String[] textButtonsAfterCommandDog = {
             "О приюте собак",
@@ -32,9 +32,9 @@ public class KeyboardMenu {
             Keyboard.ONE_DOG,
             Keyboard.TWO_DOG,
             Keyboard.THREE_DOG,
-            Keyboard.call_volunteer_dog
+            Keyboard.call_volunteer_
     };
-    public static final String[] textButtonsAfterCommandInfoShelterCat = {
+    public static final String[] textButtonsAfterCommandInfoShelter = {
             "Общая информация",
             "График работы",
             "Правила приюта",
@@ -43,33 +43,33 @@ public class KeyboardMenu {
             "Оставить контактные данные",
             "Позвать волонтера"
     };
-    public static final Keyboard[] keyboardsAfterCommandInfoShelterCat = {
-            Keyboard.info_shelter_cat,
-            Keyboard.work_time_and_address_cat,
-            Keyboard.shelter_rules_cat,
-            Keyboard.security_contacts_cat,
-            Keyboard.safety_precautions_cat,
-            Keyboard.leave_request_cat,
-            Keyboard.call_volunteer_cat
+    public static final Keyboard[] keyboardsAfterCommandInfoShelter = {
+            Keyboard.info_shelter_,
+            Keyboard.work_time_and_address_,
+            Keyboard.shelter_rules_,
+            Keyboard.security_contacts_,
+            Keyboard.safety_precautions_,
+            Keyboard.leave_request_,
+            Keyboard.call_volunteer_
     };
-    public static final String[] textButtonsAfterCommandInfoShelterDog = {
-            "Общая информация",
-            "График работы",
-            "Правила приюта",
-            "Контакты охраны",
-            "Техника безопасности",
-            "Оставить контактные данные",
-            "Позвать волонтера"
-    };
-    public static final Keyboard[] keyboardsAfterCommandInfoShelterDog = {
-            Keyboard.info_shelter_dog,
-            Keyboard.work_time_and_address_dog,
-            Keyboard.shelter_rules_dog,
-            Keyboard.security_contacts_dog,
-            Keyboard.safety_precautions_dog,
-            Keyboard.leave_request_dog,
-            Keyboard.call_volunteer_dog
-    };
+//    public static final String[] textButtonsAfterCommandInfoShelterDog = {
+//            "Общая информация",
+//            "График работы",
+//            "Правила приюта",
+//            "Контакты охраны",
+//            "Техника безопасности",
+//            "Оставить контактные данные",
+//            "Позвать волонтера"
+//    };
+//    public static final Keyboard[] keyboardsAfterCommandInfoShelterDog = {
+//            Keyboard.info_shelter_,
+//            Keyboard.work_time_and_address_,
+//            Keyboard.shelter_rules_,
+//            Keyboard.security_contacts_,
+//            Keyboard.safety_precautions_,
+//            Keyboard.leave_request_,
+//            Keyboard.call_volunteer_
+//    };
     public static final String[] textButtonsAfterCommandInfoPetsDog = {
             "Знакомство с питомцем",
             "Необходимые документы",
@@ -84,17 +84,17 @@ public class KeyboardMenu {
             "Позвать волонтера"
     };
     public static final Keyboard[] keyboardsAfterCommandInfoPetsDog = {
-            Keyboard.DATING_RULES_DOG,
-            Keyboard.DOCUMENTS_LIST_DOG,
-            Keyboard.TRANSPORT_RECOMMENDATIONS_DOG,
-            Keyboard.HOME_IMPROVEMENT_PUPPY_DOG,
-            Keyboard.HOME_IMPROVEMENT_DOG,
-            Keyboard.HOME_IMPROVEMENT_DISABLED_DOG,
-            Keyboard.CYNOLOGIST_TIPS_DOG,
-            Keyboard.CYNOLOGISTS_LIST_DOG,
-            Keyboard.BOUNCE_LIST_DOG,
-            Keyboard.leave_request_dog,
-            Keyboard.call_volunteer_dog
+            Keyboard.DATING_RULES_,
+            Keyboard.DOCUMENTS_LIST_,
+            Keyboard.TRANSPORT_RECOMMENDATIONS_,
+            Keyboard.HOME_IMPROVEMENT_PUPPY_,
+            Keyboard.HOME_IMPROVEMENT_,
+            Keyboard.HOME_IMPROVEMENT_DISABLED_,
+            Keyboard.CYNOLOGIST_TIPS_,
+            Keyboard.CYNOLOGISTS_LIST_,
+            Keyboard.BOUNCE_LIST_,
+            Keyboard.leave_request_,
+            Keyboard.call_volunteer_
     };
     public static final String[] textButtonsAfterCommandInfoPetsCat = {
             "Знакомство с питомцем",
@@ -108,15 +108,15 @@ public class KeyboardMenu {
             "Позвать волонтера"
     };
     public static final Keyboard[] keyboardsAfterCommandInfoPetsCat = {
-            Keyboard.DATING_RULES_CAT,
-            Keyboard.DOCUMENTS_LIST_CAT,
-            Keyboard.TRANSPORT_RECOMMENDATIONS_CAT,
-            Keyboard.HOME_IMPROVEMENT_PUPPY_CAT,
-            Keyboard.HOME_IMPROVEMENT_CAT,
-            Keyboard.HOME_IMPROVEMENT_DISABLED_CAT,
-            Keyboard.BOUNCE_LIST_CAT,
-            Keyboard.leave_request_cat,
-            Keyboard.call_volunteer_cat
+            Keyboard.DATING_RULES_,
+            Keyboard.DOCUMENTS_LIST_,
+            Keyboard.TRANSPORT_RECOMMENDATIONS_,
+            Keyboard.HOME_IMPROVEMENT_PUPPY_,
+            Keyboard.HOME_IMPROVEMENT_,
+            Keyboard.HOME_IMPROVEMENT_DISABLED_,
+            Keyboard.BOUNCE_LIST_,
+            Keyboard.leave_request_,
+            Keyboard.call_volunteer_
     };
     public static final String[] textButtonsAfterCommandReportCat = {
             "Форма ежедневного отчета",
@@ -126,7 +126,7 @@ public class KeyboardMenu {
     public static final Keyboard[] keyboardsAfterCommandReportCat = {
             Keyboard.DAILY_REPORT_FORM_CAT,
             Keyboard.SEND_REPORT_CAT,
-            Keyboard.call_volunteer_cat
+            Keyboard.call_volunteer_
     };
     public static final String[] textButtonsAfterCommandReportDog = {
             "Форма ежедневного отчета",
@@ -136,7 +136,7 @@ public class KeyboardMenu {
     public static final Keyboard[] keyboardsAfterCommandReportDog = {
             Keyboard.DAILY_REPORT_FORM_DOG,
             Keyboard.SEND_REPORT_DOG,
-            Keyboard.call_volunteer_dog
+            Keyboard.call_volunteer_
     };
 
 }

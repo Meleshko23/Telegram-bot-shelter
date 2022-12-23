@@ -97,4 +97,14 @@ public class UserService {
     public Collection<User> getAllOrders(){
         return userRepository.findAll();
     }
+
+    /**
+     * Метод получает значение приюта, который выбрал User.
+     *
+     * @param chatId
+     * @return String
+     */
+    public String findShelterByChatId(Long chatId){
+        return userRepository.findUserByChatId(chatId).getShelter();
+    }
 }
