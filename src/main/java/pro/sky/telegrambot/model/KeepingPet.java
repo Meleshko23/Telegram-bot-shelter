@@ -13,6 +13,8 @@ public class KeepingPet {
     private Long chatId;
     private String infoPet;
     private LocalDate date;
+//    private String mediaType;
+//    private byte[] photoData;
     @OneToOne
     private PhotoPet photoPet;
 
@@ -25,12 +27,21 @@ public class KeepingPet {
     @JoinColumn(name = "cat_owner_id")
     private DogOwner catOwner;
 
+//    public byte[] getPhotoData() {
+//        return photoData;
+//    }
+//
+//    public void setPhotoData(byte[] photoData) {
+//        this.photoData = photoData;
+//    }
+
     public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
         this.id = id;
         this.chatId = chatId;
         this.infoPet = infoPet;
         this.photoPet = photoPet;
         this.date = date;
+//        this.photoData = photoData;
 
     }
 
@@ -100,4 +111,8 @@ public class KeepingPet {
                 ", photoPet=" + photoPet +
                 '}';
     }
+
+//    public void setMediaType(String contentType) {
+//        this.mediaType = mediaType;
+//    }
 }

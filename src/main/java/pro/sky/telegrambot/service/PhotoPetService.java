@@ -83,4 +83,9 @@ public class PhotoPetService {
 
     }
 
+    public PhotoPet savePhotoReport (PhotoPet photoPet) {
+        return photoPetRepository.save(photoPet);
+    }
+
+
 }

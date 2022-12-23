@@ -56,4 +56,12 @@ public class PetOwnerService {
     public Collection<DogOwner> allDogOwner(){
         return dogOwnerRepository.findAll();
     }
+
+    public CatOwner findCatOwner(Long chatID){
+        return catOwnerRepository.findCatOwnerByChatId(chatID);
+    }
+
+    public DogOwner findDogOwner(Long chatID){
+        return dogOwnerRepository.findDogOwnerByChatId(chatID);
+    }
 }

@@ -1,16 +1,23 @@
 package pro.sky.telegrambot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.request.ForceReply;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
 import pro.sky.telegrambot.model.KeepingPet;
+import pro.sky.telegrambot.model.PhotoPet;
 import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,13 +32,16 @@ public class KeepingPetService {
     private String photoesDir = "/photoPets";
 
     private final PetOwnerService petOwnerService;
+    private final PhotoPetService photoPetService;
     private final KeepingPetRepository keepingPetRepository;
 
     @Autowired
     private TelegramBot telegramBot;
+    private String coversDir = "example";
 
-    public KeepingPetService(PetOwnerService petOwnerService, KeepingPetRepository keepingPetRepository) {
+    public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, KeepingPetRepository keepingPetRepository) {
         this.petOwnerService = petOwnerService;
+        this.photoPetService = photoPetService;
         this.keepingPetRepository = keepingPetRepository;
     }
 
@@ -62,16 +72,64 @@ public class KeepingPetService {
         return keepingPetRepository.save(keepingPet);
     }
 
-    private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) {
+    private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException{
+        PhotoSize photoObject = photoSizes[0];
+
+        GetFile fileRequest = new GetFile(photoObject.fileId());
+        GetFileResponse fileResponse = telegramBot.execute(fileRequest);
+        File file = fileResponse.file();
+//        byte[] fileData = telegramBot.getFileContent(file);
+
+        String petId;
+        Path filePath = Path.of(coversDir, getExtension(file.filePath()));
+        Files.createDirectories(filePath.getParent());
+        Files.deleteIfExists(filePath);
+
+        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
+        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
+
+
+        PhotoPet photoPet = new PhotoPet();
+        photoPet.setMediaType(fileRequest.getContentType());
+        photoPet.setFileSize(file.fileSize());
+        photoPet.setFilePath(filePath.toString());
+
+        if (catOwner != null){
+            photoPet.setPet(catOwner.getPet());
+        }
+        if (dogOwner != null){
+            photoPet.setPet(dogOwner.getPet());
+        }
+
+        photoPetService.savePhotoReport(photoPet);
+
         KeepingPet keepingPet = new KeepingPet();
+//        keepingPet.setPhotoData(fileData);
         keepingPet.setChatId(chatId);
         keepingPet.setDate(LocalDate.now());
         keepingPet.setInfoPet(caption);
-//        keepingPet.setPhotoPet(photoSizes);
+
 
         return keepingPet;
     }
 
+//    private KeepingPet extractPhotoData(PhotoSize[] photoSizes) throws IOException {
+//
+//        PhotoSize photoObject = photoSizes[1];
+//
+//        GetFile fileRequest = new GetFile(photoObject.fileId());
+//        GetFileResponse fileResponse = telegramBot.execute(fileRequest);
+//        File file = fileResponse.file();
+//        byte[] fileData = telegramBot.getFileContent(file);
+//
+//        KeepingPet keepingPet = new KeepingPet();
+//        keepingPet.setDate(fileData);
+////        keepingPet.setPhotoPath(file.filePath());
+////        fotoObjectDto.setPhotoSize(file.fileSize());
+//        keepingPet.setMediaType(fileRequest.getContentType());
+//
+//        return keepingPet;
+//    }
 
     /**
      * первая стадия метода отправки отчета. Этот метод отпрвляет пользователю сообщение с просьбой

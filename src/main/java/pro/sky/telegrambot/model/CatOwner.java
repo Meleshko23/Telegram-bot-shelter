@@ -21,6 +21,14 @@ public class CatOwner {
     private LocalDate endTrialPeriod;
     private StatusTrialPeriod statusTrial;
 
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
     // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
     @OneToOne
     private Pet pet;
