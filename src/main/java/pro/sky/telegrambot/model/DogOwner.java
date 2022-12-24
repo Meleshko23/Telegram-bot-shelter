@@ -21,15 +21,6 @@ public class DogOwner {
     private LocalDate endTrialPeriod;
     private StatusTrialPeriod statusTrial;
 
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
     @OneToOne
     private Pet pet;
 
@@ -87,6 +78,46 @@ public class DogOwner {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public LocalDate getStartTrialPeriod() {
+        return startTrialPeriod;
+    }
+
+    public void setStartTrialPeriod(LocalDate startTrialPeriod) {
+        this.startTrialPeriod = startTrialPeriod;
+    }
+
+    public LocalDate getEndTrialPeriod() {
+        return endTrialPeriod;
+    }
+
+    public void setEndTrialPeriod(LocalDate endTrialPeriod) {
+        this.endTrialPeriod = endTrialPeriod;
+    }
+
+    public StatusTrialPeriod getStatusTrial() {
+        return statusTrial;
+    }
+
+    public void setStatusTrial(StatusTrialPeriod statusTrial) {
+        this.statusTrial = statusTrial;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public List<KeepingPet> getKeepingPetList() {
+        return keepingPetList;
+    }
+
+    public void setKeepingPetList(List<KeepingPet> keepingPetList) {
+        this.keepingPetList = keepingPetList;
     }
 
     @Override

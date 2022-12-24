@@ -13,8 +13,8 @@ public class KeepingPet {
     private Long chatId;
     private String infoPet;
     private LocalDate date;
-//    private String mediaType;
-//    private byte[] photoData;
+    private boolean quality;
+
     @OneToOne
     private PhotoPet photoPet;
 
@@ -25,15 +25,7 @@ public class KeepingPet {
 
     @ManyToOne
     @JoinColumn(name = "cat_owner_id")
-    private DogOwner catOwner;
-
-//    public byte[] getPhotoData() {
-//        return photoData;
-//    }
-//
-//    public void setPhotoData(byte[] photoData) {
-//        this.photoData = photoData;
-//    }
+    private CatOwner catOwner;
 
     public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
         this.id = id;
@@ -41,7 +33,6 @@ public class KeepingPet {
         this.infoPet = infoPet;
         this.photoPet = photoPet;
         this.date = date;
-//        this.photoData = photoData;
 
     }
 
@@ -73,6 +64,22 @@ public class KeepingPet {
         this.infoPet = infoPet;
     }
 
+    public boolean isQuality() {
+        return quality;
+    }
+
+    public void setQuality(boolean quality) {
+        this.quality = quality;
+    }
+
+    public DogOwner getDogOwner() {
+        return dogOwner;
+    }
+
+    public CatOwner getCatOwner() {
+        return catOwner;
+    }
+
     public PhotoPet getPhotoPet() {
         return photoPet;
     }
@@ -87,6 +94,14 @@ public class KeepingPet {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setDogOwner(DogOwner dogOwner) {
+        this.dogOwner = dogOwner;
+    }
+
+    public void setCatOwner(CatOwner catOwner) {
+        this.catOwner = catOwner;
     }
 
     @Override
@@ -111,8 +126,4 @@ public class KeepingPet {
                 ", photoPet=" + photoPet +
                 '}';
     }
-
-//    public void setMediaType(String contentType) {
-//        this.mediaType = mediaType;
-//    }
 }
