@@ -13,6 +13,8 @@ public class KeepingPet {
     private Long chatId;
     private String infoPet;
     private LocalDate date;
+    private boolean quality;
+
     @OneToOne
     private PhotoPet photoPet;
 
@@ -23,7 +25,7 @@ public class KeepingPet {
 
     @ManyToOne
     @JoinColumn(name = "cat_owner_id")
-    private DogOwner catOwner;
+    private CatOwner catOwner;
 
     public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
         this.id = id;
@@ -62,6 +64,22 @@ public class KeepingPet {
         this.infoPet = infoPet;
     }
 
+    public boolean isQuality() {
+        return quality;
+    }
+
+    public void setQuality(boolean quality) {
+        this.quality = quality;
+    }
+
+    public DogOwner getDogOwner() {
+        return dogOwner;
+    }
+
+    public CatOwner getCatOwner() {
+        return catOwner;
+    }
+
     public PhotoPet getPhotoPet() {
         return photoPet;
     }
@@ -76,6 +94,14 @@ public class KeepingPet {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setDogOwner(DogOwner dogOwner) {
+        this.dogOwner = dogOwner;
+    }
+
+    public void setCatOwner(CatOwner catOwner) {
+        this.catOwner = catOwner;
     }
 
     @Override

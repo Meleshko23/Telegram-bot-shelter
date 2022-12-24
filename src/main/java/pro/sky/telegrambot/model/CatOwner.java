@@ -21,7 +21,7 @@ public class CatOwner {
     private LocalDate endTrialPeriod;
     private StatusTrialPeriod statusTrial;
 
-    // У одного владельца один питомец. Это под вопросом. Обсуждаем)))
+
     @OneToOne
     private Pet pet;
 
@@ -103,6 +103,22 @@ public class CatOwner {
 
     public void setStatusTrial(StatusTrialPeriod statusTrial) {
         this.statusTrial = statusTrial;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public List<KeepingPet> getKeepingPetList() {
+        return keepingPetList;
+    }
+
+    public void setKeepingPetList(List<KeepingPet> keepingPetList) {
+        this.keepingPetList = keepingPetList;
     }
 
     @Override
