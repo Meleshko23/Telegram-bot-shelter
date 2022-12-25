@@ -25,8 +25,8 @@ public class PhotoPetService {
     @Value("photo_pet")
     private String coversDir;
 
-    private PetsService petsService;
-    private PhotoPetRepository photoPetRepository;
+    private final PetsService petsService;
+    private final PhotoPetRepository photoPetRepository;
 
     public PhotoPetService(PetsService petsService, PhotoPetRepository photoPetRepository) {
         this.petsService = petsService;

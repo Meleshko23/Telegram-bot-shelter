@@ -108,11 +108,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String capture = update.message().caption();
                         if (capture == null || photoSizes == null) {
                             keepingPetService.sendReport(chatId, RE_SEND_REPORT);
-                        }
-                        try {
-                            keepingPetService.sendReport(chatId, capture, photoSizes);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                        } else {
+                            try {
+                                keepingPetService.sendReport(chatId, capture, photoSizes);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }
@@ -329,6 +330,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             }
 
         });
+
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 

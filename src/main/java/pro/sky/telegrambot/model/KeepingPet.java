@@ -33,6 +33,7 @@ public class KeepingPet {
         this.infoPet = infoPet;
         this.photoPet = photoPet;
         this.date = date;
+//        this.photoData = photoData;
 
     }
 
@@ -126,4 +127,8 @@ public class KeepingPet {
                 ", photoPet=" + photoPet +
                 '}';
     }
+
+//    public void setMediaType(String contentType) {
+//        this.mediaType = mediaType;
+//    }
 }

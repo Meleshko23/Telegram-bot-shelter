@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,16 +47,6 @@ public class KeepingPetService {
     }
 
     /**
-     * метод отправляет усыновителям форму ежедневного <b>отчета</b>
-     *
-     * @param
-     * @return void
-     */
-    public void getFormDailyReport() {
-
-    }
-
-    /**
      * Метод отправляет ежедневный отчет усыновителя, включающиий  фото питомца, рацион, самочувствие, поведение. Отчет сохраняется в БД в таблице KeepingPet
      *
      * @param chatId     идентификатор чата, не может быть null
@@ -67,27 +58,22 @@ public class KeepingPetService {
         KeepingPet keepingPet = getNewReport(chatId, photoSizes, caption);
 //        если user не владелец животного - бросить ошибку
 
-//        условие по шелтеру???.....
-
         return keepingPetRepository.save(keepingPet);
     }
 
     private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException{
-        PhotoSize photoObject = photoSizes[0];
+        PhotoSize photo = photoSizes[1];
 
-        GetFile fileRequest = new GetFile(photoObject.fileId());
+        GetFile fileRequest = new GetFile(photo.fileId());
         GetFileResponse fileResponse = telegramBot.execute(fileRequest);
         File file = fileResponse.file();
-//        byte[] fileData = telegramBot.getFileContent(file);
 
-        String petId;
         Path filePath = Path.of(coversDir, getExtension(file.filePath()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
         CatOwner catOwner = petOwnerService.findCatOwner(chatId);
         DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
-
 
         PhotoPet photoPet = new PhotoPet();
         photoPet.setMediaType(fileRequest.getContentType());
@@ -100,36 +86,21 @@ public class KeepingPetService {
         if (dogOwner != null){
             photoPet.setPet(dogOwner.getPet());
         }
-
         photoPetService.savePhotoReport(photoPet);
 
         KeepingPet keepingPet = new KeepingPet();
-//        keepingPet.setPhotoData(fileData);
         keepingPet.setChatId(chatId);
         keepingPet.setDate(LocalDate.now());
         keepingPet.setInfoPet(caption);
-
+        keepingPet.setPhotoPet(photoPet);
+//        if (catOwner != null) {
+//            keepingPet.setCatOwner(catOwner);
+//        } else {
+//            keepingPet.setDogOwner(dogOwner);
+//        }
 
         return keepingPet;
     }
-
-//    private KeepingPet extractPhotoData(PhotoSize[] photoSizes) throws IOException {
-//
-//        PhotoSize photoObject = photoSizes[1];
-//
-//        GetFile fileRequest = new GetFile(photoObject.fileId());
-//        GetFileResponse fileResponse = telegramBot.execute(fileRequest);
-//        File file = fileResponse.file();
-//        byte[] fileData = telegramBot.getFileContent(file);
-//
-//        KeepingPet keepingPet = new KeepingPet();
-//        keepingPet.setDate(fileData);
-////        keepingPet.setPhotoPath(file.filePath());
-////        fotoObjectDto.setPhotoSize(file.fileSize());
-//        keepingPet.setMediaType(fileRequest.getContentType());
-//
-//        return keepingPet;
-//    }
 
     /**
      * первая стадия метода отправки отчета. Этот метод отпрвляет пользователю сообщение с просьбой
@@ -142,11 +113,9 @@ public class KeepingPetService {
         sendMessageReply(chatId, messageText);
     }
 
-
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
-
 
     private void sendMessageReply(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
@@ -238,6 +207,10 @@ public class KeepingPetService {
      */
     public void checkTime() {
 
+    }
+
+    public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
+        return keepingPetRepository.findKeepingPetByDate(date);
     }
 
 }
