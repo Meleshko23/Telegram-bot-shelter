@@ -25,7 +25,7 @@ public class PetOwnerService {
      * @param catOwner
      * @return CatOwner
      */
-    public CatOwner addCatOwner(CatOwner catOwner){
+    public CatOwner addCatOwner(CatOwner catOwner) {
         return catOwnerRepository.save(catOwner);
     }
 
@@ -35,7 +35,7 @@ public class PetOwnerService {
      * @param dogOwner
      * @return DogOwner
      */
-    public DogOwner addDogOwner(DogOwner dogOwner){
+    public DogOwner addDogOwner(DogOwner dogOwner) {
         return dogOwnerRepository.save(dogOwner);
     }
 
@@ -44,7 +44,7 @@ public class PetOwnerService {
      *
      * @return Collection
      */
-    public Collection<CatOwner> allCatOwner(){
+    public Collection<CatOwner> allCatOwner() {
         return catOwnerRepository.findAll();
     }
 
@@ -53,15 +53,21 @@ public class PetOwnerService {
      *
      * @return Collection
      */
-    public Collection<DogOwner> allDogOwner(){
+    public Collection<DogOwner> allDogOwner() {
         return dogOwnerRepository.findAll();
     }
 
-    public CatOwner findCatOwner(Long chatID){
+    public CatOwner findCatOwner(Long chatID) {
         return catOwnerRepository.findCatOwnerByChatId(chatID);
     }
 
-    public DogOwner findDogOwner(Long chatID){
+    public DogOwner findDogOwner(Long chatID) {
         return dogOwnerRepository.findDogOwnerByChatId(chatID);
     }
+
+//    public Object findOwnerByChatID(Long chatID) {
+//
+//
+//    }
+
 }

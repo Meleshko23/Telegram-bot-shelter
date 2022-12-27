@@ -9,16 +9,12 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.model.CatOwner;
-import pro.sky.telegrambot.model.DogOwner;
-import pro.sky.telegrambot.model.KeepingPet;
-import pro.sky.telegrambot.model.PhotoPet;
+import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -35,15 +31,17 @@ public class KeepingPetService {
 
     private final PetOwnerService petOwnerService;
     private final PhotoPetService photoPetService;
+    private final UserService userService;
     private final KeepingPetRepository keepingPetRepository;
 
     @Autowired
     private TelegramBot telegramBot;
-    private String coversDir = "example";
+    private String coversDir = ("C://Users//lenovo//Desktop");
 
-    public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, KeepingPetRepository keepingPetRepository) {
+    public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, UserService userService, KeepingPetRepository keepingPetRepository) {
         this.petOwnerService = petOwnerService;
         this.photoPetService = photoPetService;
+        this.userService = userService;
         this.keepingPetRepository = keepingPetRepository;
     }
 
@@ -58,47 +56,53 @@ public class KeepingPetService {
     public KeepingPet sendReport(Long chatId, String caption, PhotoSize[] photoSizes) throws IOException {
         KeepingPet keepingPet = getNewReport(chatId, photoSizes, caption);
 //        если user не владелец животного - бросить ошибку
+//        if (chatId != null) {
+//            throw new NoAnimalAdoptedException();
+//        }
 
         return keepingPetRepository.save(keepingPet);
     }
 
-    private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException{
+    private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException {
         PhotoSize photo = photoSizes[1];
 
         GetFile fileRequest = new GetFile(photo.fileId());
         GetFileResponse fileResponse = telegramBot.execute(fileRequest);
         File file = fileResponse.file();
 
-        Path filePath = Path.of(coversDir, getExtension(file.filePath()));
+        String petId = null;
+        Path filePath = Path.of(coversDir, petId + "." +getExtension(file.filePath()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
         CatOwner catOwner = petOwnerService.findCatOwner(chatId);
         DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
+        User user = userService.findUserByChatId(chatId);
 
         PhotoPet photoPet = new PhotoPet();
         photoPet.setMediaType(fileRequest.getContentType());
         photoPet.setFileSize(file.fileSize());
         photoPet.setFilePath(filePath.toString());
 
-        if (catOwner != null){
+        if (catOwner != null) {
             photoPet.setPet(catOwner.getPet());
         }
-        if (dogOwner != null){
+        if (dogOwner != null) {
             photoPet.setPet(dogOwner.getPet());
         }
         photoPetService.savePhotoReport(photoPet);
 
         KeepingPet keepingPet = new KeepingPet();
         keepingPet.setChatId(chatId);
-        keepingPet.setDate(LocalDate.now());
+        keepingPet.setDateTime(LocalDateTime.now());
         keepingPet.setInfoPet(caption);
         keepingPet.setPhotoPet(photoPet);
-//        if (catOwner != null) {
-//            keepingPet.setCatOwner(catOwner);
-//        } else {
-//            keepingPet.setDogOwner(dogOwner);
-//        }
+        // Тут сомневаюсь в правильности - проверить!!!!!
+        if (user.getChatId().equals(catOwner.getChatId())){
+            keepingPet.setCatOwner(catOwner);
+        } else {
+            keepingPet.setDogOwner(dogOwner);
+        }
 
         return keepingPet;
     }
@@ -118,14 +122,13 @@ public class KeepingPetService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-
     private void sendMessageReply(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         sendMess.replyMarkup(new ForceReply());
         telegramBot.execute(sendMess);
     }
 
-    private void sendMessage(long chatId, String messageText) {
+    public void sendMessage(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
     }

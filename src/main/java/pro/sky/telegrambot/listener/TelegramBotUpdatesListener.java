@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
+import static pro.sky.telegrambot.constant.Keyboard.START;
 import static pro.sky.telegrambot.constant.KeyboardMenu.*;
 import static pro.sky.telegrambot.constant.MessageForDailyReport.RE_SEND_REPORT;
 import static pro.sky.telegrambot.constant.MessageForDailyReport.SEND_REPORT;
@@ -60,7 +61,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // пользователь отправил сообщение
                 if (update.message().text() != null) {
                     String cmd = update.message().text();
-                    if (cmd.equals(Keyboard.START.getCommand())) {
+                    if (cmd.equals(START.getCommand())) {
                         Long chatId = update.message().chat().id();
                         String msgText = ("Привет друг! " + Icon.WAVE_Icon.get()) +
                                 ("\nВыбери приют" + Icon.HAND_Icon.get());
@@ -93,7 +94,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 replyMessage.equals(RE_SEND_REPORT)) {
                             keepingPetService.sendReport(chatId, RE_SEND_REPORT);
                         }
-
                     }
                     //пользователь отправил фото для отчета о животном
                 } else if (update.message().photo() != null &&
@@ -111,8 +111,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         } else {
                             try {
                                 keepingPetService.sendReport(chatId, capture, photoSizes);
+                                keepingPetService.sendMessage(chatId, "Отчет сохранен, ждем отчета завтра");
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                throw new RuntimeException("Проблема с сохранением фото");
                             }
                         }
                     }
@@ -333,5 +334,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
 
 }
