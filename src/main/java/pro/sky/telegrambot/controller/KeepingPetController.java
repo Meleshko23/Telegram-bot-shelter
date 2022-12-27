@@ -15,6 +15,7 @@ import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.service.KeepingPetService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @RestController
@@ -47,7 +48,7 @@ public class KeepingPetController {
             }
     )
     @GetMapping("{date}")
-    public ResponseEntity<Collection<KeepingPet>> getAllKeepingPet(@PathVariable LocalDate date){
-        return ResponseEntity.ok(keepingPetService.getAllKeepingPet(date));
+    public ResponseEntity<Collection<KeepingPet>> getAllKeepingPet(@PathVariable LocalDateTime dateTime){
+        return ResponseEntity.ok(keepingPetService.getAllKeepingPet(dateTime));
     }
 }

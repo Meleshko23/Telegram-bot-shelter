@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -117,6 +118,7 @@ public class KeepingPetService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
+
     private void sendMessageReply(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         sendMess.replyMarkup(new ForceReply());
@@ -191,7 +193,7 @@ public class KeepingPetService {
      *
      * @return количество часов
      */
-    private int timeSinceLastReport() {
+    private int timeSinceLastReport () {
         return 0;
     }
 
@@ -209,8 +211,13 @@ public class KeepingPetService {
 
     }
 
-    public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
-        return keepingPetRepository.findKeepingPetByDate(date);
+    /**
+     * Метод выводит список всех отчетов по определенным датам.
+     *
+     * @return Collection
+     */
+    public Collection<KeepingPet> getAllKeepingPet(LocalDateTime dateTime){
+        return keepingPetRepository.findKeepingPetByDateTime(dateTime);
     }
 
 }

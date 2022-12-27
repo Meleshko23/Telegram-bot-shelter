@@ -2,6 +2,7 @@ package pro.sky.telegrambot.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +13,7 @@ public class KeepingPet {
     private Long id;
     private Long chatId;
     private String infoPet;
-    private LocalDate date;
+    private LocalDateTime dateTime;
     private boolean quality;
 
     @OneToOne
@@ -27,13 +28,12 @@ public class KeepingPet {
     @JoinColumn(name = "cat_owner_id")
     private CatOwner catOwner;
 
-    public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDate date) {
+    public KeepingPet(Long id, Long chatId, String infoPet, PhotoPet photoPet, LocalDateTime dateTime) {
         this.id = id;
         this.chatId = chatId;
         this.infoPet = infoPet;
         this.photoPet = photoPet;
-        this.date = date;
-//        this.photoData = photoData;
+        this.dateTime = dateTime;
 
     }
 
@@ -89,12 +89,12 @@ public class KeepingPet {
         this.photoPet = photoPet;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public void setDogOwner(DogOwner dogOwner) {
@@ -127,8 +127,4 @@ public class KeepingPet {
                 ", photoPet=" + photoPet +
                 '}';
     }
-
-//    public void setMediaType(String contentType) {
-//        this.mediaType = mediaType;
-//    }
 }
