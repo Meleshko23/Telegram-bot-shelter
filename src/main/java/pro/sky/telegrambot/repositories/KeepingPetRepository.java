@@ -5,9 +5,10 @@ import pro.sky.telegrambot.model.KeepingPet;
 import pro.sky.telegrambot.service.KeepingPetService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface KeepingPetRepository extends JpaRepository<KeepingPet,Long> {
 
-    Collection<KeepingPet> findKeepingPetByDate(LocalDate date);
+    Collection<KeepingPet> findKeepingPetByDateTime(LocalDateTime dateTime);
 }

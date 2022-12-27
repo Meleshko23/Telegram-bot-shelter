@@ -42,7 +42,7 @@ create table keeping_pet(
         id              BIGSERIAL primary key,
         chat_id         bigint    not null,
         info_pet        text      not null,
-        date            DATE      not null,
+        date_time       Timestamp not null,
         quality         Boolean,
         photo_pet_id    bigint REFERENCES photo_pet (id),
         dog_owner_id    bigint REFERENCES dog_owners (id),
