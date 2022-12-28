@@ -65,13 +65,13 @@ public class KeepingPetService {
 
     private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException {
         PhotoSize photo = photoSizes[1];
+        String fileId = photo.fileId();
 
-        GetFile fileRequest = new GetFile(photo.fileId());
+        GetFile fileRequest = new GetFile(fileId);
         GetFileResponse fileResponse = telegramBot.execute(fileRequest);
         File file = fileResponse.file();
 
-        String petId = null;
-        Path filePath = Path.of(coversDir, petId + "." +getExtension(file.filePath()));
+        Path filePath = Path.of(coversDir, fileId + "." +getExtension(file.filePath()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -98,11 +98,16 @@ public class KeepingPetService {
         keepingPet.setInfoPet(caption);
         keepingPet.setPhotoPet(photoPet);
         // Тут сомневаюсь в правильности - проверить!!!!!
-        if (user.getChatId().equals(catOwner.getChatId())){
+        // if (user.getChatId().equals(catOwner.getChatId())){
+        // я бы сделал так (Руслан)))))
+        if (catOwner != null) {
             keepingPet.setCatOwner(catOwner);
-        } else {
+        } else if (dogOwner != null) {
             keepingPet.setDogOwner(dogOwner);
         }
+
+        //передача файла на сервер в папку
+
 
         return keepingPet;
     }
@@ -116,6 +121,9 @@ public class KeepingPetService {
      */
     public void sendReport(long chatId, String messageText) {
         sendMessageReply(chatId, messageText);
+    }
+    public void sendReportWithoutReply(long chatId, String messageText) {
+        sendMessage(chatId, messageText);
     }
 
     private String getExtension(String fileName) {

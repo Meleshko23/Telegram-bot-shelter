@@ -40,6 +40,23 @@ public class PetOwnerService {
     }
 
     /**
+     * Метод ищет хозяина собаки по его chatId
+     * @param chatId идентификатор чата владельца собаки
+     * @return владелец собаки
+     */
+    public DogOwner findDogOwner(long chatId) {
+        return dogOwnerRepository.findDogOwnerByChatId(chatId);
+    }
+
+    /**
+     * Метод ищет хозяина кошки по его chatId
+     * @param chatId идентификатор чата владельца кошки
+     * @return владелец кошки
+     */
+    public CatOwner findCatOwner(long chatId) {
+        return catOwnerRepository.findCatOwnerByChatId(chatId);
+    }
+    /**
      * Возвращает список всех владельцев кошек.
      *
      * @return Collection

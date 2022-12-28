@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
-import pro.sky.telegrambot.service.InfoPetsService;
-import pro.sky.telegrambot.service.KeepingPetService;
-import pro.sky.telegrambot.service.KeyboardService;
-import pro.sky.telegrambot.service.UserService;
+import pro.sky.telegrambot.service.*;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -23,8 +20,7 @@ import java.util.List;
 
 import static pro.sky.telegrambot.constant.Keyboard.START;
 import static pro.sky.telegrambot.constant.KeyboardMenu.*;
-import static pro.sky.telegrambot.constant.MessageForDailyReport.RE_SEND_REPORT;
-import static pro.sky.telegrambot.constant.MessageForDailyReport.SEND_REPORT;
+import static pro.sky.telegrambot.constant.MessageForDailyReport.*;
 import static pro.sky.telegrambot.constant.MessageForSaveContacts.*;
 
 @Service
@@ -34,15 +30,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final KeyboardService keyboardService;
     private final InfoPetsService infoPetsService;
     private final KeepingPetService keepingPetService;
+    private final PetOwnerService petOwnerService;
 
     private final UserService userService;
     @Autowired
     private TelegramBot telegramBot;
 
-    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, UserService userService) {
+    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, PetOwnerService petOwnerService, UserService userService) {
         this.keyboardService = keyboardService;
         this.infoPetsService = infoPetsService;
         this.keepingPetService = keepingPetService;
+        this.petOwnerService = petOwnerService;
         this.userService = userService;
     }
 
@@ -108,6 +106,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String capture = update.message().caption();
                         if (capture == null || photoSizes == null) {
                             keepingPetService.sendReport(chatId, RE_SEND_REPORT);
+                        } else if (petOwnerService.findCatOwner(chatId) == null && petOwnerService.findDogOwner(chatId) == null) {
+                            keepingPetService.sendReportWithoutReply(chatId, USER_IS_NOT_OWNER);
                         } else {
                             try {
                                 keepingPetService.sendReport(chatId, capture, photoSizes);
