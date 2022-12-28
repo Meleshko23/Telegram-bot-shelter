@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
+import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 /**
  * Сервис, описывающий методы по ведению питомца хозяевами
@@ -70,6 +72,7 @@ public class KeepingPetService {
         GetFile fileRequest = new GetFile(fileId);
         GetFileResponse fileResponse = telegramBot.execute(fileRequest);
         File file = fileResponse.file();
+        byte[] fileData = telegramBot.getFileContent(file);
 
         Path filePath = Path.of(coversDir, fileId + "." +getExtension(file.filePath()));
         Files.createDirectories(filePath.getParent());
@@ -107,6 +110,13 @@ public class KeepingPetService {
         }
 
         //передача файла на сервер в папку
+        try (InputStream is = new ByteArrayInputStream(fileData);
+             OutputStream os=Files.newOutputStream(filePath,CREATE_NEW);
+             BufferedInputStream bis = new BufferedInputStream(is, 1024);
+             BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
+        ) {
+            bis.transferTo(bos);
+        }
 
 
         return keepingPet;
