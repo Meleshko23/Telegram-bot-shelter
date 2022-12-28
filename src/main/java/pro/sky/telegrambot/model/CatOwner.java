@@ -19,6 +19,7 @@ public class CatOwner {
     private String phone;
     private LocalDate startTrialPeriod;
     private LocalDate endTrialPeriod;
+    @Enumerated(value = EnumType.STRING)
     private StatusTrialPeriod statusTrial;
 
 

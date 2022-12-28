@@ -15,6 +15,7 @@ public class Pet {
     private Long id;
     private String name;
     private int age;
+    @Enumerated(value = EnumType.STRING)
     private TypeAnimal type;
     private String breed;
 

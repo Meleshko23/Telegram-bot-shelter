@@ -19,6 +19,7 @@ public class DogOwner {
     private String phone;
     private LocalDate startTrialPeriod;
     private LocalDate endTrialPeriod;
+    @Enumerated(value = EnumType.STRING)
     private StatusTrialPeriod statusTrial;
 
     @OneToOne

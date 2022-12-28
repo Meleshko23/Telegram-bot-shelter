@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity(name = "users")
 public class User {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long chatId;
     String shelter;
     String name;

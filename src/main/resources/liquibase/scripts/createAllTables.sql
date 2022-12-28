@@ -5,7 +5,7 @@ create table pets(
         id      BIGSERIAL primary key,
         name    varchar not null,
         age     integer check (age > 0),
-        type    integer,
+        type    varchar not null,
         breed   varchar,
         health_restrictions BOOLEAN
 );
@@ -24,7 +24,7 @@ create table cat_owners(
         phone               varchar not null,
         start_trial_period  date,
         end_trial_period    date,
-        status_trial        integer,
+        status_trial        varchar,
         pet_id              bigint REFERENCES pets (id)
 );
 create table dog_owners(
@@ -35,7 +35,7 @@ create table dog_owners(
         phone               varchar not null,
         start_trial_period  date,
         end_trial_period    date,
-        status_trial        integer,
+        status_trial        varchar,
         pet_id              bigint REFERENCES pets (id)
 );
 create table keeping_pet(
