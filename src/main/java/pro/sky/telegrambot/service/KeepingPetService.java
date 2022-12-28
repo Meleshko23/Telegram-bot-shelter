@@ -11,6 +11,7 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -167,8 +168,8 @@ public class KeepingPetService {
      *
      * @return Collection
      */
-    public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
-        return keepingPetRepository.findKeepingPetByDate(date);
+    public Collection<KeepingPet> getAllKeepingPet(LocalDateTime dateTime){
+        return keepingPetRepository.findKeepingPetByDateTime(dateTime);
     }
 
 }
