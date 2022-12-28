@@ -36,7 +36,7 @@ public class InfoPetsServiceTest {
     @Test
     public void datingRulesTest(){
         Mockito.when(infoRepository.findInfoByName(info1.getName())).thenReturn(info1);
-        Assertions.assertEquals(info1.getDetails(), infoPetsService.getInfobyRequest(info1.getName()));
+        Assertions.assertEquals(info1.getDetails(), infoPetsService.getInfoByRequest(info1.getName()));
     }
 
 }

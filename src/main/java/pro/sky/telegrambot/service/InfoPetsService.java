@@ -1,7 +1,6 @@
 package pro.sky.telegrambot.service;
 
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.model.Info;
 import pro.sky.telegrambot.repositories.InfoRepository;
 
 /**
@@ -23,7 +22,7 @@ public class InfoPetsService {
      * @param message ключ для доступа к данным в таблице
      * @return Информация по указанному ключу
      */
-    public String getInfobyRequest(String message) {
+    public String getInfoByRequest(String message) {
         return infoRepository.findInfoByName(message).getDetails();
     }
 }

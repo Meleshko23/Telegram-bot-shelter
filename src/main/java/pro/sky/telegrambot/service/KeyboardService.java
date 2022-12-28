@@ -6,8 +6,8 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
+
 
 @Service
 public class KeyboardService {
@@ -75,4 +75,5 @@ public class KeyboardService {
         }
         return markupInline;
     }
+
 }

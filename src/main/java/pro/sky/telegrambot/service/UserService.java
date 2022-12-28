@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.model.request.ForceReply;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.constant.MessageForSaveContacts;
 import pro.sky.telegrambot.exception.UserNotFoundException;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
@@ -21,9 +20,9 @@ public class UserService {
     @Autowired
     private TelegramBot telegramBot;
 
-    private  String name = null;
-    private  String phone = null;
-    private  String mail = null;
+    private String name = null;
+    private String phone = null;
+    private String mail = null;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -32,6 +31,7 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
     /**
      * Метод принимает и записывает контактные данные пользователя в базу данных
      */
@@ -41,7 +41,7 @@ public class UserService {
             phone = null;
             mail = null;
             sendMessageReply(chatId, messageText);
-        }else if (messageText.equals(PHONE)) {
+        } else if (messageText.equals(PHONE)) {
             name = userRequest;
             sendMessageReply(chatId, messageText);
         } else if (messageText.equals(MAIL)) {
@@ -67,6 +67,7 @@ public class UserService {
         sendMess.replyMarkup(new ForceReply());
         telegramBot.execute(sendMess);
     }
+
     private void sendMessage(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
@@ -74,18 +75,18 @@ public class UserService {
 
 
     public User findUser(long id) {
-        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
-    public  String getName() {
+    public String getName() {
         return name;
     }
 
-    public  String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public  String getMail() {
+    public String getMail() {
         return mail;
     }
 
@@ -94,27 +95,17 @@ public class UserService {
      *
      * @return Collection
      */
-    public Collection<User> getAllOrders(){
+    public Collection<User> getAllOrders() {
         return userRepository.findAll();
     }
 
-    /**
-     * Метод получает значение приюта, который выбрал User.
-     *
-     * @param chatId
-     * @return String
-     */
-    public String findShelterByChatId(Long chatId){
-        return userRepository.findUserByChatId(chatId).getShelter();
+    public User findUserByChatId(Long chatID) {
+        User user = new User();
+        user.setChatId(chatID);
+
+
+//        return userRepository.findUserByChatId(chatID);
+        return user;
     }
 
-    /**
-     * Метод получает заявки по значению поля shelter.
-     *
-     * @param shelter
-     * @return Collection
-     */
-    public Collection<User> findUserByShelter(String shelter){
-        return userRepository.findUserByShelter(shelter);
-    }
 }
