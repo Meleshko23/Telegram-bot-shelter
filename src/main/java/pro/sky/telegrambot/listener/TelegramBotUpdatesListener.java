@@ -36,14 +36,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final KeyboardService keyboardService;
     private final InfoPetsService infoPetsService;
     private final KeepingPetService keepingPetService;
+    private final PetOwnerService petOwnerService;
+
     private final UserService userService;
     @Autowired
     private TelegramBot telegramBot;
 
-    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, UserService userService) {
+    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, PetOwnerService petOwnerService, UserService userService) {
         this.keyboardService = keyboardService;
         this.infoPetsService = infoPetsService;
         this.keepingPetService = keepingPetService;
+        this.petOwnerService = petOwnerService;
         this.userService = userService;
     }
 
@@ -62,7 +65,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 // пользователь отправил сообщение
                 if (update.message().text() != null) {
                     String cmd = update.message().text();
-                    if (cmd.equals(Keyboard.START.getCommand())) {
+                    if (cmd.equals(START.getCommand())) {
                         Long chatId = update.message().chat().id();
                         String msgText = ("Привет друг! " + Icon.WAVE_Icon.get()) +
                                 ("\nВыбери приют" + Icon.HAND_Icon.get());
@@ -110,11 +113,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String capture = update.message().caption();
                         if (capture == null || photoSizes == null) {
                             keepingPetService.sendReport(chatId, RE_SEND_REPORT);
-                        }
-                        try {
-                            keepingPetService.sendReport(chatId, capture,photoSizes);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                        } else if (petOwnerService.findCatOwner(chatId) == null && petOwnerService.findDogOwner(chatId) == null) {
+                            keepingPetService.sendReportWithoutReply(chatId, USER_IS_NOT_OWNER);
+                        } else {
+                            try {
+                                keepingPetService.sendReport(chatId, capture, photoSizes);
+                                keepingPetService.sendMessage(chatId, "Отчет сохранен, ждем отчета завтра");
+                            } catch (IOException e) {
+                                throw new RuntimeException("Проблема с сохранением фото");
+                            }
                         }
                     }
                 }

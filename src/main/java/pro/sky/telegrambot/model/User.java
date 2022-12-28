@@ -1,8 +1,6 @@
 package pro.sky.telegrambot.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
@@ -18,15 +16,12 @@ public class User {
 
 
     public User() {
-
     }
 
     public User(Long chatId, String shelter) {
         this.chatId = chatId;
         this.shelter = shelter;
     }
-
-
 
     public Long getChatId() {
         return chatId;

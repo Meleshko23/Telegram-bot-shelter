@@ -25,7 +25,7 @@ public class PetOwnerService {
      * @param catOwner
      * @return CatOwner
      */
-    public CatOwner addCatOwner(CatOwner catOwner){
+    public CatOwner addCatOwner(CatOwner catOwner) {
         return catOwnerRepository.save(catOwner);
     }
 
@@ -35,16 +35,33 @@ public class PetOwnerService {
      * @param dogOwner
      * @return DogOwner
      */
-    public DogOwner addDogOwner(DogOwner dogOwner){
+    public DogOwner addDogOwner(DogOwner dogOwner) {
         return dogOwnerRepository.save(dogOwner);
     }
 
+    /**
+     * Метод ищет хозяина собаки по его chatId
+     * @param chatId идентификатор чата владельца собаки
+     * @return владелец собаки
+     */
+    public DogOwner findDogOwner(long chatId) {
+        return dogOwnerRepository.findDogOwnerByChatId(chatId);
+    }
+
+    /**
+     * Метод ищет хозяина кошки по его chatId
+     * @param chatId идентификатор чата владельца кошки
+     * @return владелец кошки
+     */
+    public CatOwner findCatOwner(long chatId) {
+        return catOwnerRepository.findCatOwnerByChatId(chatId);
+    }
     /**
      * Возвращает список всех владельцев кошек.
      *
      * @return Collection
      */
-    public Collection<CatOwner> allCatOwner(){
+    public Collection<CatOwner> allCatOwner() {
         return catOwnerRepository.findAll();
     }
 
@@ -53,7 +70,21 @@ public class PetOwnerService {
      *
      * @return Collection
      */
-    public Collection<DogOwner> allDogOwner(){
+    public Collection<DogOwner> allDogOwner() {
         return dogOwnerRepository.findAll();
     }
+
+    public CatOwner findCatOwner(Long chatID) {
+        return catOwnerRepository.findCatOwnerByChatId(chatID);
+    }
+
+    public DogOwner findDogOwner(Long chatID) {
+        return dogOwnerRepository.findDogOwnerByChatId(chatID);
+    }
+
+//    public Object findOwnerByChatID(Long chatID) {
+//
+//
+//    }
+
 }
