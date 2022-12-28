@@ -25,4 +25,6 @@ public class InfoPetsService {
     public String getInfoByRequest(String message) {
         return infoRepository.findInfoByName(message).getDetails();
     }
+
+
 }

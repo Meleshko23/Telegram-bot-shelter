@@ -9,7 +9,10 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.model.*;
+import pro.sky.telegrambot.model.CatOwner;
+import pro.sky.telegrambot.model.DogOwner;
+import pro.sky.telegrambot.model.KeepingPet;
+import pro.sky.telegrambot.model.PhotoPet;
 import pro.sky.telegrambot.repositories.KeepingPetRepository;
 
 import java.io.*;
@@ -80,7 +83,7 @@ public class KeepingPetService {
 
         CatOwner catOwner = petOwnerService.findCatOwner(chatId);
         DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
-        User user = userService.findUserByChatId(chatId);
+//        User user = userService.findUserByChatId(chatId);
 
         PhotoPet photoPet = new PhotoPet();
         photoPet.setMediaType(fileRequest.getContentType());
