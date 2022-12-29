@@ -78,7 +78,7 @@ public class KeepingPetController {
         try {
             ownerReports = keepingPetService.getAllKeepingPetByOwnerId(id);
         } catch (IllegalArgumentException e) {
-            ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().build();
 
         }
         return ResponseEntity.ok(ownerReports);
