@@ -16,6 +16,7 @@ public class PhotoPet {
     private long fileSize;
     private String mediaType;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;

@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -51,4 +52,36 @@ public class KeepingPetController {
     public ResponseEntity<Collection<KeepingPet>> getAllKeepingPet(@PathVariable LocalDateTime dateTime){
         return ResponseEntity.ok(keepingPetService.getAllKeepingPet(dateTime));
     }
+
+    @Operation(
+            summary = "Вывести список отчетов по айди владельца питомца",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "список отчетов выведен",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = KeepingPet.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Неверный аргумент"
+                    )
+            }
+    )
+    @GetMapping("/owner/{id}")
+    public ResponseEntity<Collection<KeepingPet>> getAllKeepingPetByOwnerId(@PathVariable long id) {
+        Collection<KeepingPet> ownerReports = null;
+        try {
+            ownerReports = keepingPetService.getAllKeepingPetByOwnerId(id);
+        } catch (IllegalArgumentException e) {
+            ResponseEntity.badRequest();
+
+        }
+        return ResponseEntity.ok(ownerReports);
+    }
+
 }

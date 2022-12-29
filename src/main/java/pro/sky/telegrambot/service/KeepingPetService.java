@@ -18,9 +18,7 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -320,4 +318,21 @@ public class KeepingPetService {
         return keepingPetRepository.findKeepingPetByDateTime(dateTime);
     }
 
+    /**
+     * Метод возвращает список отчетов по айди владельца
+     * @param ownerId идентификатор (id) владельца питомца
+     * @throws IllegalArgumentException если по айди не найден владелец питомца
+     * @return список отчетов
+     */
+    public Collection<KeepingPet> getAllKeepingPetByOwnerId(Long ownerId) {
+        CatOwner catOwner = petOwnerService.findCatOwnerById(ownerId);
+        DogOwner dogOwner = petOwnerService.findDogOwnerById(ownerId);
+        if (catOwner != null) {
+            return keepingPetRepository.findKeepingPetByCatOwner(catOwner);
+        } else if (dogOwner != null) {
+            return keepingPetRepository.findKeepingPetByDogOwner(dogOwner);
+        } else {
+            throw new IllegalArgumentException("Владельца с таким айди не существует");
+        }
+    }
 }
