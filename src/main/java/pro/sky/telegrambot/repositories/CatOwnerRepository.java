@@ -7,4 +7,5 @@ import pro.sky.telegrambot.model.CatOwner;
 
 public interface CatOwnerRepository extends JpaRepository<CatOwner,Long>{
     CatOwner findCatOwnerByChatId(Long chatId);
+    CatOwner findCatOwnerById(Long Id);
 }

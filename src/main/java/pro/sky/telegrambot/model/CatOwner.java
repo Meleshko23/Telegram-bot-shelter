@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pro.sky.telegrambot.constant.StatusTrialPeriod;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class CatOwner {
     @OneToOne
     private Pet pet;
 
-    // @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "catOwner")
     private List<KeepingPet> keepingPetList;
 

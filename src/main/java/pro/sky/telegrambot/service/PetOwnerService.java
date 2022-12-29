@@ -1,12 +1,16 @@
 package pro.sky.telegrambot.service;
 
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.constant.StatusTrialPeriod;
 import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
 import pro.sky.telegrambot.repositories.CatOwnerRepository;
 import pro.sky.telegrambot.repositories.DogOwnerRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PetOwnerService {
@@ -80,6 +84,43 @@ public class PetOwnerService {
 
     public DogOwner findDogOwner(Long chatID) {
         return dogOwnerRepository.findDogOwnerByChatId(chatID);
+    }
+
+    public CatOwner findCatOwnerById(Long id) {
+        return catOwnerRepository.findCatOwnerById(id);
+    }
+
+    public DogOwner findDogOwnerById(Long id) {
+        return dogOwnerRepository.findDogOwnerById(id);
+    }
+
+    /**
+     * Метод возвращает список владельцев собак, у которых завершился испытательный период.
+     *
+     * @return список владельцев собак
+     */
+    public List<DogOwner> getDogOwnersEndTrialPeriod() {
+        return allDogOwner().stream()
+                .filter(owner -> owner.getEndTrialPeriod().isBefore(LocalDate.now()))
+                .filter(owner -> owner.getStatusTrial().equals(StatusTrialPeriod.CURRENT) ||
+                        owner.getStatusTrial().equals(StatusTrialPeriod.EXTENDED_14_DAYS) ||
+                        owner.getStatusTrial().equals(StatusTrialPeriod.EXTENDED_30_DAYS))
+                .collect(Collectors.toList());
+
+    }
+
+    /**
+     * Метод возвращает список владельцев кошек, у которых завершился испытательный период.
+     *
+     * @return список владельцев кошек
+     */
+    public List<CatOwner> getCatOwnersEndTrialPeriod() {
+        return allCatOwner().stream()
+                .filter(owner -> owner.getEndTrialPeriod().isBefore(LocalDate.now()))
+                .filter(owner -> owner.getStatusTrial().equals(StatusTrialPeriod.CURRENT) ||
+                        owner.getStatusTrial().equals(StatusTrialPeriod.EXTENDED_14_DAYS) ||
+                        owner.getStatusTrial().equals(StatusTrialPeriod.EXTENDED_30_DAYS))
+                .collect(Collectors.toList());
     }
 
 //    public Object findOwnerByChatID(Long chatID) {
