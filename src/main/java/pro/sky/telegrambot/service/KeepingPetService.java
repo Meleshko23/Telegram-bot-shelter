@@ -18,7 +18,9 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,23 +32,22 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class KeepingPetService {
 
-    private String textReport;
-    private Integer fileId;
-    private String photoesDir = "/photoPets";
+//    private String textReport;
+//    private Integer fileId;
+//    private String photoesDir = "/photoPets";
 
     private final PetOwnerService petOwnerService;
     private final PhotoPetService photoPetService;
-    private final UserService userService;
+//    private final UserService userService;
     private final KeepingPetRepository keepingPetRepository;
 
     @Autowired
     private TelegramBot telegramBot;
-    private String coversDir = ("C://Users//lenovo//Desktop");
+    private final String coversDir = ("C://Users//lenovo//Desktop");
 
-    public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, UserService userService, KeepingPetRepository keepingPetRepository) {
+    public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, KeepingPetRepository keepingPetRepository) {
         this.petOwnerService = petOwnerService;
         this.photoPetService = photoPetService;
-        this.userService = userService;
         this.keepingPetRepository = keepingPetRepository;
     }
 
@@ -68,6 +69,16 @@ public class KeepingPetService {
         return keepingPetRepository.save(keepingPet);
     }
 
+    /**
+     * Метод создает объекты типа PhotoPet и KeepingPet
+     * Отправляет эти объекты в базу данных
+     * Сохраняет фотографию питомца на сервер в папку
+     * @param chatId Идентификатор чата
+     * @param photoSizes массив объектов класса PhotoSize (фотографии, отправленные пользователем)
+     * @param caption Текстовое описание к фотографии
+     * @return KeepingPet сохраненный в БД отчет
+     * @throws IOException
+     */
     private KeepingPet getNewReport(Long chatId, PhotoSize[] photoSizes, String caption) throws IOException {
         PhotoSize photo = photoSizes[1];
         String fileId = photo.fileId();
@@ -81,15 +92,33 @@ public class KeepingPetService {
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
-        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
-        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
-//        User user = userService.findUserByChatId(chatId);
+        PhotoPet photoPet = savePhotoPetToDB(chatId, fileRequest, file, filePath);
+
+        KeepingPet keepingPet = saveReportToDB(chatId, caption, photoPet);
+
+        uploadPhotoToServer(fileData, filePath);
+
+        return keepingPet;
+    }
+
+    /**
+     * Метод сохраняет объект типа PhotoPet в базу данных
+     *
+     * @param chatId Идентификатор чата
+     * @param fileRequest объект класса GetFile
+     * @param file объект класса File
+     * @param filePath путь к файлу
+     * @return сохраненный в БД объект класса PhotoPet
+     */
+    private PhotoPet savePhotoPetToDB(Long chatId, GetFile fileRequest, File file, Path filePath) {
 
         PhotoPet photoPet = new PhotoPet();
         photoPet.setMediaType(fileRequest.getContentType());
         photoPet.setFileSize(file.fileSize());
         photoPet.setFilePath(filePath.toString());
 
+        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
+        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
         if (catOwner != null) {
             photoPet.setPet(catOwner.getPet());
         }
@@ -98,31 +127,52 @@ public class KeepingPetService {
         }
         photoPetService.savePhotoReport(photoPet);
 
+        return photoPet;
+    }
+
+    /**
+     * Метод сохраняет отчет владельца о питомце в БД
+     *
+     * @param chatId Идентификатор чата
+     * @param caption текстовое описание отчета
+     * @param photoPet объект класса PhotoPet
+     * @return Сохраненный в БД отчет
+     */
+    private KeepingPet saveReportToDB(Long chatId, String caption, PhotoPet photoPet) {
+
         KeepingPet keepingPet = new KeepingPet();
         keepingPet.setChatId(chatId);
         keepingPet.setDateTime(LocalDateTime.now());
         keepingPet.setInfoPet(caption);
         keepingPet.setPhotoPet(photoPet);
-        // Тут сомневаюсь в правильности - проверить!!!!!
-        // if (user.getChatId().equals(catOwner.getChatId())){
-        // я бы сделал так (Руслан)))))
+
+        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
+        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
         if (catOwner != null) {
             keepingPet.setCatOwner(catOwner);
         } else if (dogOwner != null) {
             keepingPet.setDogOwner(dogOwner);
         }
+        return keepingPet;
+    }
 
-        //передача файла на сервер в папку
+    /**
+     * Метод загружает фотографию питомца на сервер в папку
+     * @param fileData массив байтов, хранящий фотографию
+     * @param filePath путь для сохранения фотографии
+     * @Throw RuntimeException ошибка при сохранении фото
+     *
+     */
+    private void uploadPhotoToServer(byte[] fileData, Path filePath) {
         try (InputStream is = new ByteArrayInputStream(fileData);
              OutputStream os=Files.newOutputStream(filePath,CREATE_NEW);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
         ) {
             bis.transferTo(bos);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
-
-        return keepingPet;
     }
 
     /**
@@ -135,10 +185,22 @@ public class KeepingPetService {
     public void sendReport(long chatId, String messageText) {
         sendMessageReply(chatId, messageText);
     }
+
+    /**
+     * Метод вызывается при отправке отчета пользователем, который
+     * не является владельцем питомца
+     * @param chatId идентификатор чата
+     * @param messageText сообщение пользователю
+     */
     public void sendReportWithoutReply(long chatId, String messageText) {
         sendMessage(chatId, messageText);
     }
 
+    /**
+     * Метод получает расширение файла из его полного пути
+     * @param fileName имя файла
+     * @return расширение файла
+     */
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
@@ -153,6 +215,20 @@ public class KeepingPetService {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
     }
+
+//    public void increaseProbationPeriod(Long ownerId, int count) {
+//        CatOwner catOwner = petOwnerService.findCatOwnerById(ownerId);
+//        DogOwner dogOwner = petOwnerService.findDogOwnerById(ownerId);
+//        if (catOwner != null) {
+//            LocalDate currentDate = catOwner.getEndTrialPeriod();
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(currentDate);
+//
+//
+//        }
+//
+//
+//    }
 
     /**
      * метод для волонтера, для отправки усыновителю предупреждения о том,
