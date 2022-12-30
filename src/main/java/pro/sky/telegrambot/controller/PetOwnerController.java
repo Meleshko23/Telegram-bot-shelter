@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pro.sky.telegrambot.constant.StatusTrialPeriod;
+import pro.sky.telegrambot.exception.OwnerNotFoundException;
 import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
 import pro.sky.telegrambot.model.Pet;
@@ -189,5 +192,79 @@ public class PetOwnerController {
     public ResponseEntity<List<CatOwner>> getCatOwnersEndTrialPeriod() {
         List<CatOwner> catOwners = petOwnerService.getCatOwnersEndTrialPeriod();
         return ResponseEntity.ok(catOwners);
+    }
+
+    @Operation(
+            summary = "Изменить статус и дату окончания испытательного периода для владельца кошки",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Обновленный владелец кошки",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = DogOwner.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Если по указанному id владелец кошки не найден"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Если в запросе указан некорректный параметр"
+                    )
+            }
+    )
+    @PatchMapping("/cat/{ownerId}")
+    public ResponseEntity<CatOwner> changeStatusTrialPeriodCat(@PathVariable long ownerId,
+                                                               @RequestParam(name = "new_STP")StatusTrialPeriod stp) {
+        CatOwner catOwner;
+        try {
+            catOwner = petOwnerService.changeStatusTrialPeriodCat(ownerId, stp);
+        } catch (OwnerNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(catOwner);
+    }
+
+    @Operation(
+            summary = "Изменить статус и дату окончания испытательного периода для владельца собаки",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Обновленный владелец собаки",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = DogOwner.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Если по указанному id владелец собаки не найден"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Если в запросе указан некорректный параметр"
+                    )
+            }
+    )
+    @PatchMapping("/dog/{ownerId}")
+    public ResponseEntity<DogOwner> changeStatusTrialPeriodDog(@PathVariable Long ownerId,
+                                                               @RequestParam(name = "new_STP") StatusTrialPeriod stp) {
+        DogOwner dogOwner;
+        try {
+            dogOwner = petOwnerService.changeStatusTrialPeriodDog(ownerId, stp);
+        } catch (OwnerNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(dogOwner);
     }
 }
