@@ -17,6 +17,7 @@ import pro.sky.telegrambot.service.KeepingPetService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 
 @RestController
@@ -43,14 +44,28 @@ public class KeepingPetController {
                             }
                     ),
                     @ApiResponse(
-                            responseCode = "400",
+                            responseCode = "404",
                             description = "Если отчетов нет"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Некорректный параметр"
                     )
             }
     )
     @GetMapping("{date}")
-    public ResponseEntity<Collection<KeepingPet>> getAllKeepingPet(@PathVariable LocalDateTime dateTime){
-        return ResponseEntity.ok(keepingPetService.getAllKeepingPet(dateTime));
+    public ResponseEntity<Collection<KeepingPet>> getAllKeepingPet(@PathVariable @Parameter(description = "Дата в формате YYYY-MM-DD") String date){
+        LocalDate localDate = null;
+        try {
+            localDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        Collection<KeepingPet> reports = keepingPetService.getAllKeepingPet(localDate);
+        if (reports.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(keepingPetService.getAllKeepingPet(localDate));
     }
 
     @Operation(

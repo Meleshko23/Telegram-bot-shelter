@@ -14,6 +14,8 @@ public interface KeepingPetRepository extends JpaRepository<KeepingPet,Long> {
 
     Collection<KeepingPet> findKeepingPetByDateTime(LocalDateTime dateTime);
 
+    Collection<KeepingPet> findKeepingPetByDateTimeBetween(LocalDateTime begin, LocalDateTime end);
+
 //    Collection<KeepingPet> findKeepingPetByCatOwnerAndDogOwner(DogOwner dogOwner, CatOwner catOwner);
     Collection<KeepingPet> findKeepingPetByDogOwner(DogOwner dogOwner);
     Collection<KeepingPet> findKeepingPetByCatOwner(CatOwner catOwner);

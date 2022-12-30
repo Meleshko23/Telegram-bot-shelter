@@ -18,7 +18,10 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
 import java.util.Collection;
 import java.util.List;
 
@@ -256,35 +259,9 @@ public class KeepingPetService {
 
     }
 
-    /**
-     * метод поздравляет усыновителя с успешным окончанием испытательного срока
-     */
-    public void congratulateOwner() {
 
-    }
 
-    /**
-     * метод сообщает усыновителю что ему назначены
-     * дополнительные дни исптытального срока в определенном количестве дней
-     */
-    public void reportAddProbationaryPeriod() {
 
-    }
-
-    /**
-     * метод сообщает усыновителю что испытательный срок не пройдет
-     * дает инструкции по дальнейшим шагам
-     */
-    public void reportProbationaryPeriodNotPassed() {
-
-    }
-
-    /**
-     * Метод зовет волонтера в чат
-     */
-    public void callVolunteer() {
-
-    }
 
     /**
      * метод возвращает количество прошедших часов с момента отправки последнего отчета
@@ -314,8 +291,11 @@ public class KeepingPetService {
      *
      * @return Collection
      */
-    public Collection<KeepingPet> getAllKeepingPet(LocalDateTime dateTime){
-        return keepingPetRepository.findKeepingPetByDateTime(dateTime);
+    public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
+        LocalTime time = LocalTime.of(0, 0, 0);
+        LocalDateTime beginDateTime = LocalDateTime.of(date, time);
+        LocalDateTime endDateTime = beginDateTime.plusDays(1).minusSeconds(1);
+        return keepingPetRepository.findKeepingPetByDateTimeBetween(beginDateTime, endDateTime);
     }
 
     /**
