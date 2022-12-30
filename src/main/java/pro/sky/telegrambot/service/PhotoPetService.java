@@ -88,4 +88,7 @@ public class PhotoPetService {
     }
 
 
+    public void removePhotoPet(PhotoPet photoPet) {
+        photoPetRepository.delete(photoPet);
+    }
 }

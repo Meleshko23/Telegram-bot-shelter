@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface KeepingPetRepository extends JpaRepository<KeepingPet,Long> {
+    KeepingPet findKeepingPetById(long id);
 
-    Collection<KeepingPet> findKeepingPetByDateTime(LocalDateTime dateTime);
+//    Collection<KeepingPet> findKeepingPetByDateTime(LocalDateTime dateTime);
 
     Collection<KeepingPet> findKeepingPetByDateTimeBetween(LocalDateTime begin, LocalDateTime end);
 

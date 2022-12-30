@@ -18,6 +18,7 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -139,21 +140,53 @@ public class KeepingPetService {
      * @param photoPet объект класса PhotoPet
      * @return Сохраненный в БД отчет
      */
-    private KeepingPet saveReportToDB(Long chatId, String caption, PhotoPet photoPet) {
-
-        KeepingPet keepingPet = new KeepingPet();
-        keepingPet.setChatId(chatId);
-        keepingPet.setDateTime(LocalDateTime.now());
-        keepingPet.setInfoPet(caption);
-        keepingPet.setPhotoPet(photoPet);
-
+    private KeepingPet saveReportToDB(Long chatId, String caption, PhotoPet photoPet) throws IOException {
         CatOwner catOwner = petOwnerService.findCatOwner(chatId);
         DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
+        List<KeepingPet> reportsToday = (List<KeepingPet>) getAllKeepingPet(LocalDate.now());
+        long reportId = -1; // идентификатор  отчета, отправленный пользователем сегодня
         if (catOwner != null) {
-            keepingPet.setCatOwner(catOwner);
+            for (KeepingPet keepingPet : reportsToday) {
+                if (keepingPet.getCatOwner().equals(catOwner)) {
+                    reportId = keepingPet.getId();
+                    break;
+                }
+            }
         } else if (dogOwner != null) {
-            keepingPet.setDogOwner(dogOwner);
+            for (KeepingPet keepingPet : reportsToday) {
+                if (keepingPet.getDogOwner().equals(dogOwner)) {
+                    reportId = keepingPet.getId();
+                    break;
+                }
+            }
         }
+
+        KeepingPet keepingPet = null;
+        // Если отчет обновляется
+        if (reportId != -1) {
+            keepingPet = keepingPetRepository.findKeepingPetById(reportId);
+//            Files.delete(Paths.get(keepingPet.getPhotoPet().getFilePath()));
+//            PhotoPet deletedPhotoPet = keepingPet.getPhotoPet();
+            keepingPet.setDateTime(LocalDateTime.now());
+            keepingPet.setInfoPet(caption);
+            keepingPet.setPhotoPet(photoPet);
+//            photoPetService.removePhotoPet(deletedPhotoPet);
+
+        }
+        // создается новый отчет
+        else {
+            keepingPet = new KeepingPet();
+            keepingPet.setChatId(chatId);
+            if (catOwner != null) {
+                keepingPet.setCatOwner(catOwner);
+            } else if (dogOwner != null) {
+                keepingPet.setDogOwner(dogOwner);
+            }
+            keepingPet.setDateTime(LocalDateTime.now());
+            keepingPet.setInfoPet(caption);
+            keepingPet.setPhotoPet(photoPet);
+        }
+
         return keepingPet;
     }
 
