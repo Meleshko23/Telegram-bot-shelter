@@ -22,7 +22,7 @@ public class VolunteerService {
      * @return Volunteer
      */
     public Volunteer addVolunteer(Volunteer volunteer){
-        return volunteer;
+        return volunteerRepository.save(volunteer);
     }
 
     /**

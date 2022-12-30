@@ -46,6 +46,7 @@ public class VolunteerServiceTest {
 
     @Test
     public void addVolunteerTest(){
+        Mockito.when(volunteerRepository.save(volunteer1)).thenReturn(volunteer1);
         Assertions.assertEquals(volunteer1, volunteerService.addVolunteer(volunteer1));
     }
 
