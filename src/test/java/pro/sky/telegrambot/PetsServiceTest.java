@@ -45,6 +45,7 @@ public class PetsServiceTest {
 
     @Test
     public void addPetTest(){
+        Mockito.when(petRepository.save(pet1)).thenReturn(pet1);
         Assertions.assertEquals(pet1, petsService.addPet(pet1));
     }
 

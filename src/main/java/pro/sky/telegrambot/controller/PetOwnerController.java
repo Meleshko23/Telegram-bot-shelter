@@ -109,7 +109,7 @@ public class PetOwnerController {
                             }
                     ),
                     @ApiResponse(
-                            responseCode = "400",
+                            responseCode = "404",
                             description = "Если владельцев кошек нет"
                     )
             }
@@ -133,7 +133,7 @@ public class PetOwnerController {
                             }
                     ),
                     @ApiResponse(
-                            responseCode = "400",
+                            responseCode = "404",
                             description = "Если владельцев собак нет"
                     )
             }
@@ -158,7 +158,7 @@ public class PetOwnerController {
                             }
                     ),
                     @ApiResponse(
-                            responseCode = "400",
+                            responseCode = "404",
                             description = "Если владельцев собак нет"
                     )
             }
@@ -183,7 +183,7 @@ public class PetOwnerController {
                             }
                     ),
                     @ApiResponse(
-                            responseCode = "400",
+                            responseCode = "404",
                             description = "Если владельцев кошек нет"
                     )
             }
@@ -218,8 +218,8 @@ public class PetOwnerController {
             }
     )
     @PatchMapping("/cat/{ownerId}")
-    public ResponseEntity<CatOwner> changeStatusTrialPeriodCat(@PathVariable long ownerId,
-                                                               @RequestParam(name = "new_STP")StatusTrialPeriod stp) {
+    public ResponseEntity<CatOwner> changeStatusTrialPeriodCat(@PathVariable @Parameter(description = "Иденификатор владельца") long ownerId,
+                                                               @RequestParam(name = "new_STP") @Parameter(description = "Новый статус для испытательного периода") StatusTrialPeriod stp) {
         CatOwner catOwner;
         try {
             catOwner = petOwnerService.changeStatusTrialPeriodCat(ownerId, stp);
@@ -255,8 +255,8 @@ public class PetOwnerController {
             }
     )
     @PatchMapping("/dog/{ownerId}")
-    public ResponseEntity<DogOwner> changeStatusTrialPeriodDog(@PathVariable Long ownerId,
-                                                               @RequestParam(name = "new_STP") StatusTrialPeriod stp) {
+    public ResponseEntity<DogOwner> changeStatusTrialPeriodDog(@PathVariable @Parameter(description = "Иденификатор владельца") Long ownerId,
+                                                               @RequestParam(name = "new_STP") @Parameter(description = "Новый статус для испытательного периода") StatusTrialPeriod stp) {
         DogOwner dogOwner;
         try {
             dogOwner = petOwnerService.changeStatusTrialPeriodDog(ownerId, stp);
