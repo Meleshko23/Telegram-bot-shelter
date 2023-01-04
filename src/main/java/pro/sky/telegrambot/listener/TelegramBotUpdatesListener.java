@@ -211,29 +211,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
                     keyboardService.responseOnCommandCallVolunteerCat(chatId);
                 }
-
-                ////////////////////////////////////////////////////
-                // кнопки после команды DOG инфо о приюте
-//                if (callbackQuery.equals(Keyboard.info_shelter_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.work_time_and_address_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.shelter_rules_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.security_contacts_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.safety_precautions_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.leave_request_dog.getCommand())) {
-//                    userService.saveContactInfo(chatId, NAME, null);
-//                }
                 ////////////////////////////////////
-                // кнопки после команды CAT инфо о приюте
+                // кнопки инфо о приюте
                 if (callbackQuery.equals(Keyboard.info_shelter_.getCommand())) {
                     messageText = infoPetsService.getInfoByRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }
@@ -252,37 +231,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (callbackQuery.equals(Keyboard.leave_request_.getCommand())) {
                     userService.saveContactInfo(chatId, NAME, null);
                 }
-                ////////////////////////////////
-                // кнопки после команды DOG Как взять собаку из приюта
-//                if (callbackQuery.equals(Keyboard.DATING_RULES_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.DOCUMENTS_LIST_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.TRANSPORT_RECOMMENDATIONS_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_PUPPY_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.HOME_IMPROVEMENT_DISABLED_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-
-
-//                if (callbackQuery.equals(Keyboard.BOUNCE_LIST_DOG.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-//                if (callbackQuery.equals(Keyboard.call_volunteer_dog.getCommand())) {
-//                    messageText = infoPetsService.getInfobyRequest(callbackQuery);
-//                }
-
                 ///////////////
-                // кнопки после команды CAT Как взять кошку из приюта
+                // кнопки Как взять животное из приюта
                 if (callbackQuery.equals(Keyboard.DATING_RULES_.getCommand())) {
                     messageText = infoPetsService.getInfoByRequest(callbackQuery+userService.findShelterByChatId(chatId));
                 }

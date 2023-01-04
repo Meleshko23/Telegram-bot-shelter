@@ -117,4 +117,5 @@ public class UserService {
     public Collection<User> findUserByShelter(String shelter){
         return userRepository.findUserByShelter(shelter);
     }
+
 }
