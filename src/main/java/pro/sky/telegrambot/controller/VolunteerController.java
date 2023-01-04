@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.model.Volunteer;
 import pro.sky.telegrambot.service.VolunteerService;
 
@@ -17,7 +16,7 @@ import java.util.Collection;
 @RequestMapping("volunteer")
 public class VolunteerController {
 
-    private VolunteerService volunteerService;
+    private final VolunteerService volunteerService;
 
     public VolunteerController(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;

@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.telegrambot.model.KeepingPet;
-import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.service.KeepingPetService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
 
@@ -24,7 +22,7 @@ import java.util.Collection;
 @RequestMapping("keeping_pet")
 public class KeepingPetController {
 
-    private KeepingPetService keepingPetService;
+    private final KeepingPetService keepingPetService;
 
     public KeepingPetController(KeepingPetService keepingPetService) {
         this.keepingPetService = keepingPetService;

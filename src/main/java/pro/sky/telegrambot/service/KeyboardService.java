@@ -41,22 +41,22 @@ public class KeyboardService {
      * Метод для вызова волонтера собачьего приюта
      * @param chatId
      */
-    public void responseOnCommandCallVolunteerDog(long chatId) {
-        //
-    }
+//    public void responseOnCommandCallVolunteerDog(long chatId) {
+//        //
+//    }
 
     /**
      * Метод для вызова волонтера кошачьего приюта
      * @param chatId
      */
-    public void responseOnCommandCallVolunteerCat(long chatId) {
+//    public void responseOnCommandCallVolunteerCat(long chatId) {
 //        ForceReply forceReply = new ForceReply();
 //        //forceReply.selective(true);
 //
 //        SendMessage sendMess = new SendMessage(chatId, "Введите ваше имя:");
 //        sendMess.rep
 //        telegramBot.execute(sendMess);
-    }
+//    }
 
     /**
      * Метод создает InlineKeyboardMarkup клавиатуру (в каждой строке одна кнопка)

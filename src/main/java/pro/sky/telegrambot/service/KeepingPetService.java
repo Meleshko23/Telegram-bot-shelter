@@ -18,11 +18,9 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoField;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,7 +43,7 @@ public class KeepingPetService {
 
     @Autowired
     private TelegramBot telegramBot;
-    private final String coversDir = ("C://Users//lenovo//Desktop");
+    private final String coversDir = "C://Users//lenovo//Desktop//Фото питомцев";
 
     public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, KeepingPetRepository keepingPetRepository) {
         this.petOwnerService = petOwnerService;
