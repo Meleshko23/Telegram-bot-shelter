@@ -178,9 +178,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             keyboardsAfterCommandReportDog);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
-                if (callbackQuery.equals(Keyboard.FOUR_DOG.getCommand())) {
-                    keyboardService.responseOnCommandCallVolunteerDog(chatId);
-                }
+//                if (callbackQuery.equals(Keyboard.FOUR_DOG.getCommand())) {
+//                    keyboardService.responseOnCommandCallVolunteerDog(chatId);
+//                }
 
                 ////////////////////////////////////
                 // кнопки после команды CAT
@@ -208,9 +208,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     );
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
-                if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
-                    keyboardService.responseOnCommandCallVolunteerCat(chatId);
-                }
+//                if (callbackQuery.equals(Keyboard.FOUR_CAT.getCommand())) {
+//                    keyboardService.responseOnCommandCallVolunteerCat(chatId);
+//                }
                 ////////////////////////////////////
                 // кнопки инфо о приюте
                 if (callbackQuery.equals(Keyboard.info_shelter_.getCommand())) {

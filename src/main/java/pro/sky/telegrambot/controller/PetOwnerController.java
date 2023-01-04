@@ -30,7 +30,7 @@ public class PetOwnerController {
     }
 
     @Operation(
-            summary = "Добавление владельца кошек в бд",
+            summary = "Добавление владельца кошек в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -63,7 +63,7 @@ public class PetOwnerController {
     }
 
     @Operation(
-            summary = "Добавление владельца собак в бд",
+            summary = "Добавление владельца собак в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
