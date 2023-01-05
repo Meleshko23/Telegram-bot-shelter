@@ -125,31 +125,42 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String callbackQuery = update.callbackQuery().data();
                 Long chatId = update.callbackQuery().message().chat().id();
                 String messageText = null;
+
                 ////////////////////////////////
                 // кнопки после команды старт
-
                 if (callbackQuery.equals(Keyboard.CAT.getCommand())) {
-                    User newUser = new User();
+                    User user = new User();
                     String msgText = ("Меню приюта кошек " + Icon.CAT_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandCat,
                             keyboardsAfterCommandCat
                     );
-                    newUser.setChatId(chatId);
-                    newUser.setShelter(Keyboard.CAT.getCommand());
-                    userService.saveUser(newUser);
+                    User prevUser = userService.findUserByChatId(chatId);
+                    if (prevUser == null) {
+                        user.setChatId(chatId);
+                    } else {
+                        user = prevUser;
+                    }
+                    user.setShelter(callbackQuery);
+                    userService.saveUser(user);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
-                    User newUser = new User();
+                    User user = new User();
                     String msgText = ("Меню приюта собак " + Icon.DOG_Icon.get());
                     InlineKeyboardMarkup inlineKeyboard = keyboardService.prepareKeyboard(
                             textButtonsAfterCommandDog,
                             keyboardsAfterCommandDog
                     );
-                    newUser.setChatId(chatId);
-                    newUser.setShelter(Keyboard.DOG.getCommand());
-                    userService.saveUser(newUser);
+                    User prevUser = userService.findUserByChatId(chatId);
+                    if (prevUser == null) {
+                        user.setChatId(chatId);
+                    } else {
+                        user = prevUser;
+                    }
+
+                    user.setShelter(callbackQuery);
+                    userService.saveUser(user);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                 }
                 ////////////////////////////////////

@@ -1,17 +1,18 @@
 package pro.sky.telegrambot.model;
 
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity(name = "users")
-public class User {
+public class User{
     @Id
-    Long chatId;
-    String shelter;
-    String name;
-    String phone;
-    String mail;
+    private Long chatId;
+    private String shelter;
+    private String name;
+    private String phone;
+    private String mail;
 
 
     public User() {
@@ -76,4 +77,5 @@ public class User {
     public int hashCode() {
         return chatId != null ? chatId.hashCode() : 0;
     }
+
 }

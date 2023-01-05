@@ -118,4 +118,14 @@ public class UserService {
         return userRepository.findUserByShelter(shelter);
     }
 
+
+    /**
+     * Находит User по chat id.
+     *
+     * @param chatId
+     * @return User
+     */
+    public User findUserByChatId(Long chatId){
+        return userRepository.findUserByChatId(chatId);
+    }
 }
