@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.model.request.ForceReply;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.constant.MessageForSaveContacts;
 import pro.sky.telegrambot.exception.UserNotFoundException;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
@@ -23,9 +22,9 @@ public class UserService {
     @Autowired
     private TelegramBot telegramBot;
 
-    private  String name = null;
-    private  String phone = null;
-    private  String mail = null;
+    private String name = null;
+    private String phone = null;
+    private String mail = null;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -34,6 +33,7 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
     /**
      * Метод принимает и записывает контактные данные пользователя в базу данных
      */
@@ -43,7 +43,7 @@ public class UserService {
             phone = null;
             mail = null;
             sendMessageReply(chatId, messageText);
-        }else if (messageText.equals(PHONE)) {
+        } else if (messageText.equals(PHONE)) {
             if (!validateAndSaveName(userRequest).isEmpty()) {
                 name = userRequest;
                 sendMessageReply(chatId, messageText);
@@ -81,6 +81,7 @@ public class UserService {
         sendMess.replyMarkup(new ForceReply());
         telegramBot.execute(sendMess);
     }
+
     private void sendMessage(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
@@ -95,6 +96,7 @@ public class UserService {
             return "";
         }
     }
+
     private String validateAndSavePhone(String phone) {
         String phoneOfNumber = phone.replaceAll("\\D", "");
         Pattern pattern = Pattern.compile("\\d{10,11}");
@@ -106,8 +108,11 @@ public class UserService {
             return "";
         }
     }
+
     private String validateAndSaveEmail(String email) {
-        Pattern pattern = Pattern.compile("\\w+([\\.-_]?\\w+)*@\\w+([\\.-_]?\\w+)*\\.\\w{2,4}");
+//          Pattern pattern = Pattern.compile("\\w+([\\.-_]?\\w+)*@\\w+([\\.-_]?\\w+)*\\.\\w{2,4}");
+//          Pattern pattern = Pattern.compile("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}”);
+        Pattern pattern = Pattern.compile("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}");
         Matcher matcher = pattern.matcher(email);
         if (matcher.matches()) {
             return email;
@@ -118,18 +123,18 @@ public class UserService {
 
 
     public User findUser(long id) {
-        return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
-    public  String getName() {
+    public String getName() {
         return name;
     }
 
-    public  String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public  String getMail() {
+    public String getMail() {
         return mail;
     }
 
@@ -138,7 +143,7 @@ public class UserService {
      *
      * @return Collection
      */
-    public Collection<User> getAllOrders(){
+    public Collection<User> getAllOrders() {
         return userRepository.findAll();
     }
 
@@ -148,7 +153,7 @@ public class UserService {
      * @param chatId
      * @return String
      */
-    public String findShelterByChatId(Long chatId){
+    public String findShelterByChatId(Long chatId) {
         return userRepository.findUserByChatId(chatId).getShelter();
     }
 
@@ -158,7 +163,7 @@ public class UserService {
      * @param shelter
      * @return Collection
      */
-    public Collection<User> findUserByShelter(String shelter){
+    public Collection<User> findUserByShelter(String shelter) {
         return userRepository.findUserByShelter(shelter);
     }
 
@@ -169,7 +174,7 @@ public class UserService {
      * @param chatId
      * @return User
      */
-    public User findUserByChatId(Long chatId){
+    public User findUserByChatId(Long chatId) {
         return userRepository.findUserByChatId(chatId);
     }
 }
