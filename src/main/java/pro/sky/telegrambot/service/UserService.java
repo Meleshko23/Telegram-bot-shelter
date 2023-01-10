@@ -11,6 +11,8 @@ import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.repositories.UserRepository;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pro.sky.telegrambot.constant.MessageForSaveContacts.*;
 
@@ -42,22 +44,34 @@ public class UserService {
             mail = null;
             sendMessageReply(chatId, messageText);
         }else if (messageText.equals(PHONE)) {
-            name = userRequest;
-            sendMessageReply(chatId, messageText);
+            if (!validateAndSaveName(userRequest).isEmpty()) {
+                name = userRequest;
+                sendMessageReply(chatId, messageText);
+            } else {
+                sendMessageReply(chatId, NAME_AGAIN);
+            }
         } else if (messageText.equals(MAIL)) {
-            phone = userRequest;
-            sendMessageReply(chatId, messageText);
+            if (!validateAndSavePhone(userRequest).isEmpty()) {
+                phone = userRequest;
+                sendMessageReply(chatId, messageText);
+            } else {
+                sendMessageReply(chatId, PHONE_AGAIN);
+            }
         } else if (messageText.equals(SAVE)) {
-            mail = userRequest;
+            if (!validateAndSaveEmail(userRequest).isEmpty()) {
+                mail = userRequest;
 
-            User user = new User();
+                User user = new User();
+                user.setChatId(chatId);
+                user.setName(name);
+                user.setPhone(phone);
+                user.setMail(mail);
+                saveUser(user);
+                sendMessage(chatId, messageText);
+            } else {
+                sendMessageReply(chatId, MAIL_AGAIN);
+            }
 
-            user.setChatId(chatId);
-            user.setName(name);
-            user.setPhone(phone);
-            user.setMail(mail);
-            saveUser(user);
-            sendMessage(chatId, messageText);
         }
 
     }
@@ -70,6 +84,36 @@ public class UserService {
     private void sendMessage(long chatId, String messageText) {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
+    }
+
+    private String validateAndSaveName(String name) {
+        Pattern pattern = Pattern.compile("[A-Za-zА-Яа-я\\s]{2,30}");
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.matches()) {
+            return name;
+        } else {
+            return "";
+        }
+    }
+    private String validateAndSavePhone(String phone) {
+        String phoneOfNumber = phone.replaceAll("\\D", "");
+        Pattern pattern = Pattern.compile("\\d{10,11}");
+        Matcher matcher = pattern.matcher(phoneOfNumber);
+
+        if (matcher.matches()) {
+            return phoneOfNumber;
+        } else {
+            return "";
+        }
+    }
+    private String validateAndSaveEmail(String email) {
+        Pattern pattern = Pattern.compile("\\w+([\\.-_]?\\w+)*@\\w+([\\.-_]?\\w+)*\\.\\w{2,4}");
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches()) {
+            return email;
+        } else {
+            return "";
+        }
     }
 
 
