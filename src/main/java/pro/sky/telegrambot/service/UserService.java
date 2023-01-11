@@ -44,23 +44,19 @@ public class UserService {
             mail = null;
             sendMessageReply(chatId, messageText);
         }else if (messageText.equals(PHONE)) {
-            if (!validateAndSaveName(userRequest).isEmpty()) {
-                name = userRequest;
+            if (validateAndSaveName(userRequest)) {
                 sendMessageReply(chatId, messageText);
             } else {
                 sendMessageReply(chatId, NAME_AGAIN);
             }
         } else if (messageText.equals(MAIL)) {
-            if (!validateAndSavePhone(userRequest).isEmpty()) {
-                phone = userRequest;
+            if (validateAndSavePhone(userRequest)) {
                 sendMessageReply(chatId, messageText);
             } else {
                 sendMessageReply(chatId, PHONE_AGAIN);
             }
         } else if (messageText.equals(SAVE)) {
-            if (!validateAndSaveEmail(userRequest).isEmpty()) {
-                mail = userRequest;
-
+            if (validateAndSaveEmail(userRequest)) {
                 User user = new User();
                 user.setChatId(chatId);
                 user.setName(name);
@@ -71,9 +67,7 @@ public class UserService {
             } else {
                 sendMessageReply(chatId, MAIL_AGAIN);
             }
-
         }
-
     }
 
     private void sendMessageReply(long chatId, String messageText) {
@@ -86,36 +80,41 @@ public class UserService {
         telegramBot.execute(sendMess);
     }
 
-    private String validateAndSaveName(String name) {
+    private boolean validateAndSaveName(String name) {
+        String validateName = name.trim();
         Pattern pattern = Pattern.compile("[A-Za-zА-Яа-я\\s]{2,30}");
-        Matcher matcher = pattern.matcher(name);
+        Matcher matcher = pattern.matcher(validateName);
+
         if (matcher.matches()) {
-            return name;
+            this.name = validateName;
+            return true;
         } else {
-            return "";
+            return false;
         }
     }
-    private String validateAndSavePhone(String phone) {
-        String phoneOfNumber = phone.replaceAll("\\D", "");
+    private boolean validateAndSavePhone(String phone) {
+        String validatePhone = phone.replaceAll("\\D", "");
         Pattern pattern = Pattern.compile("\\d{10,11}");
-        Matcher matcher = pattern.matcher(phoneOfNumber);
+        Matcher matcher = pattern.matcher(validatePhone);
 
         if (matcher.matches()) {
-            return phoneOfNumber;
+            this.phone = validatePhone;
+            return true;
         } else {
-            return "";
+            return false;
         }
     }
-    private String validateAndSaveEmail(String email) {
+    private boolean validateAndSaveEmail(String email) {
+        String validateEmail = email.trim();
         Pattern pattern = Pattern.compile("\\w+([\\.-_]?\\w+)*@\\w+([\\.-_]?\\w+)*\\.\\w{2,4}");
-        Matcher matcher = pattern.matcher(email);
+        Matcher matcher = pattern.matcher(validateEmail);
         if (matcher.matches()) {
-            return email;
+            this.mail = validateEmail;
+            return true;
         } else {
-            return "";
+            return false;
         }
     }
-
 
     public User findUser(long id) {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
