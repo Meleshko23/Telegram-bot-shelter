@@ -1,8 +1,11 @@
 package pro.sky.telegrambot.model;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity(name = "users")
@@ -16,6 +19,14 @@ public class User{
 
 
     public User() {
+    }
+
+    public User(Long chatId, String shelter, String name, String phone, String mail) {
+        this.chatId = chatId;
+        this.shelter = shelter;
+        this.name = normalizationName(name);
+        this.phone = phone;
+        this.mail = mail;
     }
 
     public User(Long chatId, String shelter) {
@@ -44,7 +55,7 @@ public class User{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = normalizationName(name);
     }
 
     public String getPhone() {
@@ -61,6 +72,10 @@ public class User{
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    private String normalizationName(String name){
+        return StringUtils.capitalize(name.toLowerCase());
     }
 
     @Override
