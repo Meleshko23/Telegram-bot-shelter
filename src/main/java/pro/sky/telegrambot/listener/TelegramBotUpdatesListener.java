@@ -78,13 +78,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         String replyMessage = update.message().replyToMessage().text();
 
                         // отправка контактных данных
-                        if (replyMessage.equals(NAME)) {
+                        if (replyMessage.equals(NAME) || replyMessage.equals(NAME_AGAIN)) {
                             userService.saveContactInfo(chatId, PHONE, userRequest);
                         }
-                        if (replyMessage.equals(PHONE)) {
+                        if (replyMessage.equals(PHONE) || replyMessage.equals(PHONE_AGAIN)) {
                             userService.saveContactInfo(chatId, MAIL, userRequest);
                         }
-                        if (replyMessage.equals(MAIL)) {
+                        if (replyMessage.equals(MAIL) || replyMessage.equals(MAIL_AGAIN)) {
                             userService.saveContactInfo(chatId, SAVE, userRequest);
                         }
 

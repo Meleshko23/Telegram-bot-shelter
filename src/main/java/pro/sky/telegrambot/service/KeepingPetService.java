@@ -18,6 +18,7 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,13 +33,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class KeepingPetService {
 
-//    private String textReport;
-//    private Integer fileId;
-//    private String photoesDir = "/photoPets";
-
     private final PetOwnerService petOwnerService;
     private final PhotoPetService photoPetService;
-//    private final UserService userService;
     private final KeepingPetRepository keepingPetRepository;
 
     @Autowired
@@ -60,11 +56,12 @@ public class KeepingPetService {
      * @return KeepingPet (объект инкапсулирующий отчет пользователя)
      */
     public KeepingPet sendReport(Long chatId, String caption, PhotoSize[] photoSizes) throws IOException {
-        KeepingPet keepingPet = getNewReport(chatId, photoSizes, caption);
-//        если user не владелец животного - бросить ошибку
-//        if (chatId != null) {
-//            throw new NoAnimalAdoptedException();
-//        }
+        KeepingPet keepingPet = null;
+        try {
+            keepingPet = getNewReport(chatId, photoSizes, caption);
+        } catch (IllegalArgumentException e) { // владелей не найден по айди или чат айди
+
+        }
 
         return keepingPetRepository.save(keepingPet);
     }
@@ -92,57 +89,38 @@ public class KeepingPetService {
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
-        PhotoPet photoPet = savePhotoPetToDB(chatId, fileRequest, file, filePath);
+        long reportId = findReportIdByChatId(chatId);
 
-        KeepingPet keepingPet = saveReportToDB(chatId, caption, photoPet);
+        PhotoPet photoPet;
+        if (reportId == -1) { // пользователь сегодня еще не отправлял отчет
+            photoPet = createPhotoPet(chatId, fileRequest, file, filePath);
+            photoPetService.savePhotoReport(photoPet);
+            uploadPhotoToServer(fileData, filePath);
 
-        uploadPhotoToServer(fileData, filePath);
+            return createKeepingPet(chatId, caption, photoPet);
+        }
+        else { // пользователь сегодня уже отправлял отчет
+            PhotoPet deletePhotoPet = keepingPetRepository.findKeepingPetById(reportId).getPhotoPet();
+            Files.deleteIfExists(Path.of(deletePhotoPet.getFilePath()));
 
-        return keepingPet;
+            photoPet = updatePhotoPet(reportId, fileRequest, file, filePath);
+            photoPetService.savePhotoReport(photoPet);
+            uploadPhotoToServer(fileData, filePath);
+
+            return updateKeepingPet(reportId, caption, photoPet);
+        }
     }
 
     /**
-     * Метод сохраняет объект типа PhotoPet в базу данных
-     *
-     * @param chatId Идентификатор чата
-     * @param fileRequest объект класса GetFile
-     * @param file объект класса File
-     * @param filePath путь к файлу
-     * @return сохраненный в БД объект класса PhotoPet
+     * Метод для поиска айди отчета, отправленного владельцем питомца сегодня
+     * @param chatId идентификатор чата
+     * @return айди искомого отчета
      */
-    private PhotoPet savePhotoPetToDB(Long chatId, GetFile fileRequest, File file, Path filePath) {
-
-        PhotoPet photoPet = new PhotoPet();
-        photoPet.setMediaType(fileRequest.getContentType());
-        photoPet.setFileSize(file.fileSize());
-        photoPet.setFilePath(filePath.toString());
-
-        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
-        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
-        if (catOwner != null) {
-            photoPet.setPet(catOwner.getPet());
-        }
-        if (dogOwner != null) {
-            photoPet.setPet(dogOwner.getPet());
-        }
-        photoPetService.savePhotoReport(photoPet);
-
-        return photoPet;
-    }
-
-    /**
-     * Метод сохраняет отчет владельца о питомце в БД
-     *
-     * @param chatId Идентификатор чата
-     * @param caption текстовое описание отчета
-     * @param photoPet объект класса PhotoPet
-     * @return Сохраненный в БД отчет
-     */
-    private KeepingPet saveReportToDB(Long chatId, String caption, PhotoPet photoPet) throws IOException {
+    private long findReportIdByChatId(Long chatId) {
         CatOwner catOwner = petOwnerService.findCatOwner(chatId);
         DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
         List<KeepingPet> reportsToday = (List<KeepingPet>) getAllKeepingPet(LocalDate.now());
-        long reportId = -1; // идентификатор  отчета, отправленный пользователем сегодня
+        long reportId = -1; // идентификатор  отчета, отправленного пользователем сегодня
         if (catOwner != null) {
             for (KeepingPet keepingPet : reportsToday) {
                 if (keepingPet.getCatOwner().equals(catOwner)) {
@@ -157,34 +135,103 @@ public class KeepingPetService {
                     break;
                 }
             }
+        } else {
+            throw new IllegalArgumentException("Владельца с таким chatId не существует:" + chatId);
+        }
+        return reportId;
+    }
+
+    /**
+     * Метод создает объект типа PhotoPet
+     *
+     * @param chatId Идентификатор чата
+     * @param fileRequest объект класса GetFile
+     * @param file объект класса File
+     * @param filePath путь к файлу
+     * @return созданный объект класса PhotoPet
+     */
+    private PhotoPet createPhotoPet(Long chatId, GetFile fileRequest, File file, Path filePath) {
+
+        PhotoPet photoPet = new PhotoPet();
+        photoPet.setMediaType(fileRequest.getContentType());
+        photoPet.setFileSize(file.fileSize());
+        photoPet.setFilePath(filePath.toString());
+
+        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
+        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
+        if (catOwner != null) {
+            photoPet.setPet(catOwner.getPet());
+        }else if (dogOwner != null) {
+            photoPet.setPet(dogOwner.getPet());
+        }else {
+            throw new IllegalArgumentException("Владельца с таким chatId не существует:" + chatId);
         }
 
-        KeepingPet keepingPet = null;
-        // Если отчет обновляется
-        if (reportId != -1) {
-            keepingPet = keepingPetRepository.findKeepingPetById(reportId);
-//            Files.delete(Paths.get(keepingPet.getPhotoPet().getFilePath()));
-//            PhotoPet deletedPhotoPet = keepingPet.getPhotoPet();
-            keepingPet.setDateTime(LocalDateTime.now());
-            keepingPet.setInfoPet(caption);
-            keepingPet.setPhotoPet(photoPet);
-//            photoPetService.removePhotoPet(deletedPhotoPet);
+        return photoPet;
+    }
+    /**
+     * Метод обновляет объект типа PhotoPet
+     *
+     * @param reportId айди отчета о питомце
+     * @param fileRequest объект класса GetFile
+     * @param file объект класса File
+     * @param filePath путь к файлу
+     * @return созданный объект класса PhotoPet
+     */
+    private PhotoPet updatePhotoPet(Long reportId, GetFile fileRequest, File file, Path filePath) {
 
-        }
-        // создается новый отчет
-        else {
-            keepingPet = new KeepingPet();
-            keepingPet.setChatId(chatId);
-            if (catOwner != null) {
-                keepingPet.setCatOwner(catOwner);
-            } else if (dogOwner != null) {
-                keepingPet.setDogOwner(dogOwner);
-            }
-            keepingPet.setDateTime(LocalDateTime.now());
-            keepingPet.setInfoPet(caption);
-            keepingPet.setPhotoPet(photoPet);
-        }
+        KeepingPet keepingPet = keepingPetRepository.findKeepingPetById(reportId);
 
+        PhotoPet photoPet = keepingPet.getPhotoPet();
+
+        photoPet.setMediaType(fileRequest.getContentType());
+        photoPet.setFileSize(file.fileSize());
+        photoPet.setFilePath(filePath.toString());
+
+        return photoPet;
+
+    }
+
+    /**
+     * /метод создает новый отчет о питомце
+     * @param chatId идентификатор чата
+     * @param caption текстовое сообщение к фотографии
+     * @param photoPet объект содержащий информацию. о фотографии
+     * @return новый отчет
+     */
+    private KeepingPet createKeepingPet(Long chatId, String caption, PhotoPet photoPet) {
+        CatOwner catOwner = petOwnerService.findCatOwner(chatId);
+        DogOwner dogOwner = petOwnerService.findDogOwner(chatId);
+
+        KeepingPet keepingPet = new KeepingPet();
+        keepingPet.setChatId(chatId);
+        if (catOwner != null) {
+            keepingPet.setCatOwner(catOwner);
+        } else if (dogOwner != null) {
+            keepingPet.setDogOwner(dogOwner);
+        } else {
+            throw new IllegalArgumentException("Владельца с таким chatId не существует:" + chatId);
+        }
+        keepingPet.setDateTime(LocalDateTime.now());
+        keepingPet.setInfoPet(caption);
+        keepingPet.setPhotoPet(photoPet);
+        return keepingPet;
+    }
+    /**
+     * Метод обновляет отчет о питомце.
+     * За один день владелец питомца может отправить в БД только один отчет.
+     * Если владелец отправляет 2-ой или более отчет в день, то текущий отчет обновляется.
+     * @param reportId айди текущего отчета
+     * @param caption новый текстовый отчет
+     * @param photoPet новое фотография питомца
+     * @return обновленный отчет
+     */
+    private KeepingPet updateKeepingPet(long reportId, String caption, PhotoPet photoPet) {
+        KeepingPet keepingPet = keepingPetRepository.findKeepingPetById(reportId);
+
+        keepingPet.setDateTime(LocalDateTime.now());
+        keepingPet.setInfoPet(caption);
+        keepingPet.setPhotoPet(photoPet);
         return keepingPet;
     }
 
@@ -247,20 +294,6 @@ public class KeepingPetService {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
     }
-
-//    public void increaseProbationPeriod(Long ownerId, int count) {
-//        CatOwner catOwner = petOwnerService.findCatOwnerById(ownerId);
-//        DogOwner dogOwner = petOwnerService.findDogOwnerById(ownerId);
-//        if (catOwner != null) {
-//            LocalDate currentDate = catOwner.getEndTrialPeriod();
-//            Calendar c = Calendar.getInstance();
-//            c.setTime(currentDate);
-//
-//
-//        }
-//
-//
-//    }
 
     /**
      * метод для волонтера, для отправки усыновителю предупреждения о том,
