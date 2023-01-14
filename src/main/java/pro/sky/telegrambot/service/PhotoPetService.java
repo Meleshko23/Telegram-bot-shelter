@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.service;
 
+import com.pengrad.telegrambot.model.File;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,7 @@ public class PhotoPetService {
         }
 
     }
+
 
     public PhotoPet savePhotoReport (PhotoPet photoPet) {
         return photoPetRepository.save(photoPet);

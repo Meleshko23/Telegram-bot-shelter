@@ -8,8 +8,10 @@ import pro.sky.telegrambot.constant.StatusTrialPeriod;
 import pro.sky.telegrambot.exception.OwnerNotFoundException;
 import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
+import pro.sky.telegrambot.model.Volunteer;
 import pro.sky.telegrambot.repositories.CatOwnerRepository;
 import pro.sky.telegrambot.repositories.DogOwnerRepository;
+import pro.sky.telegrambot.repositories.VolunteerRepository;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -23,6 +25,7 @@ public class PetOwnerService {
 
     @Autowired
     private TelegramBot telegramBot;
+    private final VolunteerRepository volunteerRepository;
 
     private final CatOwnerRepository catOwnerRepository;
     private final DogOwnerRepository dogOwnerRepository;
@@ -34,7 +37,8 @@ public class PetOwnerService {
     private final String statusEXTENDED_30_DAYS = "Испытательный период продлен на 30 дней";
     private final String unCorrectedStatus = "Некорректный новый статус";
 
-    public PetOwnerService(CatOwnerRepository petOwnerRepository, DogOwnerRepository dogOwnerRepository) {
+    public PetOwnerService(VolunteerRepository volunteerRepository, CatOwnerRepository petOwnerRepository, DogOwnerRepository dogOwnerRepository) {
+        this.volunteerRepository = volunteerRepository;
         this.catOwnerRepository = petOwnerRepository;
         this.dogOwnerRepository = dogOwnerRepository;
     }
@@ -246,6 +250,5 @@ public class PetOwnerService {
         SendMessage sendMess = new SendMessage(chatId, messageText);
         telegramBot.execute(sendMess);
     }
-
 
 }

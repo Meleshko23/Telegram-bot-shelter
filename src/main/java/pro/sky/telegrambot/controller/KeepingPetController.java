@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.telegrambot.model.KeepingPet;
 import pro.sky.telegrambot.service.KeepingPetService;
 
@@ -97,4 +94,27 @@ public class KeepingPetController {
         return ResponseEntity.ok(ownerReports);
     }
 
+    @Operation(
+            summary = "Изменяет степеньо качества заполнения отчета",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "степень качества заполенения изменена",
+                            content = {
+                                    @Content(
+                                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                            schema = @Schema(implementation = KeepingPet.class)
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Неверный аргумент"
+                    )
+            }
+    )
+    @PutMapping("/quality/{id}")
+    public void sendWarningByVolunteer(@PathVariable Long id, @RequestParam boolean quality){
+        keepingPetService.sendWarningByVolunteer(id, quality);
+    }
 }

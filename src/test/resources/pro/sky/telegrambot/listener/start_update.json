@@ -1,0 +1,22 @@
+{
+  "message": {
+    "chat": {
+      "id": "1"
+    },
+    "text": "%command%"
+  },
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {
+          "text": "\"Приют для кошек \" + Icon.CAT_Icon.get()",
+          "callback_data": "cat"
+        },
+        {
+          "text": "\"Приют для собак \" + Icon.DOG_Icon.get()",
+          "callback_data": "dog"
+        }
+      ]
+    ]
+  }
+}

@@ -18,12 +18,13 @@ import pro.sky.telegrambot.repositories.KeepingPetRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -39,7 +40,7 @@ public class KeepingPetService {
 
     @Autowired
     private TelegramBot telegramBot;
-    private final String coversDir = "C://Users//lenovo//Desktop//Фото питомцев";
+    private final String coversDir = "C://Users//Lu//Desktop//обучение";
 
     public KeepingPetService(PetOwnerService petOwnerService, PhotoPetService photoPetService, KeepingPetRepository keepingPetRepository) {
         this.petOwnerService = petOwnerService;
@@ -298,56 +299,18 @@ public class KeepingPetService {
     /**
      * метод для волонтера, для отправки усыновителю предупреждения о том,
      * что отчет заполняется плохо
+     * @param id - id владельца питомца
+     * @param quality - степень качества заполнения отчета
      */
-    public void sendWarningByVolunteer() {
-
-    }
-
-    /**
-     * метод определяет усыновителей , у которых по времени пройден испытательный срок
-     * метод запускается по графику каждый день
-     * Если усыновтели найдены, то отправить информацию волонтеру для проверки
-     *
-     * @param allPetOwners - все усыновители
-     * @return список усыновителей
-     */
-    public List<DogOwner> chechProbationaryPeriod(List<DogOwner> allPetOwners) {
-        return null;
-    }
-
-    /**
-     * метод направляет информацию волонтеру об усыновителях,
-     * у которых закончился испытательный срок
-     */
-    public void notifyVolunteerAboutOwnerEndedProbablyPeriod() {
-
-    }
-
-
-
-
-
-    /**
-     * метод возвращает количество прошедших часов с момента отправки последнего отчета
-     *
-     * @return количество часов
-     */
-    private int timeSinceLastReport () {
-        return 0;
-    }
-
-    /**
-     * метод запускается каждый час и проверяет, нет ли усыновителей,
-     * которые не отправили отчет в установленный срок
-     * если прошло 24 часа
-     * запустить метод отправки стандартного сообщения волонтером
-     * с напоминанием о необходимости отправки отчета
-     * <p>
-     * Если прошло более 48 часов,
-     * запустить метод, который отправляет запрос волонтеру для связи с усыновителем
-     */
-    public void checkTime() {
-
+    public void sendWarningByVolunteer(Long id, boolean quality) {
+        KeepingPet findKeepingPet = keepingPetRepository.findById(id).get();
+        findKeepingPet.setQuality(quality);
+        KeepingPet result = keepingPetRepository.save(findKeepingPet);
+        if(result.isQuality() == false){
+            sendMessage(result.getChatId(), "Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного.");
+        } else{
+            sendMessage(result.getChatId(), "Отчет заполнен качественно. Спасибо.");
+        }
     }
 
     /**
@@ -356,10 +319,7 @@ public class KeepingPetService {
      * @return Collection
      */
     public Collection<KeepingPet> getAllKeepingPet(LocalDate date){
-        LocalTime time = LocalTime.of(0, 0, 0);
-        LocalDateTime beginDateTime = LocalDateTime.of(date, time);
-        LocalDateTime endDateTime = beginDateTime.plusDays(1).minusSeconds(1);
-        return keepingPetRepository.findKeepingPetByDateTimeBetween(beginDateTime, endDateTime);
+        return keepingPetRepository.findKeepingPetByDateTimeBetween(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
     }
 
     /**
@@ -378,5 +338,17 @@ public class KeepingPetService {
         } else {
             throw new IllegalArgumentException("Владельца с таким айди не существует");
         }
+    }
+
+    /**
+     * Метод формирует список последних отчетов по каждому владельцу
+     * @return List
+     */
+    public List<KeepingPet> lastKeepingPetOwner(){
+        List<KeepingPet> catOwner = keepingPetRepository.findLastKeepingPetCatOwner();
+        List<KeepingPet> dogOwner = keepingPetRepository.findLastKeepingPetDogOwner();
+        List<KeepingPet> allOwner = Stream.concat(catOwner.stream(), dogOwner.stream())
+                .collect(Collectors.toList());
+        return allOwner;
     }
 }

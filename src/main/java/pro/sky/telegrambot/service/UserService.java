@@ -121,18 +121,6 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
     /**
      * Метод возвращает все заявки, которые поступили через бота и записанные в таблицу user в бд.
      *

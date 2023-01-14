@@ -2,21 +2,32 @@ package pro.sky.telegrambot.listener;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.constant.Icon;
 import pro.sky.telegrambot.constant.Keyboard;
+import pro.sky.telegrambot.model.CatOwner;
+import pro.sky.telegrambot.model.DogOwner;
+import pro.sky.telegrambot.model.KeepingPet;
 import pro.sky.telegrambot.model.User;
 import pro.sky.telegrambot.service.*;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static pro.sky.telegrambot.constant.Keyboard.START;
@@ -36,13 +47,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final UserService userService;
     @Autowired
     private TelegramBot telegramBot;
+    @Value("${volunteer-chat-id}")
+    private Long volunteerChatId;
 
-    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, PetOwnerService petOwnerService, UserService userService) {
+    public TelegramBotUpdatesListener(KeyboardService keyboardService, InfoPetsService infoPetsService, KeepingPetService keepingPetService, PetOwnerService petOwnerService, UserService userService, TelegramBot telegramBot) {
         this.keyboardService = keyboardService;
         this.infoPetsService = infoPetsService;
         this.keepingPetService = keepingPetService;
         this.petOwnerService = petOwnerService;
         this.userService = userService;
+        this.telegramBot = telegramBot;
     }
 
     @PostConstruct
@@ -69,6 +83,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                 keyboardsAfterCommandStart);
                         keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
                     }
+
 
                     // пользователь ответил на сообщение бота
                     else if (update.message().replyToMessage() != null &&
@@ -305,6 +320,32 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
+    }
+
+    @Scheduled(cron = "${interval-in-cron}")
+    public void checkKeepingPet(){
+        logger.info("Метод запущен");
+        List<KeepingPet> lastAllOwner = keepingPetService.lastKeepingPetOwner();
+        for (int i = 0; i < lastAllOwner.size(); i++){
+            KeepingPet lastKeepingPet = lastAllOwner.get(i);
+            LocalDateTime date = LocalDateTime.now();
+            Long difference = Duration.between(lastKeepingPet.getDateTime(),date).toHours();
+            logger.info("Проверка запущена");
+            if(difference >= 24 & difference <= 48){
+                SendMessage message = new SendMessage(lastKeepingPet.getChatId(), "Пожалуйста, отправьте отчет");
+                telegramBot.execute(message);
+            }
+            else if(difference > 48 & lastKeepingPet.getCatOwner()!= null){
+                CatOwner owner = lastKeepingPet.getCatOwner();
+                SendMessage message = new SendMessage(volunteerChatId, "Свяжитесь с усыновителем. Отчет от " +owner.getName()+" "+owner.getPhone()+" не был получен 2 дня.");
+                telegramBot.execute(message);
+            }
+            else if(difference > 48 & lastKeepingPet.getDogOwner()!= null){
+                DogOwner owner = lastKeepingPet.getDogOwner();
+                SendMessage message = new SendMessage(volunteerChatId, "Свяжитесь с усыновителем. Отчет от " +owner.getName()+" "+owner.getPhone()+" не был получен 2 дня.");
+                telegramBot.execute(message);
+            }
+        }
     }
 
 }
