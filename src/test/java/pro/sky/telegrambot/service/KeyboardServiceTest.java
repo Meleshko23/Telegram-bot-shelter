@@ -6,10 +6,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pro.sky.telegrambot.constant.Keyboard;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class KeyboardServiceTest {
-    private KeyboardService keyboardService = new KeyboardService();
+    private final KeyboardService keyboardService = new KeyboardService();
 
     @Test
     void responseOnCommand() {

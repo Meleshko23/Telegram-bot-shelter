@@ -2,11 +2,9 @@ package pro.sky.telegrambot.listener;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +24,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import static pro.sky.telegrambot.constant.Keyboard.START;
@@ -312,10 +308,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     telegramBot.execute(message);
                 }
                 // Такой команды не существует
-            } else{
-                Long chatId = update.message().chat().id();
-                String msgText = "Такой команды не существует. \n\n Чтобы вернуться в главное меню, введи /start";
-                keyboardService.responseOnCommand(chatId, msgText);
+//            } else{
+//                Long chatId = update.message().chat().id();
+//                String msgText = "Такой команды не существует. \n\n Чтобы вернуться в главное меню, введи /start";
+//                keyboardService.responseOnCommand(chatId, msgText);
             }
 
         });

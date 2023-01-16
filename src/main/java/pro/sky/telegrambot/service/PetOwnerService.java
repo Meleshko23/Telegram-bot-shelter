@@ -8,7 +8,6 @@ import pro.sky.telegrambot.constant.StatusTrialPeriod;
 import pro.sky.telegrambot.exception.OwnerNotFoundException;
 import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
-import pro.sky.telegrambot.model.Volunteer;
 import pro.sky.telegrambot.repositories.CatOwnerRepository;
 import pro.sky.telegrambot.repositories.DogOwnerRepository;
 import pro.sky.telegrambot.repositories.VolunteerRepository;
@@ -65,6 +64,7 @@ public class PetOwnerService {
 
     /**
      * Метод ищет хозяина собаки по его chatId
+     *
      * @param chatId идентификатор чата владельца собаки
      * @return владелец собаки
      */
@@ -74,12 +74,14 @@ public class PetOwnerService {
 
     /**
      * Метод ищет хозяина кошки по его chatId
+     *
      * @param chatId идентификатор чата владельца кошки
      * @return владелец кошки
      */
     public CatOwner findCatOwner(long chatId) {
         return catOwnerRepository.findCatOwnerByChatId(chatId);
     }
+
     /**
      * Возвращает список всех владельцев кошек.
      *
@@ -126,7 +128,6 @@ public class PetOwnerService {
                         owner.getStatusTrial().equals(EXTENDED_14_DAYS) ||
                         owner.getStatusTrial().equals(EXTENDED_30_DAYS))
                 .collect(Collectors.toList());
-
     }
 
     /**
@@ -147,11 +148,12 @@ public class PetOwnerService {
      * метод изменяет статус испытательного периода владельца собаки на другой статус.
      * При необходимости изменяет дату окончания испытательного периода
      * Измененный объект сохраняет в БД
+     *
      * @param ownerId идентификтор владельца питомца
-     * @param stp новый статус испытательного периода
-     * @throws IllegalArgumentException если неверный параметр (например, CURRENT)
-     * @throws OwnerNotFoundException если владелец питомца не найден по его идентификатору
+     * @param stp     новый статус испытательного периода
      * @return Владелец питомца с новым статусом и датой окончания испытательног периода
+     * @throws IllegalArgumentException если неверный параметр (например, CURRENT)
+     * @throws OwnerNotFoundException   если владелец питомца не найден по его идентификатору
      */
     public DogOwner changeStatusTrialPeriodDog(long ownerId, StatusTrialPeriod stp) {
         DogOwner dogOwner = dogOwnerRepository.findDogOwnerById(ownerId);
@@ -196,11 +198,12 @@ public class PetOwnerService {
      * метод изменяет статус испытательного периода владельца кошки на другой статус.
      * При необходимости изменяет дату окончания испытательного периода
      * Измененный объект сохраняет в БД
+     *
      * @param ownerId идентификтор владельца питомца
-     * @param stp новый статус испытательного периода
-     * @throws IllegalArgumentException если неверный параметр (например, CURRENT)
-     * @throws OwnerNotFoundException если владелец питомца не найден по его идентификатору
+     * @param stp     новый статус испытательного периода
      * @return Владелец питомца с новым статусом и датой окончания испытательног периода
+     * @throws IllegalArgumentException если неверный параметр (например, CURRENT)
+     * @throws OwnerNotFoundException   если владелец питомца не найден по его идентификатору
      */
     public CatOwner changeStatusTrialPeriodCat(long ownerId, StatusTrialPeriod stp) {
         CatOwner catOwner = catOwnerRepository.findCatOwnerById(ownerId);
@@ -243,7 +246,8 @@ public class PetOwnerService {
 
     /**
      * Метод отправляет сообщение пользователю в чате в телеграме
-     * @param chatId идентификатор чата
+     *
+     * @param chatId      идентификатор чата
      * @param messageText сообщение пользователю
      */
     private void sendMessage(long chatId, String messageText) {

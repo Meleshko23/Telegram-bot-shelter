@@ -30,12 +30,12 @@ public class KeyboardService {
         telegramBot.execute(sendMess);
     }
 
-    public void responseOnCommand(long chatId,
-                                  String messageText) {
-
-        SendMessage sendMess = new SendMessage(chatId, messageText);
-        telegramBot.execute(sendMess);
-    }
+//    public void responseOnCommand(long chatId,
+//                                  String messageText) {
+//
+//        SendMessage sendMess = new SendMessage(chatId, messageText);
+//        telegramBot.execute(sendMess);
+//    }
 
     /**
      * Метод для вызова волонтера собачьего приюта

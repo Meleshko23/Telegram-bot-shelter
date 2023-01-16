@@ -95,7 +95,7 @@ public class KeepingPetController {
     }
 
     @Operation(
-            summary = "Изменяет степеньо качества заполнения отчета",
+            summary = "Изменяет степень качества заполнения отчета",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
