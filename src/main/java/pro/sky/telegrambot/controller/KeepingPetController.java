@@ -14,6 +14,7 @@ import pro.sky.telegrambot.service.KeepingPetService;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("keeping_pet")
@@ -60,7 +61,7 @@ public class KeepingPetController {
         if (reports.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(keepingPetService.getAllKeepingPet(localDate));
+        return ResponseEntity.ok(reports);
     }
 
     @Operation(

@@ -155,7 +155,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     user.setShelter(callbackQuery);
                     userService.saveUser(user);
                     keyboardService.responseOnCommand(chatId, msgText, inlineKeyboard);
-                }
+                    }
                 if (callbackQuery.equals(Keyboard.DOG.getCommand())) {
                     User user = new User();
                     String msgText = ("Меню приюта собак " + Icon.DOG_Icon.get());

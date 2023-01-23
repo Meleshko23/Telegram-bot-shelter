@@ -24,7 +24,6 @@ public class PetOwnerService {
 
     @Autowired
     private TelegramBot telegramBot;
-    private final VolunteerRepository volunteerRepository;
 
     private final CatOwnerRepository catOwnerRepository;
     private final DogOwnerRepository dogOwnerRepository;
@@ -36,9 +35,9 @@ public class PetOwnerService {
     private final String statusEXTENDED_30_DAYS = "Испытательный период продлен на 30 дней";
     private final String unCorrectedStatus = "Некорректный новый статус";
 
-    public PetOwnerService(VolunteerRepository volunteerRepository, CatOwnerRepository petOwnerRepository, DogOwnerRepository dogOwnerRepository) {
-        this.volunteerRepository = volunteerRepository;
-        this.catOwnerRepository = petOwnerRepository;
+    public PetOwnerService(CatOwnerRepository catOwnerRepository, DogOwnerRepository dogOwnerRepository) {
+
+        this.catOwnerRepository = catOwnerRepository;
         this.dogOwnerRepository = dogOwnerRepository;
     }
 
