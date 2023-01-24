@@ -98,12 +98,13 @@ public class KeepingPetControllerTest {
         final String infoPet = "testInfo";
         final PhotoPet photoPet = new PhotoPet();
         final String date = "2023-01-23";
+        final boolean quality = true;
         final LocalDate currentDate = LocalDate.parse(date);
         final LocalDateTime startDateTime = currentDate.atStartOfDay();
         final LocalDateTime endDateTime = currentDate.plusDays(1).atStartOfDay();
 
         KeepingPet keepingPet = new KeepingPet(id, chatId, infoPet, photoPet, startDateTime);
-        keepingPet.setQuality(true);
+        keepingPet.setQuality(quality);
         Collection<KeepingPet> keepingPets = new ArrayList<>(List.of(keepingPet));
 
         when(keepingPetRepository.findKeepingPetByDateTimeBetween(startDateTime, endDateTime)).thenReturn(keepingPets);
