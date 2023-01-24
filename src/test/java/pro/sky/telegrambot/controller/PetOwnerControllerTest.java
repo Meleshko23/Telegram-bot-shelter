@@ -1,12 +1,9 @@
 package pro.sky.telegrambot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.pengrad.telegrambot.TelegramBot;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,7 +15,6 @@ import pro.sky.telegrambot.constant.StatusTrialPeriod;
 import pro.sky.telegrambot.constant.TypeAnimal;
 import pro.sky.telegrambot.model.CatOwner;
 import pro.sky.telegrambot.model.DogOwner;
-
 import pro.sky.telegrambot.model.Pet;
 import pro.sky.telegrambot.model.PhotoPet;
 import pro.sky.telegrambot.repositories.CatOwnerRepository;
@@ -26,12 +22,10 @@ import pro.sky.telegrambot.repositories.DogOwnerRepository;
 import pro.sky.telegrambot.service.PetOwnerService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -287,7 +281,7 @@ public class PetOwnerControllerTest {
                 .andExpect(status().isNotFound());
     }
     @Test
-    public void changeStatusTrialPeriodCatWhenIllegalAfgument() throws Exception{
+    public void changeStatusTrialPeriodCatWhenIllegalArgument() throws Exception{
 
         when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(null);
         String illegalSTP = "illegal Argument";
@@ -314,7 +308,16 @@ public class PetOwnerControllerTest {
     }
 
     @Test
-    public void changeStatusTrialPeriodDogTest() throws Exception{
+    public void changeStatusTrialPeriodDogPositiveTest() throws Exception{
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(dogOwner);
+        String newSTP = "SUCCESS_PASSED";
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/pet_owner/dog/{ownerId}?new_STP={new_STP}", ownerId, newSTP)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusTrial").value(newSTP));
 
     }
 

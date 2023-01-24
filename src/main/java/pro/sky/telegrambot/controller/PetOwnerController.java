@@ -194,6 +194,9 @@ public class PetOwnerController {
     @GetMapping("cat/end_trial_period")
     public ResponseEntity<List<CatOwner>> getCatOwnersEndTrialPeriod() {
         List<CatOwner> catOwners = petOwnerService.getCatOwnersEndTrialPeriod();
+        if (catOwners.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(catOwners);
     }
 
