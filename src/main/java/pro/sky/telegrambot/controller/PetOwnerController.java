@@ -166,6 +166,9 @@ public class PetOwnerController {
     @GetMapping("dog/end_trial_period")
     public ResponseEntity<List<DogOwner>> getDogOwnersEndTrialPeriod() {
         List<DogOwner> dogOwners = petOwnerService.getDogOwnersEndTrialPeriod();
+        if (dogOwners.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(dogOwners);
     }
 
