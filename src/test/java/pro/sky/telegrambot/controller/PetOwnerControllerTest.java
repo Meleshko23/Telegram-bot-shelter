@@ -283,7 +283,7 @@ public class PetOwnerControllerTest {
     @Test
     public void changeStatusTrialPeriodCatWhenIllegalArgument() throws Exception{
 
-        when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(null);
+        when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(catOwner);
         String illegalSTP = "illegal Argument";
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -318,7 +318,31 @@ public class PetOwnerControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusTrial").value(newSTP));
-
     }
+
+    @Test
+    public void changeStatusTrialPeriodDogWhenOwnerNotFoundTest() throws Exception{
+
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/pet_owner/dog/{ownerId}?new_STP={new_STP}", ownerId, StatusTrialPeriod.CURRENT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void changeStatusTrialPeriodDogWhenIllegalArgument() throws Exception{
+
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(dogOwner);
+        String illegalSTP = "illegal Argument";
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/pet_owner/dog/{ownerId}?new_STP={new_STP}", ownerId, illegalSTP)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
 
 }

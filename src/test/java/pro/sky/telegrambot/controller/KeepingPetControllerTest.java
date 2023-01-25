@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = KeepingPetController.class)
@@ -76,6 +77,18 @@ public class KeepingPetControllerTest {
     CatOwner catOwner = new CatOwner();
     DogOwner dogOwner = new DogOwner();
 
+    final long id = 100L;
+    final long chatId = 817781679;
+    final String infoPet = "testInfo";
+    final PhotoPet photoPet = new PhotoPet();
+    final String date = "2023-01-23";
+    final boolean quality = true;
+    final LocalDate currentDate = LocalDate.parse(date);
+    final LocalDateTime startDateTime = currentDate.atStartOfDay();
+    final LocalDateTime endDateTime = currentDate.plusDays(1).atStartOfDay();
+
+    KeepingPet keepingPet;
+
     @BeforeEach
     private void init() {
         final long photoPetId = 10L;
@@ -111,6 +124,9 @@ public class KeepingPetControllerTest {
         dogOwner.setEndTrialPeriod(endTrialPeriod);
         dogOwner.setStatusTrial(statusTrial);
         dogOwner.setPet(pet);
+
+        keepingPet = new KeepingPet(id, chatId, infoPet, photoPet, startDateTime);
+        keepingPet.setQuality(quality);
     }
 
     @Test
@@ -144,18 +160,7 @@ public class KeepingPetControllerTest {
 
     @Test
     public void getAllKeepingPetPositiveTest() throws Exception {
-        final long id = 100L;
-        final long chatId = 817781679;
-        final String infoPet = "testInfo";
-        final PhotoPet photoPet = new PhotoPet();
-        final String date = "2023-01-23";
-        final boolean quality = true;
-        final LocalDate currentDate = LocalDate.parse(date);
-        final LocalDateTime startDateTime = currentDate.atStartOfDay();
-        final LocalDateTime endDateTime = currentDate.plusDays(1).atStartOfDay();
 
-        KeepingPet keepingPet = new KeepingPet(id, chatId, infoPet, photoPet, startDateTime);
-        keepingPet.setQuality(quality);
         Collection<KeepingPet> keepingPets = new ArrayList<>(List.of(keepingPet));
 
         when(keepingPetRepository.findKeepingPetByDateTimeBetween(startDateTime, endDateTime)).thenReturn(keepingPets);
@@ -164,36 +169,67 @@ public class KeepingPetControllerTest {
                         .get("/keeping_pet/{date}", date)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(id))
+                .andExpect(jsonPath("$[0].chatId").value(chatId))
+                .andExpect(jsonPath("$[0].infoPet").value(infoPet))
+                .andExpect(jsonPath("$[0].quality").value(quality));
+
     }
 
     @Test
-    public void getAllKeepingPetByOwnerIdTest() throws Exception {
-        final long id = 100L;
-        final long chatId = 817781679;
-        final String infoPet = "testInfo";
-        final PhotoPet photoPet = new PhotoPet();
-        final String date = "2023-01-23";
-        final boolean quality = true;
-        final LocalDate currentDate = LocalDate.parse(date);
-        final LocalDateTime startDateTime = currentDate.atStartOfDay();
+    public void getAllKeepingPetByOwnerIdWnenOwnerIdNotFoundTest() throws Exception {
+        when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(null);
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(null);
 
-        KeepingPet keepingPet = new KeepingPet(id, chatId, infoPet, photoPet, startDateTime);
-        keepingPet.setQuality(quality);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/keeping_pet/owner/{id}", ownerId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getAllKeepingPetByOwnerIdWnenCatOwnerNotFoundTest() throws Exception {
+        when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(null);
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(dogOwner);
+
         Collection<KeepingPet> keepingPets = new ArrayList<>(List.of(keepingPet));
-
-        when(keepingPetRepository.findKeepingPetByCatOwner(catOwner)).thenReturn(keepingPets);
         when(keepingPetRepository.findKeepingPetByDogOwner(dogOwner)).thenReturn(keepingPets);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/keeping_pet/owner/{id}", ownerId)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(id))
+                .andExpect(jsonPath("$[0].chatId").value(chatId))
+                .andExpect(jsonPath("$[0].infoPet").value(infoPet))
+                .andExpect(jsonPath("$[0].quality").value(quality));
+    }
+
+    @Test
+    public void getAllKeepingPetByOwnerIdWnenDogOwnerNotFoundTest() throws Exception {
+        when(catOwnerRepository.findCatOwnerById(ownerId)).thenReturn(catOwner);
+        when(dogOwnerRepository.findDogOwnerById(ownerId)).thenReturn(null);
+
+        Collection<KeepingPet> keepingPets = new ArrayList<>(List.of(keepingPet));
+        when(keepingPetRepository.findKeepingPetByCatOwner(catOwner)).thenReturn(keepingPets);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/keeping_pet/owner/{id}", ownerId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(id))
+                .andExpect(jsonPath("$[0].chatId").value(chatId))
+                .andExpect(jsonPath("$[0].infoPet").value(infoPet))
+                .andExpect(jsonPath("$[0].quality").value(quality));
     }
 
     @Test
     public void sendWarningByVolunteerTest() throws Exception {
+
 
     }
 
