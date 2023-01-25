@@ -14,7 +14,7 @@ public class KeepingPet {
     private Long chatId;
     private String infoPet;
     private LocalDateTime dateTime;
-    private Boolean quality;
+    private boolean quality;
 
     @OneToOne
     private PhotoPet photoPet;
@@ -72,7 +72,6 @@ public class KeepingPet {
     public void setQuality(boolean quality) {
         this.quality = quality;
     }
-
 
     public DogOwner getDogOwner() {
         return dogOwner;

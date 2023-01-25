@@ -59,7 +59,13 @@ public class UserService {
         } else if (messageText.equals(SAVE)) {
             if (validateAndSaveEmail(userRequest)) {
                 User user = new User();
-                user.setChatId(chatId);
+                User prevUser = findUserByChatId(chatId);
+                if (prevUser == null) {
+                    user.setChatId(chatId);
+                } else {
+                    user = prevUser;
+                }
+//                user.setChatId(chatId);
                 user.setName(name);
                 user.setPhone(phone);
                 user.setMail(mail);
