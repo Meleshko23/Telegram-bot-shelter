@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Вывести список ззаявок",
+            summary = "Вывести список заявок",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -46,6 +46,10 @@ public class UserController {
     )
     @GetMapping("all_orders")
     public ResponseEntity<Collection<User>> getALlOrders() {
+        Collection<User> users = userService.getAllOrders();
+        if (users.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(userService.getAllOrders());
     }
 
@@ -70,6 +74,10 @@ public class UserController {
     )
     @GetMapping("{shelter}")
     public ResponseEntity<Collection<User>> findUserByShelter(@RequestParam String shelter){
+        Collection<User> users = userService.findUserByShelter(shelter);
+        if (users.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(userService.findUserByShelter(shelter));
     }
 }
