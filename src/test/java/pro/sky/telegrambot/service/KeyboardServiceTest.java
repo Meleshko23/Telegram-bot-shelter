@@ -28,8 +28,8 @@ class KeyboardServiceTest {
         InlineKeyboardMarkup expected = new InlineKeyboardMarkup();
         InlineKeyboardButton button1 = new InlineKeyboardButton("Приют для кошек");
         InlineKeyboardButton button2 = new InlineKeyboardButton("Приют для собак");
-        button1.callbackData(String.valueOf(Keyboard.CAT));
-        button2.callbackData(String.valueOf(Keyboard.DOG));
+        button1.callbackData(Keyboard.CAT.getCommand());
+        button2.callbackData(Keyboard.DOG.getCommand());
         expected.addRow(button1);
         expected.addRow(button2);
 
