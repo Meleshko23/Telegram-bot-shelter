@@ -17,8 +17,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.telegrambot.constant.Icon;
+import pro.sky.telegrambot.constant.Keyboard;
 import pro.sky.telegrambot.service.*;
 
 import java.io.IOException;
@@ -32,8 +34,8 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static pro.sky.telegrambot.constant.KeyboardMenu.keyboardsAfterCommandStart;
-import static pro.sky.telegrambot.constant.KeyboardMenu.textButtonsAfterCommandStart;
+import static pro.sky.telegrambot.constant.KeyboardMenu.*;
+import static pro.sky.telegrambot.constant.KeyboardMenu.keyboardsAfterCommandCat;
 
 @ExtendWith(MockitoExtension.class)
 public class TelegramBotUpdatesListenerTest {
@@ -44,16 +46,16 @@ public class TelegramBotUpdatesListenerTest {
     private KeyboardService keyboardService;
     @InjectMocks
     private TelegramBotUpdatesListener telegramBotUpdatesListener;
-    @Mock
-    private List<Update> updates;
-    @Mock
-    private Update update;
-    @Mock
-    private Message message;
-    @Mock
-    private Chat chat;
-    @Mock
-    private InlineKeyboardMarkup inlineKeyboard;
+//    @Mock
+//    private List<Update> updates;
+//    @Mock
+//    private Update update;
+//    @Mock
+//    private Message message;
+//    @Mock
+//    private Chat chat;
+//    @Mock
+//    private InlineKeyboardMarkup inlineKeyboard;
     @Mock
     private InfoPetsService infoPetsService;
     @Mock
@@ -64,27 +66,59 @@ public class TelegramBotUpdatesListenerTest {
     private UserService userService;
 
 
-//    @Test
-//    public void handleStartTest() throws URISyntaxException, IOException{
-//        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("start_update.json").toURI()));
-//        Update update = getUpdate(json, "/start");
-//        telegramBotUpdatesListener.process(Collections.singletonList(update));
-//
-//        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
-//        verify(telegramBot).execute(argumentCaptor.capture());
-//        SendMessage actual = argumentCaptor.getValue();
-//
-//        Assertions.assertThat(actual.getParameters().get("chat_id")).isEqualTo(1L);
-//        Assertions.assertThat(actual.getParameters().get("text")).isEqualTo(("Привет друг! " + Icon.WAVE_Icon.get()) +
-//                ("\nВыбери приют" + Icon.HAND_Icon.get()));
-////        Assertions.assertThat(actual.getParameters().get("inline_keyboard")).isEqualTo(keyboardService.prepareKeyboard(
-////                textButtonsAfterCommandStart,
-////                keyboardsAfterCommandStart));
-//    }
-//
-//    private Update getUpdate(String json, String replaced){
-//        return BotUtils.fromJson(json.replace("%command%", replaced), Update.class);
-//    }
+    @Test
+    public void handleStartTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("start_update.json").toURI()));
+        Update update = getUpdate(json, "/start");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(keyboardService).prepareKeyboard(textButtonsAfterCommandStart, keyboardsAfterCommandStart);
+    }
+
+    @Test
+    public void CallbackQueryCatTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("cat_update.json").toURI()));
+        Update update = getUpdate(json);
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(keyboardService).prepareKeyboard(textButtonsAfterCommandCat,
+                keyboardsAfterCommandCat);
+
+    }
+    @Test
+    public void CallbackQueryDogTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("dog_update.json").toURI()));
+        Update update = getUpdate(json);
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(keyboardService).prepareKeyboard(textButtonsAfterCommandDog,
+                keyboardsAfterCommandDog);
+    }
+    @Test
+    public void CallbackQueryOneDogTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("one_dog_update.json").toURI()));
+        Update update = getUpdate(json);
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(keyboardService).prepareKeyboard(textButtonsAfterCommandInfoShelter,
+                keyboardsAfterCommandInfoShelter);
+    }
+    @Test
+    public void CallbackQueryOneCatTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("one_cat_update.json").toURI()));
+        Update update = getUpdate(json);
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(keyboardService).prepareKeyboard(textButtonsAfterCommandInfoShelter,
+                keyboardsAfterCommandInfoShelter);
+    }
+
+    private Update getUpdate(String json, String replaced){
+        return BotUtils.fromJson(json.replace("%command%", replaced), Update.class);
+    }
+    private Update getUpdate(String json){
+        return BotUtils.fromJson(json, Update.class);
+    }
 
 //    @BeforeEach
 //    public void setUp() {
