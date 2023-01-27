@@ -31,11 +31,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static pro.sky.telegrambot.constant.KeyboardMenu.*;
 import static pro.sky.telegrambot.constant.KeyboardMenu.keyboardsAfterCommandCat;
+import static pro.sky.telegrambot.constant.MessageForSaveContacts.NAME;
 
 @ExtendWith(MockitoExtension.class)
 public class TelegramBotUpdatesListenerTest {
@@ -77,8 +79,9 @@ public class TelegramBotUpdatesListenerTest {
 
     @Test
     public void CallbackQueryCatTest() throws URISyntaxException, IOException{
-        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("cat_update.json").toURI()));
-        Update update = getUpdate(json);
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "cat");
         telegramBotUpdatesListener.process(Collections.singletonList(update));
 
         verify(keyboardService).prepareKeyboard(textButtonsAfterCommandCat,
@@ -87,8 +90,9 @@ public class TelegramBotUpdatesListenerTest {
     }
     @Test
     public void CallbackQueryDogTest() throws URISyntaxException, IOException{
-        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("dog_update.json").toURI()));
-        Update update = getUpdate(json);
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "dog");
         telegramBotUpdatesListener.process(Collections.singletonList(update));
 
         verify(keyboardService).prepareKeyboard(textButtonsAfterCommandDog,
@@ -96,8 +100,9 @@ public class TelegramBotUpdatesListenerTest {
     }
     @Test
     public void CallbackQueryOneDogTest() throws URISyntaxException, IOException{
-        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("one_dog_update.json").toURI()));
-        Update update = getUpdate(json);
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "ONE_DOG");
         telegramBotUpdatesListener.process(Collections.singletonList(update));
 
         verify(keyboardService).prepareKeyboard(textButtonsAfterCommandInfoShelter,
@@ -105,12 +110,76 @@ public class TelegramBotUpdatesListenerTest {
     }
     @Test
     public void CallbackQueryOneCatTest() throws URISyntaxException, IOException{
-        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class.getResource("one_cat_update.json").toURI()));
-        Update update = getUpdate(json);
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "ONE_CAT");
         telegramBotUpdatesListener.process(Collections.singletonList(update));
 
         verify(keyboardService).prepareKeyboard(textButtonsAfterCommandInfoShelter,
                 keyboardsAfterCommandInfoShelter);
+    }
+
+    @Test
+    public void callbackInfoShelterTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "info_shelter_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+//        String callbackQuery = update.callbackQuery().data();
+//        Long chatId = update.callbackQuery().message().chat().id();
+
+        verify(infoPetsService).getInfoByRequest(anyString());
+    }
+
+    @Test
+    public void callbackWorktimeTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "work_time_and_address_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(infoPetsService).getInfoByRequest(anyString());
+    }
+    @Test
+    public void callbackShelterRulesTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "shelter_rules_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(infoPetsService).getInfoByRequest(anyString());
+    }
+
+    @Test
+    public void callbackSucurityContactsTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "security_contacts_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(infoPetsService).getInfoByRequest(anyString());
+    }
+
+    @Test
+    public void callbackSafityPrecautionsTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "safety_precautions_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        verify(infoPetsService).getInfoByRequest(anyString());
+    }
+
+    @Test
+    public void callbackLeaveRequestTest() throws URISyntaxException, IOException{
+        String json = Files.readString(Paths.get(TelegramBotUpdatesListenerTest.class
+                .getResource("callback_update.json").toURI()));
+        Update update = getUpdate(json, "leave_request_");
+        telegramBotUpdatesListener.process(Collections.singletonList(update));
+
+        Long chatId = update.callbackQuery().message().chat().id();
+        verify(userService).saveContactInfo(chatId, NAME, null);
     }
 
     private Update getUpdate(String json, String replaced){
