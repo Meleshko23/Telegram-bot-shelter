@@ -1,0 +1,10 @@
+{
+  "callback_query":{
+    "data": "ONE_CAT",
+    "message": {
+      "chat": {
+        "id": 1
+      }
+    }
+  }
+}
